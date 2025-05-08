@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
@@ -17,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/context/LanguageContext';
 
+// Events data with additional fields for better display
 const events = [
   {
     id: 1,
@@ -39,7 +39,9 @@ const events = [
       en: 'Lamphun Central Stadium',
       cn: '南奔中央体育场',
       jp: 'ランプーン中央スタジアム'
-    }
+    },
+    category: 'festival',
+    color: 'bg-orange-500',
   },
   {
     id: 2,
@@ -62,7 +64,9 @@ const events = [
       en: 'Wat Phra That Hariphunchai',
       cn: '哈里奔猜佛寺',
       jp: 'ワット・プラタート・ハリプンチャイ'
-    }
+    },
+    category: 'cultural',
+    color: 'bg-purple-500',
   },
   {
     id: 3,
@@ -159,6 +163,7 @@ const EventsCalendar: React.FC = () => {
   const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [activeView, setActiveView] = useState('grid');
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch = event.name[language as keyof typeof event.name]
@@ -183,21 +188,32 @@ const EventsCalendar: React.FC = () => {
     acc[monthKey].push(event);
     return acc;
   }, {});
+  
+  // Array of colors for gradient backgrounds
+  const gradientColors = [
+    'from-orange-100 to-red-100',
+    'from-blue-100 to-purple-100',
+    'from-green-100 to-teal-100',
+    'from-yellow-100 to-amber-100',
+    'from-pink-100 to-rose-100'
+  ];
 
   return (
     <>
       <Navbar />
       
-      {/* Hero Section */}
-      <div className="relative pt-20 pb-10 bg-primary/5">
+      {/* Hero Section with Colorful Background */}
+      <div className="relative pt-20 pb-10 bg-gradient-to-br from-primary/10 via-white to-orange-100">
         <div className="container mt-12 text-center">
-          <h1 className="text-4xl font-bold mb-4">{t('nav.events')}</h1>
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-500">
+            {t('nav.events')}
+          </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
             Discover upcoming events and festivals in Lamphun throughout the year.
           </p>
           
           {/* Search and Date picker */}
-          <div className="max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-sm">
+          <div className="max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -238,7 +254,8 @@ const EventsCalendar: React.FC = () => {
       {/* Calendar View */}
       <section className="py-16">
         <div className="container">
-          <h2 className="text-3xl font-bold mb-8">
+          <h2 className="text-3xl font-bold mb-8 flex items-center">
+            <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
             {date 
               ? `Events on ${format(date, 'MMMM d, yyyy')}`
               : 'All Events'
@@ -246,46 +263,114 @@ const EventsCalendar: React.FC = () => {
             {searchTerm && ` matching "${searchTerm}"`}
           </h2>
           
-          {filteredEvents.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredEvents.map((event) => (
-                <Link to={`/events/${event.id}`} key={event.id}>
-                  <Card className="overflow-hidden h-full card-hover">
-                    <div className="h-48 overflow-hidden">
-                      <img 
-                        src={event.image} 
-                        alt={event.name[language as keyof typeof event.name]} 
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                      />
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="flex items-center mb-3">
-                        <CalendarIcon className="h-4 w-4 text-primary mr-2" />
-                        <span className="text-sm text-gray-600">
-                          {format(new Date(event.date), 'MMMM d, yyyy')}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                        {event.name[language as keyof typeof event.name]}
-                      </h3>
-                      <p className="text-gray-600 line-clamp-2">
-                        {event.description[language as keyof typeof event.description]}
-                      </p>
-                      <p className="mt-2 text-sm text-gray-500 flex items-center">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {event.location[language as keyof typeof event.location]}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-500">No events found for the selected criteria.</p>
+          {/* View switcher */}
+          <div className="mb-8 flex justify-end">
+            <div className="flex bg-gray-100 p-1 rounded-md">
               <Button 
-                variant="link" 
-                className="mt-2 text-primary"
+                size="sm"
+                variant={activeView === 'grid' ? 'secondary' : 'ghost'}
+                className="px-3"
+                onClick={() => setActiveView('grid')}
+              >
+                Grid
+              </Button>
+              <Button 
+                size="sm"
+                variant={activeView === 'list' ? 'secondary' : 'ghost'}
+                className="px-3"
+                onClick={() => setActiveView('list')}
+              >
+                List
+              </Button>
+            </div>
+          </div>
+          
+          {filteredEvents.length > 0 ? (
+            activeView === 'grid' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredEvents.map((event, index) => (
+                  <Link to={`/events/${event.id}`} key={event.id}>
+                    <Card className={`overflow-hidden h-full hover:shadow-lg transition-all duration-300 border-t-4 ${event.color || 'border-primary'}`}>
+                      <div className="h-48 overflow-hidden relative group">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                        <img 
+                          src={event.image} 
+                          alt={event.name[language as keyof typeof event.name]} 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute bottom-0 left-0 p-3 z-20">
+                          <div className="bg-white text-gray-800 font-bold px-3 py-1 rounded-lg text-sm shadow-lg">
+                            {format(new Date(event.date), 'MMM d')}
+                          </div>
+                        </div>
+                      </div>
+                      <CardContent className={`p-6 bg-gradient-to-br ${gradientColors[index % gradientColors.length]}`}>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                          {event.name[language as keyof typeof event.name]}
+                        </h3>
+                        <p className="text-gray-600 line-clamp-2 mb-3">
+                          {event.description[language as keyof typeof event.description]}
+                        </p>
+                        <div className="flex items-center justify-between mt-4">
+                          <div className="flex items-center text-sm text-gray-500">
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {event.location[language as keyof typeof event.location]}
+                          </div>
+                          <Button variant="ghost" size="sm" className="text-primary">
+                            View Details
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredEvents.map((event) => (
+                  <Link to={`/events/${event.id}`} key={event.id}>
+                    <Card className="hover:shadow-md transition-shadow overflow-hidden">
+                      <div className="flex flex-col md:flex-row">
+                        <div className="md:w-1/4 h-32 md:h-auto relative">
+                          <img 
+                            src={event.image} 
+                            alt={event.name[language as keyof typeof event.name]} 
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute top-0 left-0 m-3">
+                            <div className="bg-white text-gray-800 font-bold px-3 py-1 rounded-lg text-sm shadow-lg">
+                              {format(new Date(event.date), 'MMM d, yyyy')}
+                            </div>
+                          </div>
+                        </div>
+                        <CardContent className="flex-1 p-5">
+                          <h3 className="font-semibold text-lg text-gray-800">
+                            {event.name[language as keyof typeof event.name]}
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                            {event.description[language as keyof typeof event.description]}
+                          </p>
+                          <div className="flex items-center mt-3 text-sm text-gray-500">
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {event.location[language as keyof typeof event.location]}
+                          </div>
+                        </CardContent>
+                        <div className="md:w-16 bg-gray-50 flex items-center justify-center">
+                          <ChevronRight className="h-5 w-5 text-gray-400" />
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            )
+          ) : (
+            <div className="text-center py-16 bg-gray-50 rounded-lg">
+              <CalendarIcon className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+              <p className="text-gray-500 mb-4">No events found for the selected criteria.</p>
+              <Button 
+                variant="outline" 
+                className="mt-2"
                 onClick={() => {
                   setDate(undefined);
                   setSearchTerm('');
@@ -298,30 +383,47 @@ const EventsCalendar: React.FC = () => {
           
           {/* Yearly Calendar */}
           <div className="mt-16">
-            <h2 className="text-3xl font-bold mb-8">Events Calendar</h2>
+            <h2 className="text-3xl font-bold mb-8 flex items-center">
+              <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
+              Events Calendar
+            </h2>
             
             <div className="space-y-12">
-              {Object.entries(eventsByMonth).map(([month, monthEvents]) => (
+              {Object.entries(eventsByMonth).map(([month, monthEvents], index) => (
                 <div key={month}>
-                  <h3 className="text-2xl font-medium mb-6 border-b pb-2">{month}</h3>
+                  <h3 className={`text-2xl font-medium mb-6 pb-2 border-b-2 border-${monthEvents[0]?.color || 'primary'}/50`}>
+                    {month}
+                  </h3>
                   <div className="space-y-4">
                     {monthEvents.map((event) => (
                       <Link to={`/events/${event.id}`} key={event.id}>
-                        <Card className="hover:bg-gray-50 transition-colors">
+                        <Card className={`hover:shadow-md transition-shadow border-l-4 ${event.color || 'border-primary'}`}>
                           <CardContent className="p-4">
                             <div className="flex flex-col md:flex-row md:items-center">
-                              <div className="md:w-32 font-medium">
+                              <div className="md:w-32 font-medium text-gray-500">
                                 {format(new Date(event.date), 'MMM d, yyyy')}
                               </div>
-                              <div className="flex-1">
-                                <h4 className="font-medium text-lg">
-                                  {event.name[language as keyof typeof event.name]}
-                                </h4>
-                                <p className="text-sm text-gray-500 flex items-center">
-                                  <MapPin className="h-3 w-3 mr-1" />
-                                  {event.location[language as keyof typeof event.location]}
-                                </p>
+                              <div className="flex-1 flex md:flex-row flex-col md:items-center">
+                                <div className="w-16 h-16 rounded-lg overflow-hidden mr-4 flex-shrink-0">
+                                  <img 
+                                    src={event.image} 
+                                    alt={event.name[language as keyof typeof event.name]} 
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <h4 className="font-medium text-lg">
+                                    {event.name[language as keyof typeof event.name]}
+                                  </h4>
+                                  <p className="text-sm text-gray-500 flex items-center">
+                                    <MapPin className="h-3 w-3 mr-1" />
+                                    {event.location[language as keyof typeof event.location]}
+                                  </p>
+                                </div>
                               </div>
+                              <Button variant="ghost" size="sm" className="md:ml-4 mt-2 md:mt-0">
+                                Details
+                              </Button>
                             </div>
                           </CardContent>
                         </Card>
