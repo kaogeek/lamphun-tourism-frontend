@@ -41,7 +41,7 @@ const EventsList: React.FC<EventsListProps> = ({
   const { language } = useLanguage();
   
   return (
-    <section className="py-12 bg-gray-50">
+    <div className="py-12 bg-gray-50">
       <div className="container">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold flex items-center">
@@ -122,7 +122,7 @@ const EventsList: React.FC<EventsListProps> = ({
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 
