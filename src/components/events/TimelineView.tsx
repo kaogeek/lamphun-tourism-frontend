@@ -2,8 +2,8 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
 import { EventCategory } from '@/types/events';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface TimelineViewProps {
   categories: EventCategory[];
@@ -11,6 +11,8 @@ interface TimelineViewProps {
 
 const TimelineView: React.FC<TimelineViewProps> = ({ categories }) => {
   const { language } = useLanguage();
+  
+  // Group events by month for the calendar view
   const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
