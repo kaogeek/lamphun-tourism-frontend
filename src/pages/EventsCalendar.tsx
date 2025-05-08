@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, Search } from 'lucide-react';
+import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Input } from '@/components/ui/input';
@@ -12,8 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/context/LanguageContext';
 
 const events = [
@@ -89,7 +89,7 @@ const events = [
   {
     id: 4,
     name: {
-      th: 'ประเพณีสรงน้ำพระพุทธรูปพระเจ้าตนหลวง',
+      th: 'ประเพณีสรงน้ำพระพุทธรูประเจ้าตนหลวง',
       en: 'Phra Chao Ton Luang Bathing Ceremony',
       cn: '帕乔顿隆浴佛仪式',
       jp: 'プラ・チャオ・トン・ルアン水掛け祭り'
