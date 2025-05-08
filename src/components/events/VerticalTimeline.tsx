@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { eventCategories } from '@/data/eventData';
 
-const VerticalTimeline = () => {
+const VerticalTimeline: React.FC = () => {
   const { language } = useLanguage();
   
   // Get upcoming events sorted by date
@@ -78,7 +78,7 @@ const VerticalTimeline = () => {
                     <div className="flex-1">
                       <div className="flex items-center mb-3">
                         <span className={`inline-block px-3 py-1 rounded-full text-xs ${category?.color} ${category?.textColor || 'text-white'}`}>
-                          {category?.name[language as keyof typeof category?.name]}
+                          {category && category.name[language as keyof typeof category.name]}
                         </span>
                       </div>
                       

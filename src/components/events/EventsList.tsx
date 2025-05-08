@@ -72,7 +72,7 @@ const EventsList: React.FC<EventsListProps> = ({
                           <div className="flex flex-col md:flex-row md:items-center justify-between">
                             <div>
                               <span className={`inline-block px-3 py-1 rounded-full text-xs ${category?.color} ${category?.textColor} mb-2`}>
-                                {category?.name[language as keyof typeof category.name]}
+                                {category && category.name[language as keyof typeof category.name]}
                               </span>
                               <h3 className="text-xl font-semibold">
                                 {event.name[language as keyof typeof event.name]}
