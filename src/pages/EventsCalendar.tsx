@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Input } from '@/components/ui/input';

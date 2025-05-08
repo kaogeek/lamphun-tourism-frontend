@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Calendar } from 'lucide-react';
+import { Calendar, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { Button } from '@/components/ui/button';
 
 // Sample events data with categories
 const eventCategories = [
