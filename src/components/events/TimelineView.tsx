@@ -11,12 +11,20 @@ interface TimelineViewProps {
 
 const TimelineView: React.FC<TimelineViewProps> = ({ categories }) => {
   const { language } = useLanguage();
-  
-  // Group events by month for the calendar view
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+
+  // Function to get appropriate image for category
+  const getCategoryImage = (categoryId: string) => {
+    switch(categoryId) {
+      case 'cultural':
+        return '/lovable-uploads/0f943779-f83a-4266-9e7d-21a27385906c.png';
+      case 'sound':
+        return '/lovable-uploads/c5a8cc54-e462-469c-8fca-9c7f191ec2e6.png';
+      case 'sports':
+        return '/lovable-uploads/74fde137-ebb8-408a-9107-5401e9c6ddf6.png';
+      default:
+        return '/lovable-uploads/0f943779-f83a-4266-9e7d-21a27385906c.png';
+    }
+  };
 
   return (
     <div className="py-12 bg-white">
@@ -26,63 +34,70 @@ const TimelineView: React.FC<TimelineViewProps> = ({ categories }) => {
           Events Timeline
         </h2>
         
-        <div className="relative overflow-x-auto pb-8">
-          <div className="min-w-[1000px]">
-            {/* Month headers */}
-            <div className="flex border-b mb-4">
-              {months.map((month) => (
-                <div key={month} className="flex-1 text-center pb-2 font-semibold">
-                  {month}
-                </div>
-              ))}
-            </div>
-            
-            {/* Category timelines */}
+        <div className="relative">
+          {/* Vertical line */}
+          <div className="absolute left-8 sm:left-1/2 h-full w-0.5 bg-gray-200 transform -translate-x-1/2"></div>
+          
+          {/* Timeline content */}
+          <div className="space-y-12">
             {categories.map((category) => (
-              <div key={category.id} className="mb-8">
-                <div className="flex items-center mb-3">
-                  <div className={`w-4 h-4 rounded-sm ${category.color} mr-2`}></div>
-                  <h3 className="font-semibold">
+              <div key={category.id} className="mb-16">
+                <div className="flex items-center justify-center mb-6">
+                  <div className={`${category.color} text-white px-4 py-2 rounded-full font-medium`}>
                     {category.name[language as keyof typeof category.name]}
-                  </h3>
+                  </div>
                 </div>
                 
-                <div className="relative h-14 bg-gray-50 rounded-lg border">
-                  {/* Month grid lines */}
-                  <div className="absolute inset-0 grid grid-cols-12 gap-0">
-                    {months.map((month, i) => (
-                      <div key={i} className="border-r h-full last:border-r-0" />
-                    ))}
-                  </div>
-                  
-                  {/* Event markers */}
-                  {category.events.map((event) => {
-                    const date = new Date(event.date);
-                    const month = date.getMonth();
-                    const leftPosition = (month / 12) * 100;
+                {/* Events in this category */}
+                {category.events.map((event, eventIndex) => (
+                  <div 
+                    key={event.id} 
+                    className={`relative flex items-start ${eventIndex % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} sm:flex-row-reverse mb-12`}
+                  >
+                    {/* Timeline dot */}
+                    <div className="absolute left-8 sm:left-1/2 transform -translate-x-1/2 -mt-1">
+                      <div className={`${category.color} w-4 h-4 rounded-full border-4 border-white shadow`}></div>
+                    </div>
                     
-                    return (
-                      <div
-                        key={event.id}
-                        className={`absolute ${category.color} text-white px-3 py-1 rounded-md text-xs shadow-md cursor-pointer hover:shadow-lg transition-all`}
-                        style={{
-                          left: `${leftPosition}%`,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          maxWidth: '150px',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
-                        }}
-                        title={event.name[language as keyof typeof event.name]}
-                      >
-                        {format(date, 'MMM d')} - {event.name[language as keyof typeof event.name]}
+                    {/* Event content */}
+                    <div className="sm:w-1/2 pr-8 sm:pr-0 sm:pl-8">
+                      <div className={`bg-white rounded-lg shadow-md border-l-4 ${category.color} hover:shadow-lg transition-all p-6`}>
+                        {/* Date */}
+                        <div className="flex items-center mb-3">
+                          <div className={`${category.color} text-white rounded-full w-10 h-10 flex items-center justify-center mr-3`}>
+                            <span className="text-xs font-bold">
+                              {format(new Date(event.date), 'MMM').substring(0, 3)}
+                            </span>
+                          </div>
+                          <span className="text-lg font-semibold">
+                            {format(new Date(event.date), 'dd MMMM yyyy')}
+                          </span>
+                        </div>
+                        
+                        {/* Event name */}
+                        <h3 className="text-xl font-bold mb-3">
+                          {event.name[language as keyof typeof event.name]}
+                        </h3>
+                        
+                        {/* Event image */}
+                        <div className="w-full h-40 rounded-md overflow-hidden mb-4">
+                          <img 
+                            src={getCategoryImage(category.id)} 
+                            alt={event.name[language as keyof typeof event.name]}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
                       </div>
-                    );
-                  })}
-                </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
+          </div>
+          
+          {/* Timeline end */}
+          <div className="absolute left-8 sm:left-1/2 bottom-0 transform -translate-x-1/2">
+            <div className="w-4 h-4 rounded-full bg-primary border-4 border-white shadow"></div>
           </div>
         </div>
       </div>
