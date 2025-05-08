@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
+import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight, MapPin, ChevronRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Input } from '@/components/ui/input';
@@ -16,419 +17,508 @@ import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/context/LanguageContext';
 
-// Events data with additional fields for better display
-const events = [
+// Define event categories with colors and events
+const eventCategories = [
   {
-    id: 1,
+    id: 'cultural',
     name: {
-      th: 'เทศกาลลำไย',
-      en: 'Longan Festival',
-      cn: '龙眼节',
-      jp: 'ロンガンフェスティバル'
+      th: 'Cultural Escape',
+      en: 'Cultural Escape',
+      cn: 'Cultural Escape',
+      jp: 'Cultural Escape'
     },
-    description: {
-      th: 'เทศกาลประจำปีที่เฉลิมฉลองผลผลิตลำไย ผลไม้ขึ้นชื่อของลำพูน',
-      en: 'Annual festival celebrating longan fruit, a famous product of Lamphun',
-      cn: '年度节日，庆祝南奔著名的龙眼水果丰收',
-      jp: 'ランプーン名物のロンガンフルーツを祝う年次祭り'
+    color: 'bg-orange-600',
+    textColor: 'text-white',
+    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    events: [
+      {
+        id: 'c1',
+        name: {
+          th: 'งานประเพณีสรงน้ำพระบรมธาตุหริภุญชัย',
+          en: 'Bathing Ceremony of Hariphunchai Pagoda',
+          cn: '哈里奔猜佛塔浴佛仪式',
+          jp: 'ハリプンチャイ仏塔水かけ儀式'
+        },
+        date: '2025-05-10',
+      },
+      {
+        id: 'c2',
+        name: {
+          th: 'ประเพณีแห่ผ้าขึ้นธาตุ',
+          en: 'Cloth Offering Procession to the Pagoda',
+          cn: '佛塔布施仪式',
+          jp: '仏塔への布奉納行列'
+        },
+        date: '2025-07-25',
+      },
+      {
+        id: 'c3',
+        name: {
+          th: 'งานรำถวายเจดีย์ ณ วัดพระธาตุหริภุญชัย',
+          en: 'Traditional Dance Offering at Hariphunchai Temple',
+          cn: '在哈里奔猜寺的传统舞蹈祭祀',
+          jp: 'ハリプンチャイ寺院での伝統舞踊奉納'
+        },
+        date: '2025-10-15',
+      }
+    ]
+  },
+  {
+    id: 'sound',
+    name: {
+      th: 'Sound of Lamphun',
+      en: 'Sound of Lamphun',
+      cn: 'Sound of Lamphun',
+      jp: 'Sound of Lamphun'
     },
-    date: '2025-08-15',
-    image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80',
-    location: {
-      th: 'สนามกีฬากลางจังหวัดลำพูน',
-      en: 'Lamphun Central Stadium',
-      cn: '南奔中央体育场',
-      jp: 'ランプーン中央スタジアム'
+    color: 'bg-teal-500',
+    textColor: 'text-white',
+    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    events: [
+      {
+        id: 's1',
+        name: {
+          th: 'คอนเสิร์ตกลางสวนในวัดเก่า',
+          en: 'Garden Concert in Ancient Temple',
+          cn: '古寺花园音乐会',
+          jp: '古代寺院でのガーデンコンサート'
+        },
+        date: '2025-04-20',
+      },
+      {
+        id: 's2',
+        name: {
+          th: 'ลานดนตรีเยาวชนลำพูน',
+          en: 'Lamphun Youth Music Plaza',
+          cn: '南奔青年音乐广场',
+          jp: 'ランプーン青少年音楽広場'
+        },
+        date: '2025-06-15',
+      },
+      {
+        id: 's3',
+        name: {
+          th: 'งานดนตรีแจ๊สริมแม่น้ำกวง',
+          en: 'Jazz by the Kuang River',
+          cn: '广河畔爵士音乐',
+          jp: 'クアン川沿いジャズフェスティバル'
+        },
+        date: '2025-12-10',
+      }
+    ]
+  },
+  {
+    id: 'sports',
+    name: {
+      th: 'Sports Tourism',
+      en: 'Sports Tourism',
+      cn: 'Sports Tourism',
+      jp: 'Sports Tourism'
     },
-    category: 'festival',
+    color: 'bg-blue-700',
+    textColor: 'text-white',
+    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    events: [
+      {
+        id: 'sp1',
+        name: {
+          th: 'Lamphun Marathon',
+          en: 'Lamphun Marathon',
+          cn: '南奔马拉松',
+          jp: 'ランプーンマラソン'
+        },
+        date: '2025-03-15',
+      },
+      {
+        id: 'sp2',
+        name: {
+          th: 'ปั่นจักรยานท่องเที่ยว เมืองเก่าลำพูน',
+          en: 'Cycling Tour in Old Lamphun City',
+          cn: '南奔古城自行车之旅',
+          jp: 'ランプーン旧市街サイクリングツアー'
+        },
+        date: '2025-08-22',
+      },
+      {
+        id: 'sp3',
+        name: {
+          th: 'Khun Tan Trail',
+          en: 'Khun Tan Trail',
+          cn: '昆丹步道',
+          jp: 'クンタントレイル'
+        },
+        date: '2025-11-05',
+      },
+      {
+        id: 'sp4',
+        name: {
+          th: 'Triathlon',
+          en: 'Triathlon',
+          cn: '铁人三项',
+          jp: 'トライアスロン'
+        },
+        date: '2025-05-28',
+      }
+    ]
+  },
+  {
+    id: 'creative',
+    name: {
+      th: 'Creative Experience',
+      en: 'Creative Experience',
+      cn: 'Creative Experience',
+      jp: 'Creative Experience'
+    },
+    color: 'bg-cyan-600',
+    textColor: 'text-white',
+    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    events: [
+      {
+        id: 'ce1',
+        name: {
+          th: 'เวิร์กชอปผ้ามัดย้อมและผ้าทอ',
+          en: 'Tie-Dye and Weaving Workshops',
+          cn: '扎染和编织工作坊',
+          jp: '絞り染めと織物ワークショップ'
+        },
+        date: '2025-02-20',
+      },
+      {
+        id: 'ce2',
+        name: {
+          th: 'Lamphun Craft Week',
+          en: 'Lamphun Craft Week',
+          cn: '南奔工艺周',
+          jp: 'ランプーンクラフトウィーク'
+        },
+        date: '2025-09-10',
+      },
+      {
+        id: 'ce3',
+        name: {
+          th: 'นิทรรศการภาพถ่ายวิถีชีวิตชาวลำพูน',
+          en: 'Lamphun Lifestyle Photography Exhibition',
+          cn: '南奔生活方式摄影展',
+          jp: 'ランプーン生活様式写真展'
+        },
+        date: '2025-04-05',
+      }
+    ]
+  },
+  {
+    id: 'volunteer',
+    name: {
+      th: 'Volunteer Adventure',
+      en: 'Volunteer Adventure',
+      cn: 'Volunteer Adventure',
+      jp: 'Volunteer Adventure'
+    },
+    color: 'bg-green-600',
+    textColor: 'text-white',
+    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    events: [
+      {
+        id: 'v1',
+        name: {
+          th: 'อาสาสมัครพัฒนาป่าชุมชน',
+          en: 'Community Forest Development Volunteer',
+          cn: '社区森林发展志愿者',
+          jp: 'コミュニティフォレスト開発ボランティア'
+        },
+        date: '2025-07-15',
+      }
+    ]
+  },
+  {
+    id: 'educational',
+    name: {
+      th: 'Educational Tourism',
+      en: 'Educational Tourism',
+      cn: 'Educational Tourism',
+      jp: 'Educational Tourism'
+    },
     color: 'bg-orange-500',
-  },
-  {
-    id: 2,
-    name: {
-      th: 'ประเพณีสรงน้ำพระธาตุหริภุญชัย',
-      en: 'Haripunchai Bathing Ceremony',
-      cn: '哈里奔猜浴佛仪式',
-      jp: 'ハリプンチャイ水掛け祭り'
-    },
-    description: {
-      th: 'พิธีสรงน้ำพระธาตุหริภุญชัย เพื่อความเป็นสิริมงคล',
-      en: 'Sacred bathing ceremony of the Haripunchai Pagoda for good fortune',
-      cn: '哈里奔猜佛塔的神圣浴佛仪式，祈求好运',
-      jp: 'ハリプンチャイ仏塔の神聖な水掛け儀式で幸運を祈願'
-    },
-    date: '2025-05-10',
-    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&q=80',
-    location: {
-      th: 'วัดพระธาตุหริภุญชัย',
-      en: 'Wat Phra That Hariphunchai',
-      cn: '哈里奔猜佛寺',
-      jp: 'ワット・プラタート・ハリプンチャイ'
-    },
-    category: 'cultural',
-    color: 'bg-purple-500',
-  },
-  {
-    id: 3,
-    name: {
-      th: 'งานกาชาดและงานฤดูหนาวลำพูน',
-      en: 'Lamphun Red Cross and Winter Fair',
-      cn: '南奔红十字会与冬季嘉年华',
-      jp: 'ランプーン赤十字と冬のフェア'
-    },
-    description: {
-      th: 'งานออกร้านการกุศล นิทรรศการ และการแสดงศิลปวัฒนธรรมพื้นบ้าน',
-      en: 'Charity fair, exhibitions, and cultural performances',
-      cn: '慈善博览会、展览和文化表演',
-      jp: 'チャリティーフェア、展示会、文化的パフォーマンス'
-    },
-    date: '2025-12-05',
-    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80',
-    location: {
-      th: 'ศูนย์ประชุมจังหวัดลำพูน',
-      en: 'Lamphun Convention Center',
-      cn: '南奔会议中心',
-      jp: 'ランプーンコンベンションセンター'
-    }
-  },
-  {
-    id: 4,
-    name: {
-      th: 'ประเพณีสรงน้ำพระพุทธรูประเจ้าตนหลวง',
-      en: 'Phra Chao Ton Luang Bathing Ceremony',
-      cn: '帕乔顿隆浴佛仪式',
-      jp: 'プラ・チャオ・トン・ルアン水掛け祭り'
-    },
-    description: {
-      th: 'พิธีทางศาสนาเพื่อสรงน้ำพระพุทธรูปเก่าแก่ของลำพูน',
-      en: 'Religious ceremony for bathing the ancient Buddha image of Lamphun',
-      cn: '为南奔古佛像沐浴的宗教仪式',
-      jp: 'ランプーンの古代仏像に水をかける宗教的儀式'
-    },
-    date: '2025-04-15',
-    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80',
-    location: {
-      th: 'วัดพระเจ้าตนหลวง',
-      en: 'Wat Phra Chao Ton Luang',
-      cn: '帕乔顿隆寺',
-      jp: 'ワット・プラ・チャオ・トン・ルアン'
-    }
-  },
-  {
-    id: 5,
-    name: {
-      th: 'เทศกาลอาหารพื้นเมืองลำพูน',
-      en: 'Lamphun Local Food Festival',
-      cn: '南奔当地美食节',
-      jp: 'ランプーン郷土料理フェスティバル'
-    },
-    description: {
-      th: 'งานแสดงและจำหน่ายอาหารพื้นเมืองของลำพูน',
-      en: 'Showcase and sale of Lamphun local cuisine',
-      cn: '南奔当地美食的展示和销售',
-      jp: 'ランプーン地元料理のショーケースと販売'
-    },
-    date: '2025-07-20',
-    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80',
-    location: {
-      th: 'ศูนย์วัฒนธรรมลำพูน',
-      en: 'Lamphun Cultural Center',
-      cn: '南奔文化中心',
-      jp: 'ランプーン文化センター'
-    }
+    textColor: 'text-white',
+    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    events: [
+      {
+        id: 'e1',
+        name: {
+          th: 'แข่งขัน robot',
+          en: 'Robot Competition',
+          cn: '机器人比赛',
+          jp: 'ロボットコンペティション'
+        },
+        date: '2025-06-28',
+      },
+      {
+        id: 'e2',
+        name: {
+          th: 'แข่งขันหมากกระดาน',
+          en: 'Board Game Competition',
+          cn: '棋盘游戏比赛',
+          jp: 'ボードゲーム競技会'
+        },
+        date: '2025-08-10',
+      }
+    ]
   }
 ];
 
-// Months in multiple languages
-const months = {
-  th: [
-    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
-  ],
-  en: [
+const EventsCalendar: React.FC = () => {
+  const { language } = useLanguage();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filter events based on search term and selected category
+  const filteredCategories = eventCategories.filter(category => 
+    selectedCategory === null || category.id === selectedCategory
+  );
+
+  const allEvents = eventCategories.flatMap(category => 
+    category.events.map(event => ({
+      ...event,
+      categoryId: category.id,
+      categoryName: category.name,
+      categoryColor: category.color
+    }))
+  );
+  
+  const filteredEvents = allEvents.filter(event => 
+    event.name[language as keyof typeof event.name]
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()) &&
+    (selectedCategory === null || event.categoryId === selectedCategory)
+  );
+
+  // Group events by month for the calendar view
+  const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
-  ],
-  cn: [
-    '一月', '二月', '三月', '四月', '五月', '六月',
-    '七月', '八月', '九月', '十月', '十一月', '十二月'
-  ],
-  jp: [
-    '1月', '2月', '3月', '4月', '5月', '6月',
-    '7月', '8月', '9月', '10月', '11月', '12月'
-  ]
-};
-
-const EventsCalendar: React.FC = () => {
-  const { t, language } = useLanguage();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [activeView, setActiveView] = useState('grid');
-
-  const filteredEvents = events.filter((event) => {
-    const matchesSearch = event.name[language as keyof typeof event.name]
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    
-    const matchesDate = date 
-      ? new Date(event.date).toDateString() === date.toDateString()
-      : true;
-    
-    return matchesSearch && matchesDate;
-  });
-
-  const eventsByMonth = events.reduce((acc: Record<string, typeof events>, event) => {
-    const month = new Date(event.date).getMonth();
-    const monthKey = months[language as keyof typeof months][month];
-    
-    if (!acc[monthKey]) {
-      acc[monthKey] = [];
-    }
-    
-    acc[monthKey].push(event);
-    return acc;
-  }, {});
-  
-  // Array of colors for gradient backgrounds
-  const gradientColors = [
-    'from-orange-100 to-red-100',
-    'from-blue-100 to-purple-100',
-    'from-green-100 to-teal-100',
-    'from-yellow-100 to-amber-100',
-    'from-pink-100 to-rose-100'
   ];
+
+  // Sort events by date
+  const sortedEvents = [...filteredEvents].sort((a, b) => 
+    new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   return (
     <>
       <Navbar />
       
-      {/* Hero Section with Colorful Background */}
-      <div className="relative pt-20 pb-10 bg-gradient-to-br from-primary/10 via-white to-orange-100">
+      {/* Simplified Hero Section without colorful gradients */}
+      <div className="relative pt-20 pb-10 bg-gray-50">
         <div className="container mt-12 text-center">
-          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-500">
-            {t('nav.events')}
+          <h1 className="text-4xl font-bold mb-4 text-gray-900">
+            Tourism Calendar of Lamphun
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
             Discover upcoming events and festivals in Lamphun throughout the year.
           </p>
           
-          {/* Search and Date picker */}
-          <div className="max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-md">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input 
-                  placeholder="Search events..." 
-                  className="pl-10"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-left"
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, 'PPP') : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                      className="rounded-md pointer-events-auto border"
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
+          {/* Search bar */}
+          <div className="max-w-md mx-auto mt-8 p-4 bg-white rounded-lg shadow-sm">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Input 
+                placeholder="Search events..." 
+                className="pl-10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
           </div>
         </div>
       </div>
       
-      {/* Calendar View */}
-      <section className="py-16">
+      {/* Category Grid Layout based on the image */}
+      <section className="py-12 bg-white">
         <div className="container">
-          <h2 className="text-3xl font-bold mb-8 flex items-center">
-            <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
-            {date 
-              ? `Events on ${format(date, 'MMMM d, yyyy')}`
-              : 'All Events'
-            }
-            {searchTerm && ` matching "${searchTerm}"`}
-          </h2>
-          
-          {/* View switcher */}
-          <div className="mb-8 flex justify-end">
-            <div className="flex bg-gray-100 p-1 rounded-md">
-              <Button 
-                size="sm"
-                variant={activeView === 'grid' ? 'secondary' : 'ghost'}
-                className="px-3"
-                onClick={() => setActiveView('grid')}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {eventCategories.map((category) => (
+              <div 
+                key={category.id}
+                className="relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer hover:shadow-xl transition-all duration-300"
+                onClick={() => setSelectedCategory(category.id === selectedCategory ? null : category.id)}
               >
-                Grid
-              </Button>
-              <Button 
-                size="sm"
-                variant={activeView === 'list' ? 'secondary' : 'ghost'}
-                className="px-3"
-                onClick={() => setActiveView('list')}
+                <div className={`absolute inset-0 ${category.color} bg-opacity-80`}></div>
+                <img 
+                  src={category.image} 
+                  alt={category.name[language as keyof typeof category.name]}
+                  className="w-full h-full object-cover mix-blend-overlay"
+                />
+                <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
+                  <h2 className="text-3xl font-bold mb-4">
+                    {category.name[language as keyof typeof category.name]}
+                  </h2>
+                  <ul className="space-y-2">
+                    {category.events.map((event) => (
+                      <li key={event.id} className="flex items-center">
+                        <span className="text-lg">•</span>
+                        <span className="ml-2">{event.name[language as keyof typeof event.name]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {category.id === selectedCategory && (
+                  <div className="absolute top-4 right-4 bg-white text-primary p-1 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Events Listing by Selected Category or All Events */}
+      <section className="py-12 bg-gray-50">
+        <div className="container">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold flex items-center">
+              <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
+              {selectedCategory 
+                ? eventCategories.find(c => c.id === selectedCategory)?.name[language as keyof typeof eventCategories[0].name]
+                : 'All Events'
+              }
+            </h2>
+            {selectedCategory && (
+              <Button
+                variant="outline"
+                onClick={() => setSelectedCategory(null)}
               >
-                List
+                View All Categories
               </Button>
-            </div>
+            )}
           </div>
           
-          {filteredEvents.length > 0 ? (
-            activeView === 'grid' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredEvents.map((event, index) => (
+          {sortedEvents.length > 0 ? (
+            <div className="space-y-6">
+              {sortedEvents.map((event) => {
+                const category = eventCategories.find(c => c.id === event.categoryId);
+                return (
                   <Link to={`/events/${event.id}`} key={event.id}>
-                    <Card className={`overflow-hidden h-full hover:shadow-lg transition-all duration-300 border-t-4 ${event.color || 'border-primary'}`}>
-                      <div className="h-48 overflow-hidden relative group">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                        <img 
-                          src={event.image} 
-                          alt={event.name[language as keyof typeof event.name]} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                        <div className="absolute bottom-0 left-0 p-3 z-20">
-                          <div className="bg-white text-gray-800 font-bold px-3 py-1 rounded-lg text-sm shadow-lg">
-                            {format(new Date(event.date), 'MMM d')}
+                    <Card className={`overflow-hidden hover:shadow-md transition-all border-l-4 ${event.categoryColor}`}>
+                      <CardContent className="p-0">
+                        <div className="flex flex-col md:flex-row">
+                          <div className={`${event.categoryColor} p-6 md:w-32 flex flex-col justify-center items-center text-white`}>
+                            <span className="text-3xl font-bold">
+                              {format(new Date(event.date), 'dd')}
+                            </span>
+                            <span className="text-sm uppercase">
+                              {format(new Date(event.date), 'MMM yyyy')}
+                            </span>
                           </div>
-                        </div>
-                      </div>
-                      <CardContent className={`p-6 bg-gradient-to-br ${gradientColors[index % gradientColors.length]}`}>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                          {event.name[language as keyof typeof event.name]}
-                        </h3>
-                        <p className="text-gray-600 line-clamp-2 mb-3">
-                          {event.description[language as keyof typeof event.description]}
-                        </p>
-                        <div className="flex items-center justify-between mt-4">
-                          <div className="flex items-center text-sm text-gray-500">
-                            <MapPin className="h-3 w-3 mr-1" />
-                            {event.location[language as keyof typeof event.location]}
+                          <div className="p-6 flex-1">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between">
+                              <div>
+                                <span className={`inline-block px-3 py-1 rounded-full text-xs ${category?.color} ${category?.textColor} mb-2`}>
+                                  {category?.name[language as keyof typeof category.name]}
+                                </span>
+                                <h3 className="text-xl font-semibold">
+                                  {event.name[language as keyof typeof event.name]}
+                                </h3>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                className="mt-3 md:mt-0"
+                              >
+                                View Details
+                                <ChevronRight className="ml-2 h-4 w-4" />
+                              </Button>
+                            </div>
                           </div>
-                          <Button variant="ghost" size="sm" className="text-primary">
-                            View Details
-                          </Button>
                         </div>
                       </CardContent>
                     </Card>
                   </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredEvents.map((event) => (
-                  <Link to={`/events/${event.id}`} key={event.id}>
-                    <Card className="hover:shadow-md transition-shadow overflow-hidden">
-                      <div className="flex flex-col md:flex-row">
-                        <div className="md:w-1/4 h-32 md:h-auto relative">
-                          <img 
-                            src={event.image} 
-                            alt={event.name[language as keyof typeof event.name]} 
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute top-0 left-0 m-3">
-                            <div className="bg-white text-gray-800 font-bold px-3 py-1 rounded-lg text-sm shadow-lg">
-                              {format(new Date(event.date), 'MMM d, yyyy')}
-                            </div>
-                          </div>
-                        </div>
-                        <CardContent className="flex-1 p-5">
-                          <h3 className="font-semibold text-lg text-gray-800">
-                            {event.name[language as keyof typeof event.name]}
-                          </h3>
-                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                            {event.description[language as keyof typeof event.description]}
-                          </p>
-                          <div className="flex items-center mt-3 text-sm text-gray-500">
-                            <MapPin className="h-3 w-3 mr-1" />
-                            {event.location[language as keyof typeof event.location]}
-                          </div>
-                        </CardContent>
-                        <div className="md:w-16 bg-gray-50 flex items-center justify-center">
-                          <ChevronRight className="h-5 w-5 text-gray-400" />
-                        </div>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            )
+                );
+              })}
+            </div>
           ) : (
-            <div className="text-center py-16 bg-gray-50 rounded-lg">
-              <CalendarIcon className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500 mb-4">No events found for the selected criteria.</p>
-              <Button 
-                variant="outline" 
-                className="mt-2"
-                onClick={() => {
-                  setDate(undefined);
-                  setSearchTerm('');
-                }}
-              >
-                Reset filters
-              </Button>
+            <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+              <CalendarIcon className="mx-auto h-12 w-12 text-gray-300 mb-4" />
+              <h3 className="text-xl font-medium mb-2">No events found</h3>
+              <p className="text-gray-500 mb-4">
+                {searchTerm ? "Try adjusting your search term." : "There are no events in this category yet."}
+              </p>
+              {searchTerm && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => setSearchTerm('')}
+                >
+                  Clear search
+                </Button>
+              )}
             </div>
           )}
+        </div>
+      </section>
+      
+      {/* Calendar Timeline View */}
+      <section className="py-12 bg-white">
+        <div className="container">
+          <h2 className="text-3xl font-bold mb-8 flex items-center">
+            <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
+            Events Timeline
+          </h2>
           
-          {/* Yearly Calendar */}
-          <div className="mt-16">
-            <h2 className="text-3xl font-bold mb-8 flex items-center">
-              <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
-              Events Calendar
-            </h2>
-            
-            <div className="space-y-12">
-              {Object.entries(eventsByMonth).map(([month, monthEvents], index) => (
-                <div key={month}>
-                  <h3 className={`text-2xl font-medium mb-6 pb-2 border-b-2 border-${monthEvents[0]?.color || 'primary'}/50`}>
+          <div className="relative overflow-x-auto pb-8">
+            <div className="min-w-[1000px]">
+              {/* Month headers */}
+              <div className="flex border-b mb-4">
+                {months.map((month) => (
+                  <div key={month} className="flex-1 text-center pb-2 font-semibold">
                     {month}
-                  </h3>
-                  <div className="space-y-4">
-                    {monthEvents.map((event) => (
-                      <Link to={`/events/${event.id}`} key={event.id}>
-                        <Card className={`hover:shadow-md transition-shadow border-l-4 ${event.color || 'border-primary'}`}>
-                          <CardContent className="p-4">
-                            <div className="flex flex-col md:flex-row md:items-center">
-                              <div className="md:w-32 font-medium text-gray-500">
-                                {format(new Date(event.date), 'MMM d, yyyy')}
-                              </div>
-                              <div className="flex-1 flex md:flex-row flex-col md:items-center">
-                                <div className="w-16 h-16 rounded-lg overflow-hidden mr-4 flex-shrink-0">
-                                  <img 
-                                    src={event.image} 
-                                    alt={event.name[language as keyof typeof event.name]} 
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <div>
-                                  <h4 className="font-medium text-lg">
-                                    {event.name[language as keyof typeof event.name]}
-                                  </h4>
-                                  <p className="text-sm text-gray-500 flex items-center">
-                                    <MapPin className="h-3 w-3 mr-1" />
-                                    {event.location[language as keyof typeof event.location]}
-                                  </p>
-                                </div>
-                              </div>
-                              <Button variant="ghost" size="sm" className="md:ml-4 mt-2 md:mt-0">
-                                Details
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    ))}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Category timelines */}
+              {filteredCategories.map((category) => (
+                <div key={category.id} className="mb-8">
+                  <div className="flex items-center mb-3">
+                    <div className={`w-4 h-4 rounded-sm ${category.color} mr-2`}></div>
+                    <h3 className="font-semibold">
+                      {category.name[language as keyof typeof category.name]}
+                    </h3>
+                  </div>
+                  
+                  <div className="relative h-14 bg-gray-50 rounded-lg border">
+                    {/* Month grid lines */}
+                    <div className="absolute inset-0 grid grid-cols-12 gap-0">
+                      {months.map((month, i) => (
+                        <div key={i} className="border-r h-full last:border-r-0" />
+                      ))}
+                    </div>
+                    
+                    {/* Event markers */}
+                    {category.events.map((event) => {
+                      const date = new Date(event.date);
+                      const month = date.getMonth();
+                      const leftPosition = (month / 12) * 100;
+                      
+                      return (
+                        <div
+                          key={event.id}
+                          className={`absolute ${category.color} text-white px-3 py-1 rounded-md text-xs shadow-md cursor-pointer hover:shadow-lg transition-all`}
+                          style={{
+                            left: `${leftPosition}%`,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            maxWidth: '150px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                          title={event.name[language as keyof typeof event.name]}
+                        >
+                          {format(date, 'MMM d')} - {event.name[language as keyof typeof event.name]}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
