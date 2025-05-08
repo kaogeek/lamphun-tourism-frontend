@@ -1,5 +1,5 @@
 
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Search, ArrowLeft, ArrowRight, MapPin, ChevronRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -303,7 +303,7 @@ const EventsCalendar: React.FC = () => {
   );
 
   return (
-    <Fragment>
+    <>
       <Navbar />
       
       {/* Simplified Hero Section without colorful gradients */}
@@ -528,7 +528,7 @@ const EventsCalendar: React.FC = () => {
       </section>
       
       <Footer />
-    </Fragment>
+    </>
   );
 };
 
