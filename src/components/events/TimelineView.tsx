@@ -17,7 +17,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ categories }) => {
   ];
 
   return (
-    <section className="py-12 bg-white">
+    <div className="py-12 bg-white">
       <div className="container">
         <h2 className="text-3xl font-bold mb-8 flex items-center">
           <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
@@ -84,7 +84,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ categories }) => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

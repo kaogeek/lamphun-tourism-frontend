@@ -17,6 +17,7 @@ interface EventsListProps {
   setSelectedCategory: (categoryId: string | null) => void;
   categories: EventCategory[];
   searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 const EventsList: React.FC<EventsListProps> = ({ 
@@ -24,12 +25,13 @@ const EventsList: React.FC<EventsListProps> = ({
   selectedCategory, 
   setSelectedCategory, 
   categories,
-  searchTerm
+  searchTerm,
+  setSearchTerm
 }) => {
   const { language } = useLanguage();
   
   return (
-    <section className="py-12 bg-gray-50">
+    <div className="py-12 bg-gray-50">
       <div className="container">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold flex items-center">
@@ -110,7 +112,7 @@ const EventsList: React.FC<EventsListProps> = ({
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -60,6 +60,7 @@ const EventsCalendar: React.FC = () => {
         setSelectedCategory={setSelectedCategory}
         categories={eventCategories}
         searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
       
       <TimelineView categories={filteredCategories} />

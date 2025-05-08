@@ -17,7 +17,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   const { language } = useLanguage();
   
   return (
-    <section className="py-12 bg-white">
+    <div className="py-12 bg-white">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
@@ -56,7 +56,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
