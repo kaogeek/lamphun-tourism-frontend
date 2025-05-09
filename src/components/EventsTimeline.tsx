@@ -9,22 +9,15 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useLanguage } from '@/context/LanguageContext';
 
 const EventsTimeline: React.FC = () => {
-  const [viewMode, setViewMode] = useState<'vertical' | 'yearly'>('yearly');
+  // Default to vertical timeline for better focus on upcoming events
+  const [viewMode, setViewMode] = useState<'vertical' | 'yearly'>('vertical');
   const isMobile = useIsMobile();
   const { t } = useLanguage();
   
   return (
     <div className="container">
-      {/* Section heading */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-4">{t('events.upcomingEvents')}</h2>
-        <p className="text-gray-600 mb-6">
-          {t('events.discoverEvents')}
-        </p>
-      </div>
-      
       {/* View toggle buttons */}
-      <div className="flex justify-end mb-6">
+      <div className="flex justify-end mb-4">
         <div className="bg-gray-100 rounded-lg p-1 inline-flex">
           <Button 
             variant={viewMode === 'yearly' ? "default" : "ghost"} 
@@ -47,15 +40,13 @@ const EventsTimeline: React.FC = () => {
         </div>
       </div>
       
-      {/* Timeline content with limited height for homepage */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="max-h-[600px] overflow-y-auto">
-          {viewMode === 'vertical' ? (
-            <VerticalTimeline />
-          ) : (
-            <YearlyTimeline categories={eventCategories} />
-          )}
-        </div>
+      {/* Timeline content */}
+      <div>
+        {viewMode === 'vertical' ? (
+          <VerticalTimeline />
+        ) : (
+          <YearlyTimeline categories={eventCategories} />
+        )}
       </div>
     </div>
   );

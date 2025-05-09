@@ -21,12 +21,12 @@ const Index: React.FC = () => {
       <AttractionsSection />
       
       {/* Events Timeline Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16">
         <div className="container">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800">{t('events.title')}</h2>
             <Link to="/events">
-              <Button variant="outline" className="text-primary hover:text-primary/80 font-medium">
+              <Button variant="ghost" className="text-primary hover:text-primary/80 font-medium">
                 {t('events.viewCalendar')}
               </Button>
             </Link>
@@ -37,7 +37,7 @@ const Index: React.FC = () => {
       </section>
       
       {/* Map Preview Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="container">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 mb-8 lg:mb-0 lg:pr-10">
