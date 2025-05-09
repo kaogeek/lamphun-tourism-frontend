@@ -118,12 +118,12 @@ const Navbar: React.FC = () => {
           )}>
             {t('nav.map')}
           </Link>
-          <LanguageSwitcher />
+          <LanguageSwitcher isScrolled={isScrolled} />
         </nav>
         
         {/* Mobile Navigation Toggle */}
         <div className="flex md:hidden items-center">
-          <LanguageSwitcher />
+          <LanguageSwitcher isScrolled={isScrolled} />
           <Button 
             variant="ghost" 
             size="icon"

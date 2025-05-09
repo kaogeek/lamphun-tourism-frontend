@@ -9,9 +9,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/context/LanguageContext';
+import { useLocation } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
-const LanguageSwitcher: React.FC = () => {
+const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) => {
   const { language, setLanguage } = useLanguage();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const languages = [
     { code: 'th', name: 'ไทย', flag: '🇹🇭' },
@@ -22,11 +26,14 @@ const LanguageSwitcher: React.FC = () => {
 
   // Find the current language data
   const currentLang = languages.find(lang => lang.code === language) || languages[0];
+  
+  // Determine text color based on scroll position and page
+  const textColor = (isHomePage && !isScrolled) ? "text-white" : "text-gray-700";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="flex items-center gap-1">
+        <Button variant="ghost" size="sm" className={cn("flex items-center gap-1", textColor)}>
           <span className="mr-1">{currentLang.flag}</span>
           <span className="hidden md:inline">{currentLang.name}</span>
           <Globe className="h-4 w-4 md:ml-1" />
