@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,7 @@ import Index from "./pages/Index";
 import Attractions from "./pages/Attractions";
 import AttractionsDetail from "./pages/AttractionsDetail";
 import EventsCalendar from "./pages/EventsCalendar";
+import EventDetail from "./pages/EventDetail";
 import Map from "./pages/Map";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -28,6 +30,7 @@ const App = () => (
             <Route path="/attractions" element={<Attractions />} />
             <Route path="/attractions/:id" element={<AttractionsDetail />} />
             <Route path="/events" element={<EventsCalendar />} />
+            <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/map" element={<Map />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />

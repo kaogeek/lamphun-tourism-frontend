@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';
@@ -38,7 +39,7 @@ const EventsList: React.FC<EventsListProps> = ({
           <h2 className="text-3xl font-bold flex items-center">
             <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
             {selectedCategory 
-              ? categories.find(c => c.id === selectedCategory)?.name[language]
+              ? categories.find(c => c.id === selectedCategory)?.name[language as keyof typeof categories[0].name]
               : language === 'th' ? 'กิจกรรมทั้งหมด' 
                 : language === 'en' ? 'All Events'
                 : language === 'cn' ? '所有活动'

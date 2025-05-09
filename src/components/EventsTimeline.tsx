@@ -19,7 +19,7 @@ const EventsTimeline: React.FC = () => {
       {/* View toggle buttons */}
       <div className="flex justify-end mb-4">
         <div className="bg-gray-100 rounded-lg p-1 inline-flex">
-          {/* <Button 
+          <Button 
             variant={viewMode === 'yearly' ? "default" : "ghost"} 
             size="sm"
             onClick={() => setViewMode('yearly')}
@@ -27,7 +27,7 @@ const EventsTimeline: React.FC = () => {
           >
             <CalendarRange className="h-4 w-4" />
             <span className={isMobile ? "sr-only" : "inline"}>ปฏิทินรายปี</span>
-          </Button> */}
+          </Button>
           <Button 
             variant={viewMode === 'vertical' ? "default" : "ghost"} 
             size="sm"

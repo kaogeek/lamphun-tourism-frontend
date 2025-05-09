@@ -9,6 +9,20 @@ export interface Event {
     jp: string;
   };
   date: string;
+  location?: {
+    th: string;
+    en: string;
+    cn: string;
+    jp: string;
+  };
+  description?: {
+    th: string;
+    en: string;
+    cn: string;
+    jp: string;
+  };
+  image?: string;
+  time?: string;
 }
 
 export interface EventCategory {
