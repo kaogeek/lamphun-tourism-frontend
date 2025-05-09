@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&q=80" 
+          src="/lovable-uploads/hero.webp" 
           alt="Lamphun Landscape" 
           className="w-full h-full object-cover"
         />

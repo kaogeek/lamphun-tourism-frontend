@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -121,4 +120,40 @@
   -webkit-background-clip: text;
   color: transparent;
   background-image: linear-gradient(90deg, #00acff, #F97316);
+}
+
+/* MapLibre GL JS styles */
+.maplibregl-popup {
+  max-width: 300px;
+}
+
+.maplibregl-popup-content {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.maplibregl-popup-close-button {
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  color: #666;
+}
+
+.maplibregl-ctrl-group {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.maplibregl-ctrl-group button {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.marker {
+  background-image: url('/marker.png');
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }

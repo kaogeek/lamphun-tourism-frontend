@@ -11,7 +11,7 @@ interface EventHeroProps {
 const EventHero: React.FC<EventHeroProps> = ({ searchTerm, setSearchTerm }) => {
   return (
     <div className="relative pt-20 pb-10 bg-gray-50">
-      <div className="container mt-12 text-center">
+      {/* <div className="container mt-12 text-center">
         <h1 className="text-4xl font-bold mb-4 text-gray-900">
           Tourism Calendar of Lamphun
         </h1>
@@ -19,7 +19,6 @@ const EventHero: React.FC<EventHeroProps> = ({ searchTerm, setSearchTerm }) => {
           Discover upcoming events and festivals in Lamphun throughout the year.
         </p>
         
-        {/* Search bar */}
         <div className="max-w-md mx-auto mt-8 p-4 bg-white rounded-lg shadow-sm">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -31,7 +30,7 @@ const EventHero: React.FC<EventHeroProps> = ({ searchTerm, setSearchTerm }) => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

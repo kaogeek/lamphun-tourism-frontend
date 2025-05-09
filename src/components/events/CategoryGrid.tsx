@@ -19,7 +19,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   return (
     <div className="py-12 bg-white">
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {categories.map((category) => (
             <div 
               key={category.id}
@@ -36,14 +36,6 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
                 <h2 className="text-3xl font-bold mb-4">
                   {category.name[language as keyof typeof category.name]}
                 </h2>
-                <ul className="space-y-2">
-                  {category.events.map((event) => (
-                    <li key={event.id} className="flex items-center">
-                      <span className="text-lg">•</span>
-                      <span className="ml-2">{event.name[language as keyof typeof event.name]}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
               {category.id === selectedCategory && (
                 <div className="absolute top-4 right-4 bg-white text-primary p-1 rounded-full">

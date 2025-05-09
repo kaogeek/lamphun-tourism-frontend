@@ -1,5 +1,6 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapPin, Search } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -159,10 +160,79 @@ const categories = [
 ];
 
 const Map: React.FC = () => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const markers = useRef<maplibregl.Marker[]>([]);
   const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
   const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!mapContainer.current) return;
+
+    // สร้าง map instance
+    map.current = new maplibregl.Map({
+      container: mapContainer.current,
+      style: 'https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/arcgis_hybrid.json', // ใช้ฟรี Tile จาก CARTO
+      center: [99.0077, 18.5817], // ตำแหน่งกลางจังหวัดลำพูน
+      zoom: 13
+    });
+
+    // เพิ่ม navigation controls
+    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+    // เพิ่ม markers เมื่อ map โหลดเสร็จ
+    map.current.on('load', () => {
+      addMarkers();
+    });
+
+    return () => {
+      if (map.current) {
+        map.current.remove();
+      }
+    };
+  }, []);
+
+  // อัพเดท markers เมื่อมีการเปลี่ยนภาษา
+  useEffect(() => {
+    if (map.current) {
+      clearMarkers();
+      addMarkers();
+    }
+  }, [language]);
+
+  const addMarkers = () => {
+    if (!map.current) return;
+
+    attractions.forEach(attraction => {
+      const el = document.createElement('div');
+      el.className = 'marker';
+      el.style.width = '30px';
+      el.style.height = '30px';
+      el.style.backgroundImage = 'url(/marker.png)';
+      el.style.backgroundSize = 'cover';
+      el.style.cursor = 'pointer';
+
+      const marker = new maplibregl.Marker(el)
+        .setLngLat(attraction.coordinates)
+        .setPopup(
+          new maplibregl.Popup({ offset: 25 })
+            .setHTML(`
+              <h3 class="font-bold">${attraction.name[language]}</h3>
+              <p>${attraction.description[language]}</p>
+            `)
+        )
+        .addTo(map.current!);
+
+      markers.current.push(marker);
+    });
+  };
+
+  const clearMarkers = () => {
+    markers.current.forEach(marker => marker.remove());
+    markers.current = [];
+  };
 
   const filteredAttractions = attractions.filter((attraction) => {
     const matchesSearch = attraction.name[language as keyof typeof attraction.name]
@@ -179,13 +249,13 @@ const Map: React.FC = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <div className="relative pt-20 pb-10 bg-primary/5">
-        <div className="container mt-12 text-center">
+      <div className="relative pt-20 pb-2 bg-primary/5">
+        {/* <div className="container mt-12 text-center">
           <h1 className="text-4xl font-bold mb-4">{t('map.title')}</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
             Explore Lamphun's attractions with our interactive map.
           </p>
-        </div>
+        </div> */}
       </div>
       
       <section className="py-8">
@@ -276,54 +346,10 @@ const Map: React.FC = () => {
             
             {/* Map */}
             <div className="lg:w-2/3 order-1 lg:order-2">
-              <div className="bg-gray-200 rounded-lg h-[calc(100vh-200px)] min-h-[600px] relative overflow-hidden">
-                {/* Map placeholder - would be replaced with MapLibre implementation */}
-                <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-xl">
-                  Interactive Map Placeholder
-                  <br />
-                  (Will be implemented with MapLibre)
-                </div>
-                
-                {/* Selected Location Info Overlay */}
-                {selectedLocation && (
-                  <div className="absolute bottom-6 left-6 right-6 bg-white rounded-lg shadow-lg p-4">
-                    {(() => {
-                      const attraction = attractions.find(a => a.id === selectedLocation);
-                      if (!attraction) return null;
-                      
-                      return (
-                        <div className="flex items-start space-x-4">
-                          <div className="w-24 h-24 shrink-0 overflow-hidden rounded-lg">
-                            <img 
-                              src={attraction.image} 
-                              alt={attraction.name[language as keyof typeof attraction.name]}
-                              className="w-full h-full object-cover" 
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-lg">
-                              {attraction.name[language as keyof typeof attraction.name]}
-                            </h4>
-                            <p className="text-gray-600 text-sm mb-2">
-                              {attraction.description[language as keyof typeof attraction.description]}
-                            </p>
-                            <p className="text-xs text-gray-500 flex items-center">
-                              <MapPin className="h-3 w-3 mr-1" />
-                              {attraction.location[language as keyof typeof attraction.location]}
-                            </p>
-                          </div>
-                          <button 
-                            className="text-gray-400 hover:text-gray-600"
-                            onClick={() => setSelectedLocation(null)}
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
-              </div>
+              <div 
+                ref={mapContainer} 
+                className="w-full h-[600px] rounded-lg shadow-lg"
+              />
               
               <div className="mt-4 text-sm text-gray-500">
                 Note: This is a mockup. The actual implementation will use MapLibre for an interactive map experience.

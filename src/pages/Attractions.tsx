@@ -24,7 +24,7 @@ const attractions = [
       cn: '哈里奔猜佛寺是南奔府的重要寺庙，建于哈里奔猜王国时期。',
       jp: 'ワット・プラタート・ハリプンチャイはランプーン県の重要な寺院で、ハリプンチャイ王国時代に建てられました。'
     },
-    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/0f943779-f83a-4266-9e7d-21a27385906c.png',
     category: {
       th: 'วัด',
       en: 'Temple',

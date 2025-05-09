@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
       <div className="container flex items-center justify-between">
         <Link to="/" className="flex items-center">
           <img 
-            src="/placeholder.svg" 
+            src="/lovable-uploads/logo-ci-blue.png" 
             alt="Lamphun Logo" 
             className="h-10 w-10 mr-2"
           />
@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
             'font-bold text-lg transition-colors',
             isScrolled || !isHomePage ? 'text-primary' : 'text-white'
           )}>
-            Lamphun Tourism
+            เว็บไซต์ท่องเที่ยวลำพูน
           </span>
         </Link>
         

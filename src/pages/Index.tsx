@@ -57,7 +57,7 @@ const Index: React.FC = () => {
                 <div className="relative h-full w-full">
                   {/* Placeholder for map - will be replaced with interactive map */}
                   <img 
-                    src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&q=80" 
+                    src="/lovable-uploads/map.png" 
                     alt="Lamphun Map" 
                     className="w-full h-full object-cover"
                   />

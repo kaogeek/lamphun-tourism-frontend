@@ -11,9 +11,9 @@ export const eventCategories: EventCategory[] = [
       cn: 'Cultural Escape',
       jp: 'Cultural Escape'
     },
-    color: 'bg-orange-600',
+    color: 'bg-orange-900',
     textColor: 'text-white',
-    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    image: '/lovable-uploads/cultural.jpg',
     events: [
       {
         id: 'c1',
@@ -57,7 +57,7 @@ export const eventCategories: EventCategory[] = [
     },
     color: 'bg-teal-500',
     textColor: 'text-white',
-    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    image: '/lovable-uploads/musicfest.jpg',
     events: [
       {
         id: 's1',
@@ -101,7 +101,7 @@ export const eventCategories: EventCategory[] = [
     },
     color: 'bg-blue-700',
     textColor: 'text-white',
-    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    image: '/lovable-uploads/trail.jpg',
     events: [
       {
         id: 'sp1',
@@ -155,7 +155,7 @@ export const eventCategories: EventCategory[] = [
     },
     color: 'bg-cyan-600',
     textColor: 'text-white',
-    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    image: '/lovable-uploads/creative.jpeg',
     events: [
       {
         id: 'ce1',
@@ -197,9 +197,9 @@ export const eventCategories: EventCategory[] = [
       cn: 'Volunteer Adventure',
       jp: 'Volunteer Adventure'
     },
-    color: 'bg-green-600',
+    color: 'bg-green-900',
     textColor: 'text-white',
-    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    image: '/lovable-uploads/volunteer.jpg',
     events: [
       {
         id: 'v1',
@@ -221,9 +221,9 @@ export const eventCategories: EventCategory[] = [
       cn: 'Educational Tourism',
       jp: 'Educational Tourism'
     },
-    color: 'bg-orange-500',
+    color: 'bg-gray-900',
     textColor: 'text-white',
-    image: '/lovable-uploads/2d898717-b8a6-4a58-88f5-ee3c5e142a37.png',
+    image: '/lovable-uploads/robot.jpg',
     events: [
       {
         id: 'e1',

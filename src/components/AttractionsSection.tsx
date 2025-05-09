@@ -15,7 +15,7 @@ const attractions = [
       cn: '哈里奔猜佛寺',
       jp: 'ワット・プラタート・ハリプンチャイ'
     },
-    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/0f943779-f83a-4266-9e7d-21a27385906c.png',
     category: {
       th: 'วัด',
       en: 'Temple',
@@ -26,17 +26,17 @@ const attractions = [
   {
     id: 2,
     name: {
-      th: 'อุทยานแห่งชาติดอยขุนตาล',
-      en: 'Doi Khun Tan National Park',
-      cn: '堆昆丹国家公园',
-      jp: 'ドイ・クンタン国立公園'
+      th: 'อนุสรณ์สถานจามเทวี',
+      en: 'Jamatevi',
+      cn: '贾迈特维',
+      jp: 'ジャマティエビ'
     },
-    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/jamatevi.png',
     category: {
-      th: 'อุทยาน',
-      en: 'Park',
-      cn: '公园',
-      jp: '公園'
+      th: 'อนุสรณ์สถาน',
+      en: 'Memorial',
+      cn: '纪念碑',
+      jp: '記念碑'
     }
   },
   {
@@ -47,7 +47,7 @@ const attractions = [
       cn: '南奔博物馆',
       jp: 'ランプーン博物館'
     },
-    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/prathat-in-kwean.png',
     category: {
       th: 'พิพิธภัณฑ์',
       en: 'Museum',
