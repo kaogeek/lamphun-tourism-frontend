@@ -35,18 +35,18 @@ const attractions = [
   {
     id: 2,
     name: {
-      th: 'อุทยานแห่งชาติดอยขุนตาล',
+      th: 'วัดมหาวันวรมหาวิหาร',
       en: 'Doi Khun Tan National Park',
       cn: '堆昆丹国家公园',
       jp: 'ドイ・クンタン国立公園'
     },
     description: {
-      th: 'อุทยานแห่งชาติดอยขุนตาลเป็นอุทยานแห่งชาติที่มีความอุดมสมบูรณ์ทางธรรมชาติ',
-      en: 'Doi Khun Tan National Park is a lush national park with rich biodiversity.',
-      cn: '堆昆丹国家公园是一个自然资源丰富的国家公园。',
-      jp: 'ドイ・クンタン国立公園は、豊かな生物多様性を持つ豊かな国立公園です。'
+      th: 'เป็นวัดโบราณ สร้างในสมัยพระนางเจ้าจามเทวี เมื่อแรกเดินทางมาครองเมืองหริภุญชัย เป็นหนึ่งในวัดสี่มุมเมือง ตั้งอยู่ทางทิศตะวันตกของนครหริภุญชัยสิ่งปลูกสร้างในวัดล้วนสร้างขึ้นใหม่จนไม่หลงเหลือของเดิม แต่ที่ทำให้วัดเป็นที่รู้จักอย่างกว้างขวางเพราะเป็นแหล่งที่พบพระรอด และพระรอดหลวง ซึ่งเป็นหนึ่งในพระเครื่องเบญจภาคี กระจัดกระจายอยู่ทั่วไปเมื่อหลายสิบปีก่อน',
+      en: 'An ancient temple built during the reign of Queen Chamadevi when she first came to rule Hariphunchai. It is one of the four corner temples of the city.',
+      cn: '这是一座古老的寺庙，建于查玛德维女王统治时期，当时她首次来到哈里奔猜统治。它是城市四角寺庙之一。',
+      jp: 'ハリプンチャイを統治するために最初に来たチャマデヴィ女王の時代に建てられた古代寺院です。街の四隅の寺院の一つです。'
     },
-    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/วัดมหาวันวรมหาวิหาร.jpg',
     category: {
       th: 'อุทยาน',
       en: 'Park',
@@ -57,23 +57,23 @@ const attractions = [
   {
     id: 3,
     name: {
-      th: 'พิพิธภัณฑ์เมืองลำพูน',
-      en: 'Lamphun Museum',
-      cn: '南奔博物馆',
-      jp: 'ランプーン博物館'
+      th: 'วัดกู่ป่าลาน',
+      en: 'Khu Pha Lan',
+      cn: '库帕兰寺',
+      jp: 'クー・ファラン寺'
     },
     description: {
-      th: 'พิพิธภัณฑ์เมืองลำพูนจัดแสดงประวัติศาสตร์และวัฒนธรรมของเมืองลำพูน',
-      en: 'Lamphun Museum showcases the history and culture of Lamphun city.',
-      cn: '南奔博物馆展示了南奔市的历史和文化。',
-      jp: 'ランプーン博物館は、ランプーン市の歴史と文化を紹介しています。'
+      th: 'วัดกู่ป่าลานเป็นโบราณสถานที่เก่าแก่ที่สุดในอำเภอบ้านธิ ทางกรมศิลปากรได้ขึ้นทะเบียนเป็นโบราณสถานเมื่อปี 2533',
+      en: 'Khu Pha Lan is the oldest historical site in the Baan Thi district. The Department of Fine Arts has registered it as a historical site in 2533.',
+      cn: '库帕兰寺是巴安提地区最古老的遗址。文化部已将其登记为历史遗址，时间为2533年。',
+      jp: 'クー・ファラン寺は、バーン・ティ地区で最も古い遺跡です。文化省は、2533年に歴史的遺跡として登録しました。'
     },
-    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/วัดกู่ป่าลาน.jpeg',
     category: {
-      th: 'พิพิธภัณฑ์',
-      en: 'Museum',
-      cn: '博物馆',
-      jp: '博物館'
+      th: 'วัด',
+      en: 'Temple',
+      cn: '寺庙',
+      jp: '寺院'
     }
   },
   {
@@ -112,7 +112,7 @@ const attractions = [
       cn: '战提维寺是在提维女王时期建造的古寺。',
       jp: 'ワット・チャムテーウィーは、チャムテーウィー女王時代に建てられた古代の寺院です。'
     },
-    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/watchamathevi.jpg',
     category: {
       th: 'วัด',
       en: 'Temple',

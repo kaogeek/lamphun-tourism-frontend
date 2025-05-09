@@ -5,7 +5,7 @@ import { MapPin, Calendar, Globe, Map, Mail, Phone } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 const Footer: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -16,13 +16,17 @@ const Footer: React.FC = () => {
           <div>
             <Link to="/" className="flex items-center mb-4">
               <img 
-                src="/placeholder.svg" 
+                src="/lovable-uploads/logo-ci-blue.png" 
                 alt="Lamphun Tourism Logo" 
                 className="h-10 w-10 mr-2"
               />
               <span className="text-white font-bold text-lg">
-                Lamphun Tourism
+                {language === 'th' ? 'เว็บไซต์ท่องเที่ยวลำพูน'
+                  : language === 'en' ? 'Lamphun Tourism'
+                  : language === 'cn' ? '南奔旅游网'
+                  : 'ランプーン観光サイト'}
               </span>
+              
             </Link>
             <p className="mb-6 text-sm text-gray-400">
               Explore the ancient city of Lamphun, a hidden gem in Northern Thailand with rich culture and heritage.

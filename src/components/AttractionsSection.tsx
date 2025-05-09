@@ -42,17 +42,17 @@ const attractions = [
   {
     id: 3,
     name: {
-      th: 'พิพิธภัณฑ์เมืองลำพูน',
-      en: 'Lamphun Museum',
-      cn: '南奔博物馆',
-      jp: 'ランプーン博物館'
+      th: 'พระธาตุอินแขวะ',
+      en: 'In Kwean Pagoda',
+      cn: '因宽寺',
+      jp: 'インクェーン寺'
     },
     image: '/lovable-uploads/prathat-in-kwean.png',
     category: {
-      th: 'พิพิธภัณฑ์',
-      en: 'Museum',
-      cn: '博物馆',
-      jp: '博物館'
+      th: 'วัด',
+      en: 'Temple',
+      cn: '寺庙',
+      jp: '寺院'
     }
   },
 ];

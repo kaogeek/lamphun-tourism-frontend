@@ -31,7 +31,7 @@ const VerticalTimeline: React.FC = () => {
       case 'sound':
         return '/lovable-uploads/c5a8cc54-e462-469c-8fca-9c7f191ec2e6.png';
       case 'sports':
-        return '/lovable-uploads/74fde137-ebb8-408a-9107-5401e9c6ddf6.png';
+        return '/lovable-uploads/trail.jpg';
       default:
         return '/lovable-uploads/0f943779-f83a-4266-9e7d-21a27385906c.png';
     }
