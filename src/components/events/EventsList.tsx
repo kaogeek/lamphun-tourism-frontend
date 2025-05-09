@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, ChevronRight, Filter } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
