@@ -68,7 +68,7 @@ const EventsList: React.FC<EventsListProps> = ({
                 key={category.id}
                 value={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`${selectedCategory === category.id ? category.color : ""} ${selectedCategory === category.id ? "text-white" : ""}`}
+                className={selectedCategory === category.id ? `${category.color} text-white` : ""}
               >
                 {category.name[language as keyof typeof category.name]}
               </ToggleGroupItem>
