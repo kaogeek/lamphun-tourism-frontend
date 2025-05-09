@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -10,7 +9,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -80,7 +79,10 @@ const Navbar: React.FC = () => {
             'font-bold text-lg transition-colors',
             isScrolled || !isHomePage ? 'text-primary' : 'text-white'
           )}>
-            เว็บไซต์ท่องเที่ยวลำพูน
+            {language === 'th' ? 'เว็บไซต์ท่องเที่ยวลำพูน'
+              : language === 'en' ? 'Lamphun Tourism'
+              : language === 'cn' ? '南奔旅游网'
+              : 'ランプーン観光サイト'}
           </span>
         </Link>
         

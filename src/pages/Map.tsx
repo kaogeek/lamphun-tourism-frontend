@@ -25,7 +25,7 @@ const attractions = [
       cn: '南奔重要的寺庙',
       jp: 'ランプーンの重要な寺院'
     },
-    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80',
+    image: '/lovable-uploads/cultural.jpg',
     location: {
       th: 'ตำบลในเมือง อำเภอเมือง จังหวัดลำพูน',
       en: 'Nai Mueang, Mueang Lamphun District, Lamphun',
