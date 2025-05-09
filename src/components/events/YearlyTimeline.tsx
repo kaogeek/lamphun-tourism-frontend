@@ -4,8 +4,9 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, ChartGantt } from 
 import { EventCategory } from '@/types/events';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { format, isWithinInterval, startOfYear, endOfYear, addMonths, eachMonthOfInterval, startOfMonth, endOfMonth, compareAsc } from 'date-fns';
+import { format, isWithinInterval, startOfYear, endOfYear, compareAsc } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface YearlyTimelineProps {
   categories: EventCategory[];
@@ -13,6 +14,7 @@ interface YearlyTimelineProps {
 
 const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
   const { language } = useLanguage();
+  const isMobile = useIsMobile();
   const currentDate = new Date();
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
   
@@ -35,12 +37,6 @@ const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
     return isWithinInterval(eventDate, { start: yearStart, end: yearEnd });
   }).sort((a, b) => compareAsc(new Date(a.date), new Date(b.date)));
   
-  // Generate months for the year
-  const monthsInYear = eachMonthOfInterval({
-    start: yearStart,
-    end: yearEnd
-  });
-
   // Function to get category color
   const getCategoryColor = (categoryId: string) => {
     const category = categories.find(cat => cat.id === categoryId);
@@ -68,20 +64,46 @@ const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
   // Function to position the event on the timeline
   const calculateEventPosition = (eventDate: Date) => {
     const startOfTheYear = startOfYear(new Date(selectedYear, 0, 1));
-    const totalDaysInYear = endOfYear(startOfTheYear).getDate() - startOfTheYear.getDate() + 1;
+    const totalDaysInYear = endOfYear(startOfTheYear).getDate() - startOfTheYear.getDate() + 365; // Use 365 to ensure correct calculation
     const dayOfYear = Math.floor((eventDate.getTime() - startOfTheYear.getTime()) / (1000 * 60 * 60 * 24));
     
     // Calculate position as percentage of year
-    return (dayOfYear / totalDaysInYear) * 100;
+    return Math.max(0, Math.min(100, (dayOfYear / totalDaysInYear) * 100));
+  };
+
+  // Generate month labels based on device
+  const generateMonthLabels = () => {
+    const monthLabels = [];
+    for (let i = 0; i < 12; i++) {
+      const month = new Date(selectedYear, i, 1);
+      monthLabels.push({
+        month: i,
+        label: format(month, isMobile ? 'MMM' : 'MMMM')
+      });
+    }
+    return monthLabels;
+  };
+
+  const monthLabels = generateMonthLabels();
+
+  // Calculate vertical spacing for events to avoid overlapping
+  const calculateVerticalPosition = (eventIndex: number, eventDate: Date) => {
+    const sameMonthEvents = eventsInYear.filter(e => {
+      const eDate = new Date(e.date);
+      return eDate.getMonth() === eventDate.getMonth();
+    });
+    
+    const sameMonthIndex = sameMonthEvents.findIndex(e => e.id === eventsInYear[eventIndex].id);
+    return sameMonthIndex * 60 + 60; // 60px spacing between events in the same month
   };
 
   return (
-    <div className="py-12">
+    <div className="py-8">
       <div className="container">
         {/* Year navigation */}
         <div className="flex justify-between items-center mb-6">
           <Button variant="outline" size="sm" onClick={goToPreviousYear}>
-            <ChevronLeft className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-4 w-4 mr-1" />
             {selectedYear - 1}
           </Button>
           
@@ -93,28 +115,50 @@ const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
           
           <Button variant="outline" size="sm" onClick={goToNextYear}>
             {selectedYear + 1}
-            <ChevronRight className="h-4 w-4 ml-2" />
+            <ChevronRight className="h-4 w-4 ml-1" />
           </Button>
         </div>
         
-        {/* Timeline header - months */}
+        {/* Timeline container */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="grid grid-cols-12 bg-gray-50 border-b">
-            {monthsInYear.map((month, index) => (
+          {/* Month labels */}
+          <div className={`grid grid-cols-${isMobile ? '4' : '12'} bg-gray-50 border-b`}>
+            {monthLabels.slice(0, isMobile ? 4 : 12).map((monthData, index) => (
               <div 
                 key={index} 
                 className="p-2 text-center text-sm font-medium border-r last:border-r-0"
               >
-                {format(month, 'MMM', { locale: language === 'th' ? undefined : undefined })}
+                {monthData.label}
               </div>
             ))}
           </div>
           
           {/* Timeline content */}
           <div className="relative min-h-[400px] p-4">
+            {/* Show selector for additional months on mobile */}
+            {isMobile && (
+              <div className="mb-4 flex justify-center">
+                <select 
+                  className="p-2 border rounded-md"
+                  onChange={(e) => {
+                    const section = document.getElementById(`month-${e.target.value}`);
+                    if (section) {
+                      section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  {monthLabels.map((monthData, index) => (
+                    <option key={index} value={monthData.month}>
+                      {monthData.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            
             {/* Month grid lines */}
-            <div className="grid grid-cols-12 absolute inset-0 pointer-events-none">
-              {monthsInYear.map((_, index) => (
+            <div className={`grid grid-cols-${isMobile ? '4' : '12'} absolute inset-0 pointer-events-none`}>
+              {monthLabels.slice(0, isMobile ? 4 : 12).map((_, index) => (
                 <div 
                   key={index} 
                   className="h-full border-r last:border-r-0 border-gray-200"
@@ -129,16 +173,18 @@ const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
                   const eventDate = new Date(event.date);
                   const position = calculateEventPosition(eventDate);
                   const categoryColor = getCategoryColor(event.categoryId);
-                  const month = eventDate.getMonth();
+                  const verticalPosition = calculateVerticalPosition(index, eventDate);
                   
                   return (
                     <div
                       key={event.id}
-                      className="absolute transform -translate-y-1/2 mb-8"
+                      className="absolute transform -translate-y-1/2"
                       style={{ 
                         left: `${position}%`, 
-                        top: `${(index % 5) * 80 + 60}px`
+                        top: `${verticalPosition}px`,
+                        zIndex: 10
                       }}
+                      id={`month-${eventDate.getMonth()}`}
                     >
                       <Link 
                         to={`/events/${event.id}`}
@@ -151,13 +197,13 @@ const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
                         
                         {/* Event marker with date */}
                         <div 
-                          className={`${categoryColor} rounded-full w-10 h-10 flex items-center justify-center text-white text-sm font-bold shadow-md`}
+                          className={`${categoryColor} rounded-full w-10 h-10 flex items-center justify-center text-white text-sm font-bold shadow-md transition-transform transform hover:scale-110`}
                         >
                           {format(eventDate, 'dd')}
                         </div>
                         
-                        {/* Event details card - hidden by default, shown on hover */}
-                        <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-10">
+                        {/* Event details card - hidden by default, shown on hover/tap */}
+                        <div className={`absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-20 ${isMobile ? 'group-active:opacity-100' : ''}`}>
                           <div className={`bg-white ${categoryColor.replace('bg-', 'border-l-4 border-')} rounded shadow-lg p-3 w-48 text-left transform -translate-x-1/2`}>
                             <div className="text-xs text-gray-500 mb-1">
                               {format(eventDate, 'dd MMMM yyyy')}
@@ -207,6 +253,60 @@ const YearlyTimeline: React.FC<YearlyTimelineProps> = ({ categories }) => {
             </div>
           </div>
         </div>
+
+        {/* Mobile view: Display events as a list grouped by month */}
+        {isMobile && eventsInYear.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold mb-4">Events in {selectedYear}</h3>
+            <div className="space-y-4">
+              {Array.from({ length: 12 }, (_, i) => i).map(month => {
+                const monthEvents = eventsInYear.filter(event => {
+                  const eventDate = new Date(event.date);
+                  return eventDate.getMonth() === month;
+                });
+                
+                if (monthEvents.length === 0) return null;
+                
+                return (
+                  <div key={month} className="border rounded-lg overflow-hidden">
+                    <div className="bg-gray-100 p-3 font-medium">
+                      {format(new Date(selectedYear, month, 1), 'MMMM')}
+                    </div>
+                    <div className="divide-y">
+                      {monthEvents.map(event => {
+                        const eventDate = new Date(event.date);
+                        const categoryColor = getCategoryColor(event.categoryId);
+                        
+                        return (
+                          <Link 
+                            key={event.id} 
+                            to={`/events/${event.id}`}
+                            className="flex items-center p-3 hover:bg-gray-50"
+                          >
+                            <div className={`${categoryColor} w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3`}>
+                              {format(eventDate, 'dd')}
+                            </div>
+                            <div>
+                              <h4 className="font-medium line-clamp-1">
+                                {event.name[language as keyof typeof event.name]}
+                              </h4>
+                              <div className="flex items-center text-xs text-gray-500">
+                                <span>{format(eventDate, 'dd MMM yyyy')}</span>
+                                <span className={`ml-2 px-2 py-0.5 rounded-full text-white ${categoryColor}`}>
+                                  {event.categoryName[language as keyof typeof event.categoryName]}
+                                </span>
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }).filter(Boolean)}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

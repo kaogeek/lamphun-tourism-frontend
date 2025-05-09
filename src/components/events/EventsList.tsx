@@ -39,7 +39,7 @@ const EventsList: React.FC<EventsListProps> = ({
           <h2 className="text-3xl font-bold flex items-center">
             <CalendarIcon className="mr-3 h-7 w-7 text-primary" />
             {selectedCategory 
-              ? categories.find(c => c.id === selectedCategory)?.name[language as keyof typeof category.name]
+              ? categories.find(c => c.id === selectedCategory)?.name[language as keyof typeof categories[0].name]
               : 'All Events'
             }
           </h2>

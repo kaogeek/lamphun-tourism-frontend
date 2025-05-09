@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import VerticalTimeline from './events/VerticalTimeline';
 import YearlyTimeline from './events/YearlyTimeline';
-import { EventCategory } from '@/types/events';
 import { eventCategories } from '@/data/eventData';
 import { Button } from '@/components/ui/button';
 import { CalendarRange, ListOrdered } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const EventsTimeline: React.FC = () => {
   const [viewMode, setViewMode] = useState<'vertical' | 'yearly'>('yearly');
+  const isMobile = useIsMobile();
   
   return (
     <div className="container py-8">
@@ -22,7 +23,7 @@ const EventsTimeline: React.FC = () => {
             className="flex items-center gap-1"
           >
             <CalendarRange className="h-4 w-4" />
-            <span className="hidden sm:inline">ปฏิทินรายปี</span>
+            <span className={isMobile ? "" : "inline"}>ปฏิทินรายปี</span>
           </Button>
           <Button 
             variant={viewMode === 'vertical' ? "default" : "ghost"} 
@@ -31,7 +32,7 @@ const EventsTimeline: React.FC = () => {
             className="flex items-center gap-1"
           >
             <ListOrdered className="h-4 w-4" />
-            <span className="hidden sm:inline">รายการกิจกรรม</span>
+            <span className={isMobile ? "" : "inline"}>รายการกิจกรรม</span>
           </Button>
         </div>
       </div>
