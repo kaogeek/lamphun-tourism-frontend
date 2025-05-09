@@ -33,7 +33,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
                 className="w-full h-full object-cover mix-blend-overlay"
               />
               <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-                <h2 className="text-3xl font-bold mb-4">
+                <h2 className="text-xl md:text-2xl font-bold mb-4">
                   {category.name[language as keyof typeof category.name]}
                 </h2>
               </div>

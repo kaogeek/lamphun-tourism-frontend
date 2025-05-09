@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="h-4 w-4 mr-2 text-primary" />
-                <span className="text-gray-400">contact@lamphuntourism.th</span>
+                <span className="text-gray-400">admin@lamphunpao.go.th</span>
               </li>
             </ul>
           </div>

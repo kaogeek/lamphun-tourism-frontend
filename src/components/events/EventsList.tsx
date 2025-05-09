@@ -58,7 +58,7 @@ const EventsList: React.FC<EventsListProps> = ({
         </div>
         
         {/* Category filter buttons */}
-        <div className="mb-8 overflow-x-auto">
+        {/* <div className="mb-8 overflow-x-auto">
           <ToggleGroup type="single" className="flex flex-wrap gap-2">
             <ToggleGroupItem 
               value="all" 
@@ -81,7 +81,7 @@ const EventsList: React.FC<EventsListProps> = ({
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
-        </div>
+        </div> */}
         
         {events.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

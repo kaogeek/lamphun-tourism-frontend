@@ -15,7 +15,7 @@ const EventsTimeline: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="container">
+    <div className="">
       {/* View toggle buttons */}
       <div className="flex justify-end mb-4">
         <div className="bg-gray-100 rounded-lg p-1 inline-flex">

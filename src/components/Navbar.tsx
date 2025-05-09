@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
             'font-bold text-lg transition-colors',
             isScrolled || !isHomePage ? 'text-primary' : 'text-white'
           )}>
-            {language === 'th' ? 'เว็บไซต์ท่องเที่ยวลำพูน'
+            {language === 'th' ? 'ท่องเที่ยวลำพูน'
               : language === 'en' ? 'Lamphun Tourism'
               : language === 'cn' ? '南奔旅游网'
               : 'ランプーン観光サイト'}
