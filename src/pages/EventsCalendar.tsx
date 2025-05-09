@@ -5,7 +5,6 @@ import Footer from '@/components/Footer';
 import EventHero from '@/components/events/EventHero';
 import CategoryGrid from '@/components/events/CategoryGrid';
 import EventsList from '@/components/events/EventsList';
-import TimelineView from '@/components/events/TimelineView';
 import { eventCategories } from '@/data/eventData';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -62,8 +61,6 @@ const EventsCalendar: React.FC = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
-      
-      <TimelineView categories={filteredCategories} />
       
       <Footer />
     </React.Fragment>

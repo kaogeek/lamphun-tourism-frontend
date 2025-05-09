@@ -1,12 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronRight, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 import { EventCategory, Event } from '@/types/events';
 import { useLanguage } from '@/context/LanguageContext';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface EventsListProps {
   events: Array<Event & { 
@@ -51,42 +53,57 @@ const EventsList: React.FC<EventsListProps> = ({
           )}
         </div>
         
+        {/* Category filter buttons */}
+        <div className="mb-8 overflow-x-auto">
+          <ToggleGroup type="single" className="flex flex-wrap gap-2">
+            <ToggleGroupItem 
+              value="all" 
+              onClick={() => setSelectedCategory(null)}
+              className={!selectedCategory ? "bg-primary text-primary-foreground" : ""}
+            >
+              All Categories
+            </ToggleGroupItem>
+            {categories.map((category) => (
+              <ToggleGroupItem
+                key={category.id}
+                value={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`${selectedCategory === category.id ? category.color : ""} ${selectedCategory === category.id ? "text-white" : ""}`}
+              >
+                {category.name[language as keyof typeof category.name]}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
+        
         {events.length > 0 ? (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => {
               const category = categories.find(c => c.id === event.categoryId);
+              const eventDate = new Date(event.date);
               return (
-                <Link to={`/events/${event.id}`} key={event.id}>
-                  <Card className={`overflow-hidden hover:shadow-md transition-all border-l-4 ${event.categoryColor}`}>
-                    <CardContent className="p-0">
-                      <div className="flex flex-col md:flex-row">
-                        <div className={`${event.categoryColor} p-6 md:w-32 flex flex-col justify-center items-center text-white`}>
-                          <span className="text-3xl font-bold">
-                            {format(new Date(event.date), 'dd')}
-                          </span>
-                          <span className="text-sm uppercase">
-                            {format(new Date(event.date), 'MMM yyyy')}
-                          </span>
+                <Link to={`/events/${event.id}`} key={event.id} className="block h-full">
+                  <Card className="overflow-hidden hover:shadow-md transition-all h-full flex flex-col">
+                    <div className={`${category?.color || "bg-primary"} text-white p-2 flex items-center justify-between`}>
+                      <div className="flex items-center">
+                        <div className="bg-white bg-opacity-20 rounded-full w-10 h-10 flex items-center justify-center mr-2">
+                          <span className="font-bold">{format(eventDate, 'dd')}</span>
                         </div>
-                        <div className="p-6 flex-1">
-                          <div className="flex flex-col md:flex-row md:items-center justify-between">
-                            <div>
-                              <span className={`inline-block px-3 py-1 rounded-full text-xs ${category?.color} ${category?.textColor} mb-2`}>
-                                {category && category.name[language as keyof typeof category.name]}
-                              </span>
-                              <h3 className="text-xl font-semibold">
-                                {event.name[language as keyof typeof event.name]}
-                              </h3>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              className="mt-3 md:mt-0"
-                            >
-                              View Details
-                              <ChevronRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
+                        <span>{format(eventDate, 'MMM yyyy')}</span>
+                      </div>
+                      <Badge variant="outline" className="bg-white bg-opacity-20 text-white border-0">
+                        {category && category.name[language as keyof typeof category.name]}
+                      </Badge>
+                    </div>
+                    <CardContent className="p-4 flex-grow flex flex-col">
+                      <h3 className="text-xl font-semibold mb-4">
+                        {event.name[language as keyof typeof event.name]}
+                      </h3>
+                      <div className="mt-auto flex justify-end">
+                        <Button variant="ghost" size="sm" className="mt-2">
+                          View Details
+                          <ChevronRight className="ml-1 h-4 w-4" />
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
