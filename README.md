@@ -2,21 +2,43 @@
 
 ## Project info
 
-Follow these steps:
+### Prerequisites
+- [Bun](https://bun.sh) (Latest version)
+- Node.js 18.0.0 or higher
+- Git
+
+### Development Setup
+Follow these steps to set up the project for development:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone 
+# Install dependencies using Bun
+bun install
 
-# Step 2: Navigate to the project directory.
-cd 
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Start the development server
+bun run dev
 ```
+
+The development server will start at `http://localhost:5173` (default Vite port).
+
+### Available Scripts
+
+```sh
+# Start development server
+bun run dev
+
+# Build for production
+bun run build
+
+# Build for development
+bun run build:dev
+
+# Preview production build
+bun run preview
+
+# Run linting
+bun run lint
+```
+
 
 ## What technologies are used for this project?
 
