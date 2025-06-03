@@ -1,5 +1,5 @@
 import { axiosInstance } from '../axios-instance';
-import { GetPlacesResponse } from '../types/places';
+import { GetPlaceByIdResponse, GetPlacesResponse } from '../types/places';
 
 export type GetPlacesParams = {
   page?: number;
@@ -11,5 +11,10 @@ export const getPlaces = async (params?: GetPlacesParams): Promise<GetPlacesResp
   const response = await axiosInstance.get<GetPlacesResponse>('/places', {
     params,
   });
+  return response.data;
+};
+
+export const getPlaceById = async (id: string): Promise<GetPlaceByIdResponse> => {
+  const response = await axiosInstance.get<GetPlaceByIdResponse>(`/places/${id}`);
   return response.data;
 };
