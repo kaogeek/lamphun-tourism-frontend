@@ -75,30 +75,34 @@ const AttractionsDetail: React.FC = () => {
             <div className="relative overflow-hidden rounded-lg h-80 md:h-96 mb-4">
               {
                 place.images?.length > 0 ? 
-                  <img 
-                    src={place.images[currentImageIndex]} 
-                    alt={place.name}
-                    className="w-full h-full object-cover"
+                   <img 
+                     src={place.images[currentImageIndex]} 
+                     alt={place.name}
+                     className="w-full h-full object-cover"
                   /> : 
                   <Skeleton className="w-full h-full object-cover" />
               }
-              {place.images?.length > 0 && <Button 
-                variant="outline" 
-                size="icon" 
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
-                onClick={prevImage}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>}
+              {place.images?.length > 0 && currentImageIndex > 0 && (
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
+                  onClick={prevImage}
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </Button>
+              )}
               
-             {place.images?.length > 0 && <Button 
-                variant="outline" 
-                size="icon" 
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
-                onClick={nextImage}
-              >
-                <ChevronRight className="h-6 w-6" />
-              </Button>}
+              {place.images?.length > 0 && currentImageIndex < place.images.length - 1 && (
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
+                  onClick={nextImage}
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </Button>
+              )}
             </div>
             
             {place.images?.length > 0 && <div className="flex space-x-2 mb-8">
