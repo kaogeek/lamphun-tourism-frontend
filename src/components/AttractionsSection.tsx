@@ -8,59 +8,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useGetPlaces } from '@/hooks/api/useGetPlaces';
 import { Skeleton } from './ui/skeleton';
 
-const attractions = [
-  {
-    id: 1,
-    name: {
-      th: 'วัดพระธาตุหริภุญชัย',
-      en: 'Wat Phra That Hariphunchai',
-      cn: '哈里奔猜佛寺',
-      jp: 'ワット・プラタート・ハリプンチャイ'
-    },
-    image: '/lovable-uploads/0f943779-f83a-4266-9e7d-21a27385906c.png',
-    category: {
-      th: 'วัด',
-      en: 'Temple',
-      cn: '寺庙',
-      jp: '寺院'
-    }
-  },
-  {
-    id: 2,
-    name: {
-      th: 'อนุสรณ์สถานจามเทวี',
-      en: 'Jamatevi',
-      cn: '贾迈特维',
-      jp: 'ジャマティエビ'
-    },
-    image: '/lovable-uploads/jamatevi.png',
-    category: {
-      th: 'อนุสรณ์สถาน',
-      en: 'Memorial',
-      cn: '纪念碑',
-      jp: '記念碑'
-    }
-  },
-  {
-    id: 3,
-    name: {
-      th: 'พระธาตุอินแขวะ',
-      en: 'In Kwean Pagoda',
-      cn: '因宽寺',
-      jp: 'インクェーン寺'
-    },
-    image: '/lovable-uploads/prathat-in-kwean.png',
-    category: {
-      th: 'วัด',
-      en: 'Temple',
-      cn: '寺庙',
-      jp: '寺院'
-    }
-  },
-];
-
 const AttractionsSection: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const { data, isLoading } = useGetPlaces();
 
@@ -79,7 +28,7 @@ const AttractionsSection: React.FC = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {!isLoading && data.data.length > 0 && data.data.map((attraction) => (
-            <Link to={`/attractions/${attraction.id}`} key={attraction.id}>
+            <Link to={`/attractions/${attraction.documentId}`} key={attraction.id}>
               <Card className="overflow-hidden card-hover">
                 <div className="h-52 overflow-hidden">
                   {/* TODO: Add image */}
