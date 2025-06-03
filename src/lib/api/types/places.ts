@@ -10,6 +10,9 @@ export type Place = {
   lng: number;
   locale: string;
   images?: string[];
+  coverImage?: {
+    url: string;
+  };
   openingHours: Record<string, PlaceOpeningHours>;
   popular: true;
   createdAt: string;
