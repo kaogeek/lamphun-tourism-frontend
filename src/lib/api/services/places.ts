@@ -20,7 +20,7 @@ export const getPlaces = async (params?: GetPlacesParams): Promise<GetPlacesResp
 export const getPlaceById = async (id: string): Promise<GetPlaceByIdResponse> => {
   const response = await axiosInstance.get<GetPlaceByIdResponse>(`/api/places/${id}`, {
     params: {
-      populate: ['placeCategories', 'coverImage'],
+      populate: ['placeCategory', 'coverImage'],
       fields: ['name', 'shortDescription', 'createdAt', 'updatedAt', 'address'],
     },
   });
@@ -28,13 +28,19 @@ export const getPlaceById = async (id: string): Promise<GetPlaceByIdResponse> =>
 };
 
 export const getPopularPlaces = async (): Promise<GetPlacesResponse> => {
-    const response = await axiosInstance.get<GetPlacesResponse>('/api/places', {
-    params: {
-      pagination: { pageSize: 3 },
-      populate: ['placeCategories', 'coverImage'],
-      fields: ['name', 'shortDescription', 'createdAt', 'updatedAt', 'address'],
-      filters: { popular: { $eq: true } },
-    },
-  });
+    const response = await axiosInstance.get<GetPlacesResponse>("/api/places", {
+      params: {
+        pagination: { pageSize: 3 },
+        populate: ["placeCategory", "coverImage"],
+        fields: [
+          "name",
+          "shortDescription",
+          "createdAt",
+          "updatedAt",
+          "address",
+        ],
+        filters: { popular: { $eq: true } },
+      },
+    });
   return response.data;
 };
