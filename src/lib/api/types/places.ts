@@ -13,6 +13,10 @@ export type Place = {
   coverImage?: {
     url: string;
   };
+  placeCategories?: {
+    id: string;
+    name: string;
+  }[];
   openingHours: Record<string, PlaceOpeningHours>;
   popular: true;
   createdAt: string;

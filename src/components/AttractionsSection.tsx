@@ -68,12 +68,15 @@ const AttractionsSection: React.FC = () => {
                   <CardContent className="p-6">
                     <div className="mb-2">
                       <span className="inline-block bg-primary/10 text-primary font-medium text-xs px-3 py-1 rounded-full">
-                        {attraction.shortDescription}
+                        {attraction.placeCategories?.map((category) => category.name).join(', ')}
                       </span>
                     </div>
                     <h3 className="text-xl font-semibold text-gray-800">
                       {attraction.name}
                     </h3>
+                    <p className="text-gray-500 text-sm">
+                      {attraction.shortDescription}
+                    </p>
                   </CardContent>
                 </Card>
               </Link>
