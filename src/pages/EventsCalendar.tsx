@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,54 +13,51 @@ const EventsCalendar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Filter categories based on selected category
-  const filteredCategories = eventCategories.filter(category => 
-    selectedCategory === null || category.id === selectedCategory
+  const filteredCategories = eventCategories.filter(
+    (category) => selectedCategory === null || category.id === selectedCategory
   );
 
   // Prepare events with category information
-  const allEvents = eventCategories.flatMap(category => 
-    category.events.map(event => ({
+  const allEvents = eventCategories.flatMap((category) =>
+    category.events.map((event) => ({
       ...event,
       categoryId: category.id,
       categoryName: category.name,
-      categoryColor: category.color
+      categoryColor: category.color,
     }))
   );
-  
+
   // Filter events based on search term and selected category
-  const filteredEvents = allEvents.filter(event => 
-    event.name[language as keyof typeof event.name]
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase()) &&
-    (selectedCategory === null || event.categoryId === selectedCategory)
+  const filteredEvents = allEvents.filter(
+    (event) =>
+      event.name[language as keyof typeof event.name].toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCategory === null || event.categoryId === selectedCategory)
   );
 
   // Sort events by date
-  const sortedEvents = [...filteredEvents].sort((a, b) => 
-    new Date(a.date).getTime() - new Date(b.date).getTime()
-  );
+  const sortedEvents = [...filteredEvents].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (
     <React.Fragment>
       <Navbar />
-      
+
       <EventHero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      
-      <CategoryGrid 
-        categories={eventCategories} 
-        selectedCategory={selectedCategory} 
-        setSelectedCategory={setSelectedCategory} 
+
+      <CategoryGrid
+        categories={eventCategories}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
       />
-      
-      <EventsList 
-        events={sortedEvents} 
-        selectedCategory={selectedCategory} 
+
+      <EventsList
+        events={sortedEvents}
+        selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         categories={eventCategories}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
-      
+
       <Footer />
     </React.Fragment>
   );

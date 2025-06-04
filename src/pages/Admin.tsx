@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -21,10 +20,10 @@ const attractions = [
       th: 'วัดพระธาตุหริภุญชัย',
       en: 'Wat Phra That Hariphunchai',
       cn: '哈里奔猜佛寺',
-      jp: 'ワット・プラタート・ハリプンチャイ'
+      jp: 'ワット・プラタート・ハリプンチャイ',
     },
     category: 'temple',
-    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80'
+    image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80',
   },
   {
     id: 2,
@@ -32,10 +31,10 @@ const attractions = [
       th: 'อุทยานแห่งชาติดอยขุนตาล',
       en: 'Doi Khun Tan National Park',
       cn: '堆昆丹国家公园',
-      jp: 'ドイ・クンタン国立公園'
+      jp: 'ドイ・クンタン国立公園',
     },
     category: 'nature',
-    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80'
+    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80',
   },
   {
     id: 3,
@@ -43,11 +42,11 @@ const attractions = [
       th: 'พิพิธภัณฑ์เมืองลำพูน',
       en: 'Lamphun Museum',
       cn: '南奔博物馆',
-      jp: 'ランプーン博物館'
+      jp: 'ランプーン博物館',
     },
     category: 'museum',
-    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80'
-  }
+    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80',
+  },
 ];
 
 const events = [
@@ -57,10 +56,10 @@ const events = [
       th: 'เทศกาลลำไย',
       en: 'Longan Festival',
       cn: '龙眼节',
-      jp: 'ロンガンフェスティバル'
+      jp: 'ロンガンフェスティバル',
     },
     date: '2025-08-15',
-    image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80'
+    image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80',
   },
   {
     id: 2,
@@ -68,11 +67,11 @@ const events = [
       th: 'ประเพณีสรงน้ำพระธาตุหริภุญชัย',
       en: 'Haripunchai Bathing Ceremony',
       cn: '哈里奔猜浴佛仪式',
-      jp: 'ハリプンチャイ水掛け祭り'
+      jp: 'ハリプンチャイ水掛け祭り',
     },
     date: '2025-05-10',
-    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&q=80'
-  }
+    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&q=80',
+  },
 ];
 
 const Admin: React.FC = () => {
@@ -80,53 +79,49 @@ const Admin: React.FC = () => {
   const [attractionsData, setAttractionsData] = useState(attractions);
   const [eventsData, setEventsData] = useState(events);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Form states
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  
+
   // Filtered data
-  const filteredAttractions = attractionsData.filter(attraction => 
-    attraction.name[language as keyof typeof attraction.name]
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+  const filteredAttractions = attractionsData.filter((attraction) =>
+    attraction.name[language as keyof typeof attraction.name].toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
-  const filteredEvents = eventsData.filter(event => 
-    event.name[language as keyof typeof event.name]
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+
+  const filteredEvents = eventsData.filter((event) =>
+    event.name[language as keyof typeof event.name].toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   // Mock handlers
   const handleDelete = (id: number, type: 'attraction' | 'event') => {
     if (type === 'attraction') {
-      setAttractionsData(prev => prev.filter(item => item.id !== id));
+      setAttractionsData((prev) => prev.filter((item) => item.id !== id));
     } else {
-      setEventsData(prev => prev.filter(item => item.id !== id));
+      setEventsData((prev) => prev.filter((item) => item.id !== id));
     }
   };
-  
+
   return (
     <>
       <Navbar />
-      
+
       <div className="container mt-32 mb-16">
         <h1 className="text-3xl font-bold mb-8">Content Management System</h1>
-        
+
         <Tabs defaultValue="attractions">
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="attractions">Attractions</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
           </TabsList>
-          
+
           {/* Attractions Tab */}
           <TabsContent value="attractions">
             <div className="mb-6">
               <div className="flex justify-between items-center">
                 <div className="relative w-64">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <Input 
-                    placeholder="Search attractions..." 
+                  <Input
+                    placeholder="Search attractions..."
                     className="pl-10"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -138,7 +133,7 @@ const Admin: React.FC = () => {
                 </Button>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -155,16 +150,14 @@ const Admin: React.FC = () => {
                       <tr key={attraction.id} className="border-b">
                         <td className="px-4 py-3">
                           <div className="w-16 h-12 rounded-md overflow-hidden bg-gray-100">
-                            <img 
-                              src={attraction.image} 
+                            <img
+                              src={attraction.image}
                               alt={attraction.name[language as keyof typeof attraction.name]}
-                              className="w-full h-full object-cover" 
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         </td>
-                        <td className="px-4 py-3">
-                          {attraction.name[language as keyof typeof attraction.name]}
-                        </td>
+                        <td className="px-4 py-3">{attraction.name[language as keyof typeof attraction.name]}</td>
                         <td className="px-4 py-3">
                           <span className="capitalize">{attraction.category}</span>
                         </td>
@@ -172,10 +165,10 @@ const Admin: React.FC = () => {
                           <Button variant="ghost" size="icon" className="h-8 w-8">
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button 
-                            variant="ghost" 
+                          <Button
+                            variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-destructive" 
+                            className="h-8 w-8 text-destructive"
                             onClick={() => handleDelete(attraction.id, 'attraction')}
                           >
                             <Trash className="h-4 w-4" />
@@ -186,18 +179,16 @@ const Admin: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              
+
               {filteredAttractions.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  No attractions found
-                </div>
+                <div className="text-center py-8 text-gray-500">No attractions found</div>
               )}
             </div>
-            
+
             {/* Add/Edit Attraction Form */}
             <div className="mt-12">
               <h2 className="text-xl font-bold mb-6">Add New Attraction</h2>
-              
+
               <Card>
                 <CardContent className="pt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -220,7 +211,7 @@ const Admin: React.FC = () => {
                         <label className="block text-sm font-medium mb-1">Name (Japanese)</label>
                         <Input placeholder="Enter name in Japanese" />
                       </div>
-                      
+
                       {/* Category */}
                       <div>
                         <label className="block text-sm font-medium mb-1">Category</label>
@@ -232,14 +223,14 @@ const Admin: React.FC = () => {
                           <option value="shopping">Shopping</option>
                         </select>
                       </div>
-                      
+
                       {/* Location */}
                       <div>
                         <label className="block text-sm font-medium mb-1">Location</label>
                         <Input placeholder="Enter location" />
                       </div>
                     </div>
-                    
+
                     {/* Right Column */}
                     <div className="space-y-4">
                       {/* Description fields for each language */}
@@ -247,20 +238,18 @@ const Admin: React.FC = () => {
                         <label className="block text-sm font-medium mb-1">Description (Thai)</label>
                         <Textarea placeholder="Enter description in Thai" className="min-h-32" />
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium mb-1">Description (English)</label>
                         <Textarea placeholder="Enter description in English" className="min-h-32" />
                       </div>
-                      
+
                       {/* Image Upload */}
                       <div>
                         <label className="block text-sm font-medium mb-1">Images</label>
                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                           <Image className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-500">
-                            Drag and drop images here, or click to select files
-                          </p>
+                          <p className="text-sm text-gray-500">Drag and drop images here, or click to select files</p>
                           <Button variant="secondary" size="sm" className="mt-2">
                             Upload Images
                           </Button>
@@ -268,7 +257,7 @@ const Admin: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end mt-6 space-x-3">
                     <Button variant="outline">Cancel</Button>
                     <Button>Save Attraction</Button>
@@ -277,15 +266,15 @@ const Admin: React.FC = () => {
               </Card>
             </div>
           </TabsContent>
-          
+
           {/* Events Tab */}
           <TabsContent value="events">
             <div className="mb-6">
               <div className="flex justify-between items-center">
                 <div className="relative w-64">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <Input 
-                    placeholder="Search events..." 
+                  <Input
+                    placeholder="Search events..."
                     className="pl-10"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -297,7 +286,7 @@ const Admin: React.FC = () => {
                 </Button>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -314,27 +303,23 @@ const Admin: React.FC = () => {
                       <tr key={event.id} className="border-b">
                         <td className="px-4 py-3">
                           <div className="w-16 h-12 rounded-md overflow-hidden bg-gray-100">
-                            <img 
-                              src={event.image} 
+                            <img
+                              src={event.image}
                               alt={event.name[language as keyof typeof event.name]}
-                              className="w-full h-full object-cover" 
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         </td>
-                        <td className="px-4 py-3">
-                          {event.name[language as keyof typeof event.name]}
-                        </td>
-                        <td className="px-4 py-3">
-                          {format(new Date(event.date), 'MMM d, yyyy')}
-                        </td>
+                        <td className="px-4 py-3">{event.name[language as keyof typeof event.name]}</td>
+                        <td className="px-4 py-3">{format(new Date(event.date), 'MMM d, yyyy')}</td>
                         <td className="px-4 py-3 text-right">
                           <Button variant="ghost" size="icon" className="h-8 w-8">
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button 
-                            variant="ghost" 
+                          <Button
+                            variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-destructive" 
+                            className="h-8 w-8 text-destructive"
                             onClick={() => handleDelete(event.id, 'event')}
                           >
                             <Trash className="h-4 w-4" />
@@ -345,18 +330,14 @@ const Admin: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              
-              {filteredEvents.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  No events found
-                </div>
-              )}
+
+              {filteredEvents.length === 0 && <div className="text-center py-8 text-gray-500">No events found</div>}
             </div>
-            
+
             {/* Add/Edit Event Form */}
             <div className="mt-12">
               <h2 className="text-xl font-bold mb-6">Add New Event</h2>
-              
+
               <Card>
                 <CardContent className="pt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -379,16 +360,13 @@ const Admin: React.FC = () => {
                         <label className="block text-sm font-medium mb-1">Name (Japanese)</label>
                         <Input placeholder="Enter name in Japanese" />
                       </div>
-                      
+
                       {/* Date Picker */}
                       <div>
                         <label className="block text-sm font-medium mb-1">Event Date</label>
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal"
-                            >
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {selectedDate ? format(selectedDate, 'PPP') : <span>Pick a date</span>}
                             </Button>
@@ -404,14 +382,14 @@ const Admin: React.FC = () => {
                           </PopoverContent>
                         </Popover>
                       </div>
-                      
+
                       {/* Location */}
                       <div>
                         <label className="block text-sm font-medium mb-1">Location</label>
                         <Input placeholder="Enter event location" />
                       </div>
                     </div>
-                    
+
                     {/* Right Column */}
                     <div className="space-y-4">
                       {/* Description fields for each language */}
@@ -419,20 +397,18 @@ const Admin: React.FC = () => {
                         <label className="block text-sm font-medium mb-1">Description (Thai)</label>
                         <Textarea placeholder="Enter description in Thai" className="min-h-32" />
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium mb-1">Description (English)</label>
                         <Textarea placeholder="Enter description in English" className="min-h-32" />
                       </div>
-                      
+
                       {/* Image Upload */}
                       <div>
                         <label className="block text-sm font-medium mb-1">Event Image</label>
                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                           <Image className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-500">
-                            Drag and drop image here, or click to select file
-                          </p>
+                          <p className="text-sm text-gray-500">Drag and drop image here, or click to select file</p>
                           <Button variant="secondary" size="sm" className="mt-2">
                             Upload Image
                           </Button>
@@ -440,7 +416,7 @@ const Admin: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end mt-6 space-x-3">
                     <Button variant="outline">Cancel</Button>
                     <Button>Save Event</Button>
@@ -451,7 +427,7 @@ const Admin: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
-      
+
       <Footer />
     </>
   );

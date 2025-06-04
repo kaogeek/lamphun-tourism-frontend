@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
@@ -17,9 +16,9 @@ const Index: React.FC = () => {
     <>
       <Navbar />
       <Hero />
-      
+
       <AttractionsSection />
-      
+
       {/* Events Timeline Section */}
       <section className="py-16">
         <div className="container">
@@ -31,11 +30,11 @@ const Index: React.FC = () => {
               </Button>
             </Link>
           </div>
-          
+
           <EventsTimeline />
         </div>
       </section>
-      
+
       {/* Map Preview Section */}
       <section className="py-16 bg-gray-50">
         <div className="container">
@@ -43,7 +42,8 @@ const Index: React.FC = () => {
             <div className="lg:w-1/2 mb-8 lg:mb-0 lg:pr-10">
               <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('map.title')}</h2>
               <p className="text-gray-600 mb-6">
-                Discover all the amazing places to visit in Lamphun with our interactive map. Find temples, museums, parks, local markets, and more.
+                Discover all the amazing places to visit in Lamphun with our interactive map. Find temples, museums,
+                parks, local markets, and more.
               </p>
               <Link to="/map">
                 <Button className="bg-primary hover:bg-primary/90">
@@ -56,11 +56,7 @@ const Index: React.FC = () => {
               <Link to="/map">
                 <div className="relative h-full w-full">
                   {/* Placeholder for map - will be replaced with interactive map */}
-                  <img 
-                    src="/lovable-uploads/map.png" 
-                    alt="Lamphun Map" 
-                    className="w-full h-full object-cover"
-                  />
+                  <img src="/lovable-uploads/map.png" alt="Lamphun Map" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
                     <span className="text-2xl font-bold text-white">Interactive Map</span>
                   </div>
@@ -70,7 +66,7 @@ const Index: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       <Footer />
     </>
   );

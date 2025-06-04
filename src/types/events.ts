@@ -1,4 +1,3 @@
-
 // Define event and category types
 export interface Event {
   id: string;

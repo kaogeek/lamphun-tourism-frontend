@@ -17,26 +17,26 @@ const attractions = [
       th: 'วัดพระธาตุหริภุญชัย',
       en: 'Wat Phra That Hariphunchai',
       cn: '哈里奔猜佛寺',
-      jp: 'ワット・プラタート・ハリプンチャイ'
+      jp: 'ワット・プラタート・ハリプンチャイ',
     },
     description: {
       th: 'วัดสำคัญของจังหวัดลำพูน',
       en: 'Important temple of Lamphun',
       cn: '南奔重要的寺庙',
-      jp: 'ランプーンの重要な寺院'
+      jp: 'ランプーンの重要な寺院',
     },
     image: '/lovable-uploads/cultural.jpg',
     location: {
       th: 'ตำบลในเมือง อำเภอเมือง จังหวัดลำพูน',
       en: 'Nai Mueang, Mueang Lamphun District, Lamphun',
       cn: '南奔府南奔县内城镇',
-      jp: 'ランプーン県ムアン区ナイムアン'
+      jp: 'ランプーン県ムアン区ナイムアン',
     },
     coordinates: {
       lat: 18.5747,
-      lng: 99.0087
+      lng: 99.0087,
     },
-    category: 'temple'
+    category: 'temple',
   },
   {
     id: 2,
@@ -44,26 +44,26 @@ const attractions = [
       th: 'อุทยานแห่งชาติดอยขุนตาล',
       en: 'Doi Khun Tan National Park',
       cn: '堆昆丹国家公园',
-      jp: 'ドイ・クンタン国立公園'
+      jp: 'ドイ・クンタン国立公園',
     },
     description: {
       th: 'อุทยานแห่งชาติที่มีธรรมชาติสวยงาม',
       en: 'National park with beautiful nature',
       cn: '风景优美的国家公园',
-      jp: '美しい自然の国立公園'
+      jp: '美しい自然の国立公園',
     },
     image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80',
     location: {
       th: 'อำเภอป่าซาง จังหวัดลำพูน',
       en: 'Pa Sang District, Lamphun',
       cn: '南奔府帕桑县',
-      jp: 'ランプーン県パーサーン区'
+      jp: 'ランプーン県パーサーン区',
     },
     coordinates: {
       lat: 18.3627,
-      lng: 99.2362
+      lng: 99.2362,
     },
-    category: 'nature'
+    category: 'nature',
   },
   {
     id: 3,
@@ -71,26 +71,26 @@ const attractions = [
       th: 'พิพิธภัณฑ์เมืองลำพูน',
       en: 'Lamphun Museum',
       cn: '南奔博物馆',
-      jp: 'ランプーン博物館'
+      jp: 'ランプーン博物館',
     },
     description: {
       th: 'พิพิธภัณฑ์ที่แสดงประวัติศาสตร์เมืองลำพูน',
       en: 'Museum showcasing history of Lamphun city',
       cn: '展示南奔市历史的博物馆',
-      jp: 'ランプーン市の歴史を紹介する博物館'
+      jp: 'ランプーン市の歴史を紹介する博物館',
     },
     image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80',
     location: {
       th: 'ตำบลในเมือง อำเภอเมือง จังหวัดลำพูน',
       en: 'Nai Mueang, Mueang Lamphun District, Lamphun',
       cn: '南奔府南奔县内城镇',
-      jp: 'ランプーン県ムアン区ナイムアン'
+      jp: 'ランプーン県ムアン区ナイムアン',
     },
     coordinates: {
       lat: 18.5696,
-      lng: 99.0114
+      lng: 99.0114,
     },
-    category: 'museum'
+    category: 'museum',
   },
   {
     id: 4,
@@ -98,26 +98,26 @@ const attractions = [
       th: 'หมู่บ้านหัตถกรรมทอผ้า',
       en: 'Weaving Village',
       cn: '编织村',
-      jp: '織物村'
+      jp: '織物村',
     },
     description: {
       th: 'หมู่บ้านที่มีชื่อเสียงด้านการทอผ้า',
       en: 'Village famous for textile weaving',
       cn: '以纺织品闻名的村庄',
-      jp: '織物で有名な村'
+      jp: '織物で有名な村',
     },
     image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&q=80',
     location: {
       th: 'อำเภอป่าซาง จังหวัดลำพูน',
       en: 'Pa Sang District, Lamphun',
       cn: '南奔府帕桑县',
-      jp: 'ランプーン県パーサーン区'
+      jp: 'ランプーン県パーサーン区',
     },
     coordinates: {
       lat: 18.4302,
-      lng: 98.9238
+      lng: 98.9238,
     },
-    category: 'craft'
+    category: 'craft',
   },
   {
     id: 5,
@@ -125,27 +125,27 @@ const attractions = [
       th: 'กาดกองต้า',
       en: 'Kad Kong Ta Market',
       cn: '康塔市场',
-      jp: 'カート・コンター市場'
+      jp: 'カート・コンター市場',
     },
     description: {
       th: 'ตลาดท้องถิ่นที่มีสินค้าและอาหารพื้นเมือง',
       en: 'Local market with native products and food',
       cn: '有当地产品和食品的本地市场',
-      jp: '地元の製品や食べ物がある地元の市場'
+      jp: '地元の製品や食べ物がある地元の市場',
     },
     image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80',
     location: {
       th: 'อำเภอเมือง จังหวัดลำพูน',
       en: 'Mueang District, Lamphun',
       cn: '南奔府南奔县',
-      jp: 'ランプーン県ムアン区'
+      jp: 'ランプーン県ムアン区',
     },
     coordinates: {
       lat: 18.5783,
-      lng: 99.0103
+      lng: 99.0103,
     },
-    category: 'shopping'
-  }
+    category: 'shopping',
+  },
 ];
 
 type Category = 'all' | 'temple' | 'nature' | 'museum' | 'craft' | 'shopping';
@@ -156,7 +156,7 @@ const categories = [
   { id: 'nature', name: { th: 'ธรรมชาติ', en: 'Nature', cn: '自然', jp: '自然' } },
   { id: 'museum', name: { th: 'พิพิธภัณฑ์', en: 'Museums', cn: '博物馆', jp: '博物館' } },
   { id: 'craft', name: { th: 'หัตถกรรม', en: 'Crafts', cn: '工艺', jp: '工芸' } },
-  { id: 'shopping', name: { th: 'ช้อปปิ้ง', en: 'Shopping', cn: '购物', jp: 'ショッピング' } }
+  { id: 'shopping', name: { th: 'ช้อปปิ้ง', en: 'Shopping', cn: '购物', jp: 'ショッピング' } },
 ];
 
 const Map: React.FC = () => {
@@ -176,7 +176,7 @@ const Map: React.FC = () => {
       container: mapContainer.current,
       style: 'https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/arcgis_hybrid.json', // ใช้ฟรี Tile จาก CARTO
       center: [99.0077, 18.5817], // ตำแหน่งกลางจังหวัดลำพูน
-      zoom: 13
+      zoom: 13,
     });
 
     // เพิ่ม navigation controls
@@ -205,7 +205,7 @@ const Map: React.FC = () => {
   const addMarkers = () => {
     if (!map.current) return;
 
-    attractions.forEach(attraction => {
+    attractions.forEach((attraction) => {
       const el = document.createElement('div');
       el.className = 'marker';
       el.style.width = '30px';
@@ -217,8 +217,7 @@ const Map: React.FC = () => {
       const marker = new maplibregl.Marker(el)
         .setLngLat(attraction.coordinates)
         .setPopup(
-          new maplibregl.Popup({ offset: 25 })
-            .setHTML(`
+          new maplibregl.Popup({ offset: 25 }).setHTML(`
               <h3 class="font-bold">${attraction.name[language]}</h3>
               <p>${attraction.description[language]}</p>
             `)
@@ -230,7 +229,7 @@ const Map: React.FC = () => {
   };
 
   const clearMarkers = () => {
-    markers.current.forEach(marker => marker.remove());
+    markers.current.forEach((marker) => marker.remove());
     markers.current = [];
   };
 
@@ -238,16 +237,16 @@ const Map: React.FC = () => {
     const matchesSearch = attraction.name[language as keyof typeof attraction.name]
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'all' || attraction.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
   return (
     <>
       <Navbar />
-      
+
       {/* Hero Section */}
       <div className="relative pt-20 pb-2 bg-primary/5">
         {/* <div className="container mt-12 text-center">
@@ -257,7 +256,7 @@ const Map: React.FC = () => {
           </p>
         </div> */}
       </div>
-      
+
       <section className="py-8">
         <div className="container">
           <div className="flex flex-col lg:flex-row gap-6">
@@ -268,25 +267,25 @@ const Map: React.FC = () => {
                   {/* Search */}
                   <div className="relative mb-6">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <Input 
-                      placeholder="Search locations..." 
+                    <Input
+                      placeholder="Search locations..."
                       className="pl-10"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                   </div>
-                  
+
                   {/* Categories */}
                   <div className="mb-6">
                     <h3 className="text-lg font-medium mb-3">Categories</h3>
-                    <Tabs 
-                      value={selectedCategory} 
+                    <Tabs
+                      value={selectedCategory}
                       onValueChange={(value) => setSelectedCategory(value as Category)}
                       className="w-full"
                     >
                       <TabsList className="flex flex-wrap h-auto bg-muted/50 p-1 mb-4">
                         {categories.map((category) => (
-                          <TabsTrigger 
+                          <TabsTrigger
                             key={category.id}
                             value={category.id}
                             className="flex-1 min-w-[80px] h-8 data-[state=active]:bg-white"
@@ -297,14 +296,14 @@ const Map: React.FC = () => {
                       </TabsList>
                     </Tabs>
                   </div>
-                  
+
                   {/* Location List */}
                   <div>
                     <h3 className="text-lg font-medium mb-3">Locations ({filteredAttractions.length})</h3>
                     <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                       {filteredAttractions.map((attraction) => (
-                        <Card 
-                          key={attraction.id} 
+                        <Card
+                          key={attraction.id}
                           className={`cursor-pointer hover:bg-primary/5 transition-colors ${
                             selectedLocation === attraction.id ? 'border-primary bg-primary/10' : ''
                           }`}
@@ -313,10 +312,10 @@ const Map: React.FC = () => {
                           <CardContent className="p-3">
                             <div className="flex items-center space-x-3">
                               <div className="w-12 h-12 shrink-0 overflow-hidden rounded-md">
-                                <img 
-                                  src={attraction.image} 
+                                <img
+                                  src={attraction.image}
                                   alt={attraction.name[language as keyof typeof attraction.name]}
-                                  className="w-full h-full object-cover" 
+                                  className="w-full h-full object-cover"
                                 />
                               </div>
                               <div>
@@ -332,25 +331,20 @@ const Map: React.FC = () => {
                           </CardContent>
                         </Card>
                       ))}
-                      
+
                       {filteredAttractions.length === 0 && (
-                        <div className="text-center py-8 text-gray-500">
-                          No locations found
-                        </div>
+                        <div className="text-center py-8 text-gray-500">No locations found</div>
                       )}
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Map */}
             <div className="lg:w-2/3 order-1 lg:order-2">
-              <div 
-                ref={mapContainer} 
-                className="w-full h-[600px] rounded-lg shadow-lg"
-              />
-              
+              <div ref={mapContainer} className="w-full h-[600px] rounded-lg shadow-lg" />
+
               <div className="mt-4 text-sm text-gray-500">
                 Note: This is a mockup. The actual implementation will use MapLibre for an interactive map experience.
               </div>
@@ -358,7 +352,7 @@ const Map: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       <Footer />
     </>
   );

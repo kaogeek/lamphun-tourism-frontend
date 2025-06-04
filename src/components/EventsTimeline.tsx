@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import VerticalTimeline from './events/VerticalTimeline';
 import YearlyTimeline from './events/YearlyTimeline';
@@ -13,7 +12,7 @@ const EventsTimeline: React.FC = () => {
   const [viewMode, setViewMode] = useState<'vertical' | 'yearly'>('vertical');
   const isMobile = useIsMobile();
   const { t } = useLanguage();
-  
+
   return (
     <div className="">
       {/* View toggle buttons */}
@@ -28,26 +27,20 @@ const EventsTimeline: React.FC = () => {
             <CalendarRange className="h-4 w-4" />
             <span className={isMobile ? "sr-only" : "inline"}>ปฏิทินรายปี</span>
           </Button> */}
-          <Button 
-            variant={viewMode === 'vertical' ? "default" : "ghost"} 
+          <Button
+            variant={viewMode === 'vertical' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('vertical')}
             className="flex items-center gap-1"
           >
             <ListOrdered className="h-4 w-4" />
-            <span className={isMobile ? "sr-only" : "inline"}>รายการกิจกรรม</span>
+            <span className={isMobile ? 'sr-only' : 'inline'}>รายการกิจกรรม</span>
           </Button>
         </div>
       </div>
-      
+
       {/* Timeline content */}
-      <div>
-        {viewMode === 'vertical' ? (
-          <VerticalTimeline />
-        ) : (
-          <YearlyTimeline categories={eventCategories} />
-        )}
-      </div>
+      <div>{viewMode === 'vertical' ? <VerticalTimeline /> : <YearlyTimeline categories={eventCategories} />}</div>
     </div>
   );
 };

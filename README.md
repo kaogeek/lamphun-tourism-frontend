@@ -3,11 +3,13 @@
 ## Project info
 
 ### Prerequisites
+
 - [Bun](https://bun.sh) (Latest version)
 - Node.js 18.0.0 or higher
 - Git
 
 ### Development Setup
+
 Follow these steps to set up the project for development:
 
 ```sh
@@ -37,8 +39,10 @@ bun run preview
 
 # Run linting
 bun run lint
-```
 
+# Run format
+bun run format
+```
 
 ## What technologies are used for this project?
 

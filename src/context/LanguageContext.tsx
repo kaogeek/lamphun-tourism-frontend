@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 type Language = 'th' | 'en' | 'cn' | 'jp';
@@ -89,17 +88,13 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         'map.explore': 'すべて探索',
         'footer.rights': '無断転載禁止',
         'footer.tourism': 'ランプーン観光',
-      }
+      },
     };
 
     return translations[language][key] || key;
   };
 
-  return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={{ language, setLanguage, t }}>{children}</LanguageContext.Provider>;
 };
 
 export const useLanguage = (): LanguageContextType => {

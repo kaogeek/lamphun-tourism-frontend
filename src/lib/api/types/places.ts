@@ -1,4 +1,4 @@
-import { MetaResponseBody } from "./meta";
+import { MetaResponseBody } from './meta';
 
 export type Place = {
   id: string;

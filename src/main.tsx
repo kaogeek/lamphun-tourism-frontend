@@ -1,11 +1,11 @@
-import { createRoot } from 'react-dom/client'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import App from './App.tsx'
-import './index.css'
+import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import App from './App.tsx';
+import './index.css';
 
 // Enable devtools only in development mode
-const isDevelopment = import.meta.env.DEV
+const isDevelopment = import.meta.env.DEV;
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,9 +15,9 @@ const queryClient = new QueryClient({
       retry: isDevelopment ? 1 : 3, // fewer retries in development
     },
   },
-})
+});
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <App />
     {isDevelopment && <ReactQueryDevtools initialIsOpen={false} />}

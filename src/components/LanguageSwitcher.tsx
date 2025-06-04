@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,15 +24,15 @@ const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) =>
   ];
 
   // Find the current language data
-  const currentLang = languages.find(lang => lang.code === language) || languages[0];
-  
+  const currentLang = languages.find((lang) => lang.code === language) || languages[0];
+
   // Determine text color based on scroll position and page
-  const textColor = (isHomePage && !isScrolled) ? "text-white" : "text-gray-700";
+  const textColor = isHomePage && !isScrolled ? 'text-white' : 'text-gray-700';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className={cn("flex items-center gap-1", textColor)}>
+        <Button variant="ghost" size="sm" className={cn('flex items-center gap-1', textColor)}>
           <span className="mr-1">{currentLang.flag}</span>
           <span className="hidden md:inline">{currentLang.name}</span>
           <Globe className="h-4 w-4 md:ml-1" />
@@ -41,10 +40,10 @@ const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) =>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {languages.map((lang) => (
-          <DropdownMenuItem 
-            key={lang.code} 
+          <DropdownMenuItem
+            key={lang.code}
             onClick={() => setLanguage(lang.code as 'th' | 'en' | 'cn' | 'jp')}
-            className={`flex items-center ${language === lang.code ? "bg-primary/10 font-medium" : ""}`}
+            className={`flex items-center ${language === lang.code ? 'bg-primary/10 font-medium' : ''}`}
           >
             <span className="mr-2">{lang.flag}</span>
             {lang.name}

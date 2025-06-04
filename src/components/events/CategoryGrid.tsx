@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { EventCategory } from '@/types/events';
@@ -9,26 +8,22 @@ interface CategoryGridProps {
   setSelectedCategory: (categoryId: string | null) => void;
 }
 
-const CategoryGrid: React.FC<CategoryGridProps> = ({ 
-  categories, 
-  selectedCategory, 
-  setSelectedCategory 
-}) => {
+const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategory, setSelectedCategory }) => {
   const { language } = useLanguage();
-  
+
   return (
     <div className="py-12 bg-white">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {categories.map((category) => (
-            <div 
+            <div
               key={category.id}
               className="relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer hover:shadow-xl transition-all duration-300"
               onClick={() => setSelectedCategory(category.id === selectedCategory ? null : category.id)}
             >
               <div className={`absolute inset-0 ${category.color} bg-opacity-80`}></div>
-              <img 
-                src={category.image} 
+              <img
+                src={category.image}
                 alt={category.name[language as keyof typeof category.name]}
                 className="w-full h-full object-cover mix-blend-overlay"
               />
@@ -39,7 +34,13 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
               </div>
               {category.id === selectedCategory && (
                 <div className="absolute top-4 right-4 bg-white text-primary p-1 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>

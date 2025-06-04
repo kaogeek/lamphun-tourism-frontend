@@ -34,26 +34,26 @@ const Navbar: React.FC = () => {
         bg: 'bg-transparent',
         textColor: 'text-white',
         hoverColor: 'hover:text-gray-200',
-        shadow: ''
+        shadow: '',
       };
     }
-    
+
     // On homepage but scrolled down
     if (isHomePage && isScrolled) {
       return {
         bg: 'bg-white',
         textColor: 'text-gray-700',
         hoverColor: 'hover:text-primary',
-        shadow: 'shadow-md'
+        shadow: 'shadow-md',
       };
     }
-    
+
     // On other pages (always solid background)
     return {
       bg: 'bg-white',
       textColor: 'text-gray-700',
       hoverColor: 'hover:text-primary',
-      shadow: 'shadow-md'
+      shadow: 'shadow-md',
     };
   };
 
@@ -70,103 +70,113 @@ const Navbar: React.FC = () => {
     >
       <div className="container flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img 
-            src="/lovable-uploads/logo-ci-blue.png" 
-            alt="Lamphun Logo" 
-            className="h-10 w-10 mr-2"
-          />
-          <span className={cn(
-            'font-bold text-lg transition-colors',
-            isScrolled || !isHomePage ? 'text-primary' : 'text-white'
-          )}>
-            {language === 'th' ? 'ท่องเที่ยวลำพูน'
-              : language === 'en' ? 'Lamphun Tourism'
-              : language === 'cn' ? '南奔旅游网'
-              : 'ランプーン観光サイト'}
+          <img src="/lovable-uploads/logo-ci-blue.png" alt="Lamphun Logo" className="h-10 w-10 mr-2" />
+          <span
+            className={cn(
+              'font-bold text-lg transition-colors',
+              isScrolled || !isHomePage ? 'text-primary' : 'text-white'
+            )}
+          >
+            {language === 'th'
+              ? 'ท่องเที่ยวลำพูน'
+              : language === 'en'
+                ? 'Lamphun Tourism'
+                : language === 'cn'
+                  ? '南奔旅游网'
+                  : 'ランプーン観光サイト'}
           </span>
         </Link>
-        
+
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className={cn(
-            'font-medium transition-colors',
-            navStyle.textColor,
-            navStyle.hoverColor,
-            location.pathname === '/' ? 'border-b-2 border-primary' : ''
-          )}>
+          <Link
+            to="/"
+            className={cn(
+              'font-medium transition-colors',
+              navStyle.textColor,
+              navStyle.hoverColor,
+              location.pathname === '/' ? 'border-b-2 border-primary' : ''
+            )}
+          >
             {t('nav.home')}
           </Link>
-          <Link to="/attractions" className={cn(
-            'font-medium transition-colors',
-            navStyle.textColor,
-            navStyle.hoverColor,
-            location.pathname === '/attractions' ? 'border-b-2 border-primary' : ''
-          )}>
+          <Link
+            to="/attractions"
+            className={cn(
+              'font-medium transition-colors',
+              navStyle.textColor,
+              navStyle.hoverColor,
+              location.pathname === '/attractions' ? 'border-b-2 border-primary' : ''
+            )}
+          >
             {t('nav.attractions')}
           </Link>
-          <Link to="/events" className={cn(
-            'font-medium transition-colors',
-            navStyle.textColor,
-            navStyle.hoverColor,
-            location.pathname === '/events' ? 'border-b-2 border-primary' : ''
-          )}>
+          <Link
+            to="/events"
+            className={cn(
+              'font-medium transition-colors',
+              navStyle.textColor,
+              navStyle.hoverColor,
+              location.pathname === '/events' ? 'border-b-2 border-primary' : ''
+            )}
+          >
             {t('nav.events')}
           </Link>
-          <Link to="/map" className={cn(
-            'font-medium transition-colors',
-            navStyle.textColor,
-            navStyle.hoverColor,
-            location.pathname === '/map' ? 'border-b-2 border-primary' : ''
-          )}>
+          <Link
+            to="/map"
+            className={cn(
+              'font-medium transition-colors',
+              navStyle.textColor,
+              navStyle.hoverColor,
+              location.pathname === '/map' ? 'border-b-2 border-primary' : ''
+            )}
+          >
             {t('nav.map')}
           </Link>
           <LanguageSwitcher isScrolled={isScrolled} />
         </nav>
-        
+
         {/* Mobile Navigation Toggle */}
         <div className="flex md:hidden items-center">
           <LanguageSwitcher isScrolled={isScrolled} />
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={cn(
-              'ml-2',
-              isScrolled || !isHomePage ? 'text-gray-700' : 'text-white'
-            )}
+            className={cn('ml-2', isScrolled || !isHomePage ? 'text-gray-700' : 'text-white')}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white shadow-lg">
           <div className="container py-4 flex flex-col space-y-4">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="font-medium text-gray-700 hover:text-primary py-2 border-l-4 border-transparent hover:border-primary pl-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.home')}
             </Link>
-            <Link 
-              to="/attractions" 
+            <Link
+              to="/attractions"
               className="font-medium text-gray-700 hover:text-primary py-2 border-l-4 border-transparent hover:border-primary pl-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.attractions')}
             </Link>
-            <Link 
-              to="/events" 
+            <Link
+              to="/events"
               className="font-medium text-gray-700 hover:text-primary py-2 border-l-4 border-transparent hover:border-primary pl-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.events')}
             </Link>
-            <Link 
-              to="/map" 
+            <Link
+              to="/map"
               className="font-medium text-gray-700 hover:text-primary py-2 border-l-4 border-transparent hover:border-primary pl-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
