@@ -1,8 +1,11 @@
 ## Description
+
 <!-- Provide a clear and concise description of the changes you've made -->
+
 - Closing issue (link of github opened issue)
 
 ## Type of Change
+
 <!-- Put an `x` in all the boxes that apply -->
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
@@ -16,13 +19,17 @@
 - [ ] Test update
 
 ## Screenshots
+
 <!-- If applicable, add screenshots to help explain your changes -->
 
 ## Related Issues
+
 <!-- Link to any related issues here using #issue-number -->
+
 Closes #
 
 ## Checklist
+
 <!-- Put an `x` in all the boxes that apply -->
 
 - [ ] I have performed a self-review of my code
@@ -31,4 +38,4 @@ Closes #
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published 
+- [ ] Any dependent changes have been merged and published
