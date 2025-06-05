@@ -1,0 +1,25 @@
+{
+  "common": {
+    "welcome": "Welcome to Lamphun Tourism",
+    "language": "Language",
+    "menu": {
+      "home": "Home",
+      "attractions": "Attractions",
+      "events": "Events",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "readMore": "Read More",
+      "viewAll": "View All",
+      "book": "Book Now",
+      "close": "Close"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Discover Lamphun",
+      "subtitle": "Experience the ancient beauty and rich culture"
+    }
+  }
+}
