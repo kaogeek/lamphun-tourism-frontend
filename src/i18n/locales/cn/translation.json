@@ -3,7 +3,8 @@
     "home": "首页",
     "attractions": "景点",
     "events": "活动日历",
-    "map": "地图"
+    "map": "地图",
+    "title": "南奔旅游网"
   },
   "hero": {
     "title": "南奔",
@@ -24,7 +25,16 @@
   },
   "footer": {
     "rights": "版权所有",
-    "tourism": "南奔旅游"
+    "tourism": "南奔旅游",
+    "description": "探索古城南奔，泰国北部的一颗隐藏的明珠，拥有丰富的文化和传统遗产",
+    "quickLinks": "快速链接",
+    "contact": "联系我们",
+    "address": "旅游办公室，南奔市政厅，泰国",
+    "phone": "+66 53 123 456",
+    "email": "admin@lamphunpao.go.th",
+    "followUs": "关注我们",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款"
   },
   "common": {
     "welcome": "欢迎来到南奔旅游",

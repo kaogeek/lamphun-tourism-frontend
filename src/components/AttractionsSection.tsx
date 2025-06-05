@@ -3,13 +3,13 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { getPopularPlaces } from '@/lib/api/services/places';
 import { Skeleton } from './ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 
 const AttractionsSection: React.FC = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const { data, isLoading } = useQuery({
     queryKey: ['popular-places'],

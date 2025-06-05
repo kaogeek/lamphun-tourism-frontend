@@ -5,13 +5,13 @@ import { eventCategories } from '@/data/eventData';
 import { Button } from '@/components/ui/button';
 import { CalendarRange, ListOrdered } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 const EventsTimeline: React.FC = () => {
   // Default to vertical timeline for better focus on upcoming events
   const [viewMode, setViewMode] = useState<'vertical' | 'yearly'>('vertical');
   const isMobile = useIsMobile();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <div className="">

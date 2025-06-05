@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Calendar, Globe, Map, Mail, Phone } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t, i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -15,24 +15,14 @@ const Footer: React.FC = () => {
           <div>
             <Link to="/" className="flex items-center mb-4">
               <img src="/lovable-uploads/logo-ci-blue.png" alt="Lamphun Tourism Logo" className="h-10 w-10 mr-2" />
-              <span className="text-white font-bold text-lg">
-                {language === 'th'
-                  ? 'เว็บไซต์ท่องเที่ยวลำพูน'
-                  : language === 'en'
-                    ? 'Lamphun Tourism'
-                    : language === 'cn'
-                      ? '南奔旅游网'
-                      : 'ランプーン観光サイト'}
-              </span>
+              <span className="text-white font-bold text-lg">{t('nav.title')}</span>
             </Link>
-            <p className="mb-6 text-sm text-gray-400">
-              Explore the ancient city of Lamphun, a hidden gem in Northern Thailand with rich culture and heritage.
-            </p>
+            <p className="mb-6 text-sm text-gray-400">{t('footer.description')}</p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
@@ -60,26 +50,26 @@ const Footer: React.FC = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="h-4 w-4 mr-2 mt-1 text-primary" />
-                <span className="text-gray-400">Tourism Office, Lamphun City Hall, Thailand</span>
+                <span className="text-gray-400">{t('footer.address')}</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-4 w-4 mr-2 text-primary" />
-                <span className="text-gray-400">+66 53 123 456</span>
+                <span className="text-gray-400">{t('footer.phone')}</span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-4 w-4 mr-2 text-primary" />
-                <span className="text-gray-400">admin@lamphunpao.go.th</span>
+                <span className="text-gray-400">{t('footer.email')}</span>
               </li>
             </ul>
           </div>
 
           {/* Social Media */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Follow Us</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('footer.followUs')}</h3>
             <div className="flex space-x-3">
               <a href="#" className="bg-gray-800 hover:bg-primary text-white p-2 rounded-full transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -111,10 +101,10 @@ const Footer: React.FC = () => {
           </p>
           <div className="flex mt-4 md:mt-0">
             <a href="#" className="text-sm text-gray-500 hover:text-gray-400 mr-4">
-              Privacy Policy
+              {t('footer.privacyPolicy')}
             </a>
             <a href="#" className="text-sm text-gray-500 hover:text-gray-400">
-              Terms of Service
+              {t('footer.termsOfService')}
             </a>
           </div>
         </div>
