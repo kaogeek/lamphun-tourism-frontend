@@ -19,7 +19,7 @@ const languages = [
 ];
 
 const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -30,7 +30,9 @@ const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) =>
   const textColor = isHomePage && !isScrolled ? 'text-white' : 'text-gray-700';
 
   const onLanguageOptionChange = (langCode: string) => {
-    i18n.changeLanguage(langCode);
+    i18n.changeLanguage(langCode).catch((error) => {
+      console.error('Error changing language:', error);
+    });
   };
 
   return (
