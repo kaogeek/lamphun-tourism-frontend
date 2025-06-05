@@ -1,4 +1,31 @@
 {
+  "nav": {
+    "home": "Home",
+    "attractions": "Attractions",
+    "events": "Events Calendar",
+    "map": "Map"
+  },
+  "hero": {
+    "title": "Lamphun Tourism",
+    "subtitle": "City of History and Culture",
+    "explore": "Explore Attractions"
+  },
+  "attractions": {
+    "title": "Popular Attractions",
+    "viewAll": "View All"
+  },
+  "events": {
+    "title": "Tourism Events",
+    "viewCalendar": "View Calendar"
+  },
+  "map": {
+    "title": "Tourism Map",
+    "explore": "Explore All"
+  },
+  "footer": {
+    "rights": "All Rights Reserved",
+    "tourism": "Lamphun Tourism"
+  },
   "common": {
     "welcome": "Welcome to Lamphun Tourism",
     "language": "Language",
@@ -14,12 +41,6 @@
       "viewAll": "View All",
       "book": "Book Now",
       "close": "Close"
-    }
-  },
-  "home": {
-    "hero": {
-      "title": "Discover Lamphun",
-      "subtitle": "Experience the ancient beauty and rich culture"
     }
   }
 }

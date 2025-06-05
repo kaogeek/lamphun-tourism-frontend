@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "attractions": "観光スポット",
+    "events": "イベントカレンダー",
+    "map": "地図"
+  },
+  "hero": {
+    "title": "ランプーン",
+    "subtitle": "歴史と文化の街",
+    "explore": "観光スポットを探す"
+  },
+  "attractions": {
+    "title": "人気の観光スポット",
+    "viewAll": "すべて見る"
+  },
+  "events": {
+    "title": "観光イベント",
+    "viewCalendar": "カレンダーを見る"
+  },
+  "map": {
+    "title": "観光マップ",
+    "explore": "すべて探索"
+  },
+  "footer": {
+    "rights": "無断転載禁止",
+    "tourism": "ランプーン観光"
+  },
+  "common": {
+    "welcome": "ランプーン観光へようこそ",
+    "language": "言語",
+    "menu": {
+      "home": "ホーム",
+      "attractions": "観光スポット",
+      "events": "イベント",
+      "about": "当サイトについて",
+      "contact": "お問い合わせ"
+    },
+    "buttons": {
+      "readMore": "詳しく見る",
+      "viewAll": "すべて見る",
+      "book": "予約する",
+      "close": "閉じる"
+    }
+  }
+}

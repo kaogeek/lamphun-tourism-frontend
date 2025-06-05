@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import enTranslation from './locales/en/translation.json';
 import thTranslation from './locales/th/translation.json';
+import cnTranslation from './locales/cn/translation.json';
+import jpTranslation from './locales/jp/translation.json';
 
 const resources = {
   en: {
@@ -11,12 +13,18 @@ const resources = {
   th: {
     translation: thTranslation,
   },
+  cn: {
+    translation: cnTranslation,
+  },
+  jp: {
+    translation: jpTranslation,
+  },
 };
 
 i18n.use(initReactI18next).init({
   resources,
   lng: 'th', // Default language
-  fallbackLng: 'en',
+  fallbackLng: 'th',
   interpolation: {
     escapeValue: false, // React already escapes by default
   },
