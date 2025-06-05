@@ -7,27 +7,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLanguage } from '@/context/LanguageContext';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
+
+const languages = [
+  { code: 'th', name: 'ไทย', flag: '🇹🇭' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'cn', name: '中文', flag: '🇨🇳' },
+  { code: 'jp', name: '日本語', flag: '🇯🇵' },
+];
 
 const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) => {
-  const { language, setLanguage } = useLanguage();
+  const { i18n, t } = useTranslation();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
-  const languages = [
-    { code: 'th', name: 'ไทย', flag: '🇹🇭' },
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'cn', name: '中文', flag: '🇨🇳' },
-    { code: 'jp', name: '日本語', flag: '🇯🇵' },
-  ];
-
   // Find the current language data
-  const currentLang = languages.find((lang) => lang.code === language) || languages[0];
+  const currentLang = languages.find((lang) => lang.code === i18n.language) || languages[0];
 
   // Determine text color based on scroll position and page
   const textColor = isHomePage && !isScrolled ? 'text-white' : 'text-gray-700';
+
+  const onLanguageOptionChange = (langCode: string) => {
+    i18n.changeLanguage(langCode);
+  };
 
   return (
     <DropdownMenu>
@@ -42,12 +46,12 @@ const LanguageSwitcher: React.FC<{ isScrolled?: boolean }> = ({ isScrolled }) =>
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code as 'th' | 'en' | 'cn' | 'jp')}
-            className={`flex items-center ${language === lang.code ? 'bg-primary/10 font-medium' : ''}`}
+            onClick={() => onLanguageOptionChange(lang.code)}
+            className={`flex items-center ${i18n.language === lang.code ? 'bg-primary/10 font-medium' : ''}`}
           >
             <span className="mr-2">{lang.flag}</span>
             {lang.name}
-            {language === lang.code && (
+            {i18n.language === lang.code && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
