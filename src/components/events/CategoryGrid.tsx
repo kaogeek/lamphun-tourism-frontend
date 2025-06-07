@@ -3,6 +3,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useGetEventCategories } from '@/hooks/api/useGetCategories';
 import { resolveUrl } from '@/lib/file-upload';
 import { EventCategory } from '@/lib/api/types/event-categories';
+import { useTranslation } from 'react-i18next';
+import { getTranslateWithFallback } from '@/lib/i18n';
 
 interface CategoryGridProps {
   categories: EventCategory[];
@@ -11,8 +13,10 @@ interface CategoryGridProps {
 }
 
 const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategory, setSelectedCategory }) => {
-  const { language } = useLanguage();
-  const { data, isLoading } = useGetEventCategories({
+  const {
+    i18n: { language },
+  } = useTranslation();
+  const { data, isLoading, error } = useGetEventCategories({
     populate: {
       coverImage: true,
       localizations: {
@@ -26,7 +30,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategor
     return (
       <div
         className="relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer hover:shadow-xl transition-all duration-300"
-        // onClick={() => setSelectedCategory(category.id === selectedCategory ? null : category.id)}
+        onClick={() => setSelectedCategory(category.documentId)}
       >
         <div
           className={`absolute inset-0 bg-opacity-80`}
@@ -80,16 +84,27 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategor
     if (isLoading) {
       const randomCount = Math.floor(Math.random() * 6) + 1; // Random number between 1 and 6
       return (
-        <React.Fragment>
+        <>
           {Array.from({ length: randomCount }, (_, index) => (
             <CategoryCardSkeleton key={index} />
           ))}
-        </React.Fragment>
+        </>
       );
     }
-    return data?.data.map((category) => (
-      <React.Fragment key={category.documentId}>{CategoryCard({ category })}</React.Fragment>
-    ));
+
+    if (error) {
+      // TODO resolve error style
+      return (
+        <>
+          <p>error</p>
+        </>
+      );
+    }
+    return data?.data
+      .map((category) => getTranslateWithFallback(category, language))
+      .map((category) => {
+        return <React.Fragment key={category.documentId}>{CategoryCard({ category })}</React.Fragment>;
+      });
   };
 
   return (
