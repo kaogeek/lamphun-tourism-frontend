@@ -1,17 +1,8 @@
 import { axiosInstance } from '../axios-instance';
 import { GetEventCategoriesResponse } from '../types/event-categories';
+import { FindParams } from '../types/find';
 
-// TODO move generic type
-export type GetEventCategoriesParams = {
-  page?: number;
-  limit?: number;
-  search?: string;
-  populate?: string[] | any;
-  fields?: string[];
-  filters?: Record<string, string>;
-};
-
-export const getEventCategories = async (params?: GetEventCategoriesParams): Promise<GetEventCategoriesResponse> => {
+export const getEventCategories = async (params?: FindParams): Promise<GetEventCategoriesResponse> => {
   const response = await axiosInstance.get<any>('/api/event-categories', {
     params,
   });
