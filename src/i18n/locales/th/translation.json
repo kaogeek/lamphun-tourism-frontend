@@ -17,6 +17,7 @@
   },
   "events": {
     "title": "กิจกรรมท่องเที่ยว",
+    "allEvents": "กิจกรรมทั้งหมด",
     "viewCalendar": "ดูปฏิทินกิจกรรม"
   },
   "map": {
@@ -49,6 +50,8 @@
     "buttons": {
       "readMore": "อ่านเพิ่มเติม",
       "viewAll": "ดูทั้งหมด",
+      "viewAllCategory": "ดูทุกหมวดหมู่",
+      "viewDetail": "ดูรายละเอียด",
       "book": "จองเลย",
       "close": "ปิด"
     }

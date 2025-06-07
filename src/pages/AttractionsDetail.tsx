@@ -142,17 +142,19 @@ const AttractionsDetail: React.FC = () => {
                     <div>
                       <p className="font-medium">Opening Hours</p>
                       <div className="text-gray-600">
-                        {Object.entries(place.openingHours).map(([day, hours]) => (
-                          <div key={day}>
-                            {hours.enabled ? (
-                              <p>
-                                {day}: {hours.open} - {hours.close}
-                              </p>
-                            ) : (
-                              <p>{day}: Closed</p>
-                            )}
-                          </div>
-                        ))}
+                        {place.openingHours &&
+                          Object.entries(place.openingHours).map(([day, hours]) => (
+                            <div key={day}>
+                              {hours.enabled ? (
+                                <p>
+                                  {day}: {hours.open} - {hours.close}
+                                </p>
+                              ) : (
+                                <p>{day}: Closed</p>
+                              )}
+                            </div>
+                          ))}
+                        {!place.openingHours && <p>No opening hours available</p>}
                       </div>
                     </div>
                   </div>
