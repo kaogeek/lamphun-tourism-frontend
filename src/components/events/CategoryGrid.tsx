@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLanguage } from '@/context/LanguageContext';
 import { useGetEventCategories } from '@/hooks/api/useGetCategories';
 import { resolveUrl } from '@/lib/file-upload';
 import { EventCategory } from '@/lib/api/types/event-categories';
 import { useTranslation } from 'react-i18next';
 import { getTranslateWithFallback } from '@/lib/i18n';
+import { Skeleton } from '../ui/skeleton';
 
 interface CategoryGridProps {
   categories: EventCategory[];
@@ -63,26 +63,21 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategor
     );
   };
 
-  // TODO move to component later
   const CategoryCardSkeleton = () => {
     return (
-      <div className="relative overflow-hidden rounded-lg aspect-[4/3] animate-pulse bg-gray-200">
-        <div className="absolute inset-0 bg-gray-300 bg-opacity-80"></div>
-
-        <div className="w-full h-full object-cover bg-gray-400 mix-blend-overlay" />
+      <div className="relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer hover:shadow-xl transition-all duration-300">
+        <div className="absolute inset-0 bg-gray-300" />
 
         <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-          <div className="h-6 md:h-8 w-3/4 bg-gray-300 rounded mb-4"></div>
+          <Skeleton className="h-6 w-1/2 md:w-1/2 mb-4" />
         </div>
-
-        <div className="absolute top-4 right-4 h-6 w-6 rounded-full bg-gray-300" />
       </div>
     );
   };
 
   const RenderContent = () => {
     if (isLoading) {
-      const randomCount = Math.floor(Math.random() * 6) + 1; // Random number between 1 and 6
+      const randomCount = Math.floor(Math.random() * 6) + 1;
       return (
         <>
           {Array.from({ length: randomCount }, (_, index) => (
@@ -103,14 +98,20 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategor
     return data?.data
       .map((category) => getTranslateWithFallback(category, language))
       .map((category) => {
-        return <React.Fragment key={category.documentId}>{CategoryCard({ category })}</React.Fragment>;
+        return (
+          <React.Fragment key={category.documentId}>
+            <CategoryCard category={category}></CategoryCard>
+          </React.Fragment>
+        );
       });
   };
 
   return (
     <div className="py-12 bg-white">
       <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">{RenderContent()}</div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <RenderContent />
+        </div>
       </div>
     </div>
   );

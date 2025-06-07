@@ -6,5 +6,6 @@ export const getEventCategories = async (params?: FindParams): Promise<GetEventC
   const response = await axiosInstance.get<any>('/api/event-categories', {
     params,
   });
+
   return response.data;
 };

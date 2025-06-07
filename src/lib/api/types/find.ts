@@ -9,5 +9,6 @@ export type FindParams = {
   search?: string;
   populate?: string[] | PopulateObject;
   fields?: string[];
-  filters?: Record<string, string>;
+  filters?: Record<string, any>;
+  sort?: string[];
 };

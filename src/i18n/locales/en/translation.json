@@ -17,6 +17,7 @@
   },
   "events": {
     "title": "Tourism Events",
+    "allEvents": "Events",
     "viewCalendar": "View Calendar"
   },
   "map": {
@@ -49,6 +50,8 @@
     "buttons": {
       "readMore": "Read More",
       "viewAll": "View All",
+      "viewAllCategory": "View all Category",
+      "viewDetail": "View detail",
       "book": "Book Now",
       "close": "Close"
     }
