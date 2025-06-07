@@ -1,11 +1,12 @@
 import { axiosInstance } from '../axios-instance';
 import { GetEventCategoriesResponse } from '../types/event-categories';
 
+// TODO move generic type
 export type GetEventCategoriesParams = {
   page?: number;
   limit?: number;
   search?: string;
-  populate?: string[];
+  populate?: string[] | any;
   fields?: string[];
   filters?: Record<string, string>;
 };

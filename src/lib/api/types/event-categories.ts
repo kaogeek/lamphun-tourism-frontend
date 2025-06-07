@@ -1,6 +1,6 @@
 import { MetaResponseBody } from './meta';
 
-export interface EventCategory {
+export type EventCategory = {
   id: number;
   documentId: string;
   name: string;
@@ -11,7 +11,9 @@ export interface EventCategory {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-}
+  locale: string;
+  localizations: EventCategory[];
+};
 
 export type GetEventCategoriesResponse = {
   data: EventCategory[];

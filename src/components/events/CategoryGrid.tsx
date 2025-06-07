@@ -13,7 +13,12 @@ interface CategoryGridProps {
 const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategory, setSelectedCategory }) => {
   const { language } = useLanguage();
   const { data, isLoading } = useGetEventCategories({
-    populate: ['coverImage'],
+    populate: {
+      coverImage: true,
+      localizations: {
+        populate: ['coverImage'],
+      },
+    },
   });
 
   // TODO move to component later
