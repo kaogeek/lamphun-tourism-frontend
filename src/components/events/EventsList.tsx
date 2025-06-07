@@ -1,14 +1,14 @@
-import React from 'react';
-import { format } from 'date-fns';
-import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { useGetEvents } from '@/hooks/api/useGetEvents';
 import { Event } from '@/lib/api/types/event';
 import { getTranslateWithFallback } from '@/lib/i18n';
+import { format } from 'date-fns';
+import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Skeleton } from '../ui/skeleton';
 
 interface EventsListProps {
@@ -52,7 +52,7 @@ const EventsList: React.FC<EventsListProps> = ({
     const eventDate = new Date(event.startDate);
 
     return (
-      <Link to={`/events/${event.documentId}`} key={event.documentId} className="block h-full">
+      <Link to={`/events/${event.slug}`} key={event.documentId} className="block h-full">
         <Card className="overflow-hidden hover:shadow-md transition-all h-full flex flex-col">
           <div
             className={`${category?.color == null ? 'bg-primary' : ''} text-white p-2 flex items-center justify-between`}
@@ -156,7 +156,7 @@ const EventsList: React.FC<EventsListProps> = ({
 
     return items
       .map((event) => {
-        return getTranslateWithFallback(event, language);
+        return getTranslateWithFallback(event, language, ['slug']);
       })
       .map((event) => {
         return (

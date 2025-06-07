@@ -40,6 +40,7 @@
   "common": {
     "welcome": "Welcome to Lamphun Tourism",
     "language": "Language",
+    "loading": "Loading...",
     "menu": {
       "home": "Home",
       "attractions": "Attractions",
