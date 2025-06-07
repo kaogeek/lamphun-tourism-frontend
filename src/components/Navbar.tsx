@@ -3,13 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { t, language } = useLanguage();
+  const { t } = useTranslation();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -77,13 +77,7 @@ const Navbar: React.FC = () => {
               isScrolled || !isHomePage ? 'text-primary' : 'text-white'
             )}
           >
-            {language === 'th'
-              ? 'ท่องเที่ยวลำพูน'
-              : language === 'en'
-                ? 'Lamphun Tourism'
-                : language === 'cn'
-                  ? '南奔旅游网'
-                  : 'ランプーン観光サイト'}
+            {t('nav.title')}
           </span>
         </Link>
 

@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import App from './App.tsx';
 import './index.css';
+import './i18n/config';
 
 // Enable devtools only in development mode
 const isDevelopment = import.meta.env.DEV;

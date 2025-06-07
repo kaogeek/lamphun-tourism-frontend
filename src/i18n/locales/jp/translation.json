@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "attractions": "観光スポット",
+    "events": "イベントカレンダー",
+    "map": "地図",
+    "title": "ランプーン観光サイト"
+  },
+  "hero": {
+    "title": "ランプーン",
+    "subtitle": "歴史と文化の街",
+    "explore": "観光スポットを探す"
+  },
+  "attractions": {
+    "title": "人気の観光スポット",
+    "viewAll": "すべて見る"
+  },
+  "events": {
+    "title": "観光イベント",
+    "viewCalendar": "カレンダーを見る"
+  },
+  "map": {
+    "title": "観光マップ",
+    "explore": "すべて探索"
+  },
+  "footer": {
+    "rights": "無断転載禁止",
+    "tourism": "ランプーン観光",
+    "description": "タイ北部に隠された宝石、古都ランプーンの豊かな文化と伝統をご探索ください",
+    "quickLinks": "クイックリンク",
+    "contact": "お問い合わせ",
+    "address": "観光局、ランプーン市庁舎、タイ",
+    "phone": "+66 53 123 456",
+    "email": "admin@lamphunpao.go.th",
+    "followUs": "フォローする",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfService": "利用規約"
+  },
+  "common": {
+    "welcome": "ランプーン観光へようこそ",
+    "language": "言語",
+    "menu": {
+      "home": "ホーム",
+      "attractions": "観光スポット",
+      "events": "イベント",
+      "about": "当サイトについて",
+      "contact": "お問い合わせ"
+    },
+    "buttons": {
+      "readMore": "詳しく見る",
+      "viewAll": "すべて見る",
+      "book": "予約する",
+      "close": "閉じる"
+    }
+  }
+}

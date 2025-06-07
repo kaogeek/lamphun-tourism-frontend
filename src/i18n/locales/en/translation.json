@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "attractions": "Attractions",
+    "events": "Events Calendar",
+    "map": "Map",
+    "title": "Lamphun Tourism"
+  },
+  "hero": {
+    "title": "Lamphun Tourism",
+    "subtitle": "City of History and Culture",
+    "explore": "Explore Attractions"
+  },
+  "attractions": {
+    "title": "Popular Attractions",
+    "viewAll": "View All"
+  },
+  "events": {
+    "title": "Tourism Events",
+    "viewCalendar": "View Calendar"
+  },
+  "map": {
+    "title": "Tourism Map",
+    "explore": "Explore All"
+  },
+  "footer": {
+    "rights": "All Rights Reserved",
+    "tourism": "Lamphun Tourism",
+    "description": "Explore the ancient city of Lamphun, a hidden gem in Northern Thailand with rich culture and heritage",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "address": "Tourism Office, Lamphun City Hall, Thailand",
+    "phone": "+66 53 123 456",
+    "email": "admin@lamphunpao.go.th",
+    "followUs": "Follow Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "common": {
+    "welcome": "Welcome to Lamphun Tourism",
+    "language": "Language",
+    "menu": {
+      "home": "Home",
+      "attractions": "Attractions",
+      "events": "Events",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "readMore": "Read More",
+      "viewAll": "View All",
+      "book": "Book Now",
+      "close": "Close"
+    }
+  }
+}
