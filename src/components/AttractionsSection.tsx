@@ -1,20 +1,41 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { getPopularPlaces } from '@/lib/api/services/places';
-import { useQuery } from '@tanstack/react-query';
-import { ArrowRight } from 'lucide-react';
+import { useGetPlaces } from '@/hooks/api/useGetPlaces';
+import { getTranslateWithFallback } from '@/lib/i18n';
+import { ArrowRight, MapPin } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Skeleton } from './ui/skeleton';
+import AttractionCard from './atrractions/AttractionCard';
+import AttractionCardSkeleton from './atrractions/AttractionCardSkeleton';
+import EmptyState from './state/EmptyState';
+import ErrorState from './state/ErrorState';
 
 const AttractionsSection: React.FC = () => {
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['popular-places'],
-    queryFn: getPopularPlaces,
+  const { data, isLoading, error } = useGetPlaces({
+    filters: {
+      popular: {
+        $eq: true,
+      },
+    },
+    populate: {
+      coverImage: true,
+      placeCategory: true,
+      localizations: {
+        populate: {
+          coverImage: true,
+          placeCategory: true,
+        },
+      },
+    },
   });
+
+  const items = data?.data ?? [];
+  const translatedItems = items.map((place) => getTranslateWithFallback(place, language, ['slug']));
 
   return (
     <section className="py-16 bg-gray-50">
@@ -29,54 +50,23 @@ const AttractionsSection: React.FC = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {isLoading
-            ? // Loading skeletons
-              Array.from({ length: 3 }).map((_, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <div className="h-52">
-                    <Skeleton className="w-full h-full" />
-                  </div>
-                  <CardContent className="p-6">
-                    <Skeleton className="h-6 w-24 mb-2" />
-                    <Skeleton className="h-8 w-3/4" />
-                  </CardContent>
-                </Card>
-              ))
-            : data?.data?.length > 0
-              ? data.data.map((attraction) => (
-                  <Link to={`/attractions/${attraction.documentId}`} key={attraction.id}>
-                    <Card className="overflow-hidden card-hover">
-                      <div className="h-52 overflow-hidden">
-                        {/* TODO: Add image */}
-                        {attraction.coverImage?.url && (
-                          <img
-                            src={`${import.meta.env.VITE_API_BASE_ENDPOINT}${attraction.coverImage?.url}`}
-                            alt={`${attraction.name}-image`}
-                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                          />
-                        )}
-                        {/* <img 
-                      src={attraction.images[0]} 
-                      alt={`${attraction.name}-image`} 
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                    /> */}
-                        <Skeleton className="w-full h-full" />
-                      </div>
-                      <CardContent className="p-6">
-                        <div className="mb-2">
-                          <span className="inline-block bg-primary/10 text-primary font-medium text-xs px-3 py-1 rounded-full">
-                            {attraction.placeCategory?.name}
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-800">{attraction.name}</h3>
-                        <p className="text-gray-500 text-sm">{attraction.shortDescription}</p>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))
-              : null}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: Math.floor(Math.random() * 6) + 1 }, (_, index) => (
+              <AttractionCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : error ? (
+          <ErrorState />
+        ) : !items.length ? (
+          <EmptyState title={t('attractions.empty.title')} msg={t('attractions.empty.msg')} icon={<MapPin />} />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {translatedItems.map((place) => (
+              <AttractionCard key={place.documentId} place={place} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

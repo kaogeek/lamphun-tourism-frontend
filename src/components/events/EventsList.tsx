@@ -122,11 +122,7 @@ const EventsList: React.FC<EventsListProps> = ({ selectedCategory, setSelectedCa
         ) : error ? (
           <ErrorState />
         ) : translatedEvents && translatedEvents.length === 0 ? (
-          <EmptyState
-            title={t('events.empty.title')}
-            msg={t('events.empty.msgCategorySelect')}
-            icon={<CalendarIcon />}
-          />
+          <EmptyState title={t('events.empty.title')} msg={t('events.empty.msg')} icon={<CalendarIcon />} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {translatedEvents?.map((event) => <EventCard key={event.documentId} event={event} />)}
