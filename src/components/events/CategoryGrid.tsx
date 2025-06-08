@@ -79,7 +79,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ selectedCategory, setSelect
     if (isLoading) {
       const randomCount = Math.floor(Math.random() * 6) + 1;
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {Array.from({ length: randomCount }, (_, index) => (
             <CategoryCardSkeleton key={index} />
           ))}
@@ -94,7 +94,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ selectedCategory, setSelect
     const items = data?.data;
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {items
           .map((category) => getTranslateWithFallback(category, language))
           .map((category) => {
