@@ -1,7 +1,7 @@
+import { type BlocksContent } from '@strapi/blocks-react-renderer';
 import { EventCategory } from './event-categories';
 import { MetaResponseBody } from './meta';
 import { Place } from './places';
-import { type BlocksContent } from '@strapi/blocks-react-renderer';
 
 export type GetEventsResponse = {
   data: Event[];
@@ -17,6 +17,8 @@ export type Event = {
   description: BlocksContent;
   startDate: string;
   endDate: string;
+  startTime: string;
+  endTime: string;
   eventCategory?: EventCategory;
   coverImage?: {
     url: string;

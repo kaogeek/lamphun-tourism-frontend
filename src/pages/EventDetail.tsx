@@ -1,5 +1,10 @@
+import DateRangeDisplay from '@/components/date/DateRangeDisplay';
+import TimeRangeDisplay from '@/components/date/TimeRangeDisplay';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
+import EmptyState from '@/components/state/EmptyState';
+import ErrorState from '@/components/state/ErrorState';
+import LoadingState from '@/components/state/LoadingState';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,21 +15,10 @@ import { Event } from '@/lib/api/types/event';
 import { resolveUrl } from '@/lib/file-upload';
 import { getTranslateWithFallback } from '@/lib/i18n';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import { ArrowLeft, CalendarIcon, Share2 } from 'lucide-react';
+import { ArrowLeft, CalendarIcon, Clock, Share2 } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-
-interface EventWithCategory extends Event {
-  categoryId: string;
-  categoryName: {
-    th: string;
-    en: string;
-    cn: string;
-    jp: string;
-  };
-  categoryColor: string;
-}
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -78,62 +72,32 @@ const EventDetail: React.FC = () => {
     }
   };
 
-  const LoadingState = () => {
-    return (
-      <>
-        <div className="container mt-24 min-h-[60vh] flex justify-center items-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
-            <h3 className="text-xl font-medium">{t('common.loading')}</h3>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const EmptyState = () => {
-    return (
-      <>
-        <div className="container mt-24 min-h-[60vh] flex justify-center items-center">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              {/* TODO localized */}
-              ไม่พบกิจกรรม
-            </h2>
-            <p className="text-gray-500 mb-6">
-              {/* TODO localized */}
-              ไม่พบกิจกรรมที่คุณกำลังมองหา
-            </p>
-            <Link to="/events">
-              <Button>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {/* TODO localized */}
-                กลับไปยังรายการกิจกรรม
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </>
-    );
-  };
-
   const RenderContent = () => {
     if (isLoading) {
       return <LoadingState />;
     }
 
     if (error) {
-      return (
-        <>
-          <p>error</p>
-        </>
-      );
+      return <ErrorState />;
     }
 
-    const items = data.data;
+    const items = data?.data ?? [];
 
     if (!items.length) {
-      return <EmptyState />;
+      return (
+        <EmptyState
+          title={t('events.empty.title')}
+          msg={'events.empty.msg'}
+          action={
+            <Link to="/events">
+              <Button>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t('events.empty.backBtn')}
+              </Button>
+            </Link>
+          }
+        />
+      );
     }
 
     const event = getTranslateWithFallback(items[0], language, ['slug']);
@@ -153,7 +117,7 @@ const EventDetail: React.FC = () => {
                     backgroundColor: event.eventCategory?.color,
                   }}
                 >
-                  {event.eventCategory.name ?? '-'}
+                  {event.eventCategory?.name ?? 'Unknown'}
                 </Badge>
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">{event.title ?? '-'}</h1>
               </div>
@@ -201,19 +165,24 @@ const EventDetail: React.FC = () => {
                         {/* TODO localized */}
                         วันที่
                       </p>
-                      {/* <p className="text-gray-600">{format(eventDate, 'EEEE, d MMMM yyyy')}</p> */}
+                      <p className="text-gray-600">
+                        <DateRangeDisplay startDate={event.startDate} endDate={event.endDate} />
+                      </p>
                     </div>
                   </div>
 
-                  {/* {event.time && (
+                  {event.startTime && event.endTime && (
                     <div className="flex items-start gap-3 mb-4">
                       <Clock className="h-5 w-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium">เวลา</p>
-                        <p className="text-gray-600">{event.time}</p>
+                        <p className="font-medium">
+                          {/* TODO localized */}
+                          เวลา
+                        </p>
+                        <TimeRangeDisplay startTime={event.startTime} endTime={event.endTime} />
                       </div>
                     </div>
-                  )} */}
+                  )}
 
                   {/* {event.location && (
                     <div className="flex items-start gap-3 mb-6">

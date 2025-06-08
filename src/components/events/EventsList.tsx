@@ -9,21 +9,16 @@ import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import EmptyState from '../state/EmptyState';
+import ErrorState from '../state/ErrorState';
 import { Skeleton } from '../ui/skeleton';
 
 interface EventsListProps {
   selectedCategory: string | null;
   setSelectedCategory: (categoryId: string | null) => void;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
 }
 
-const EventsList: React.FC<EventsListProps> = ({
-  selectedCategory,
-  setSelectedCategory,
-  searchTerm,
-  setSearchTerm,
-}) => {
+const EventsList: React.FC<EventsListProps> = ({ selectedCategory, setSelectedCategory }) => {
   const {
     t,
     i18n: { language },
@@ -84,7 +79,6 @@ const EventsList: React.FC<EventsListProps> = ({
     );
   };
 
-  // TODO refactor skeleton
   const EventCardSkeleton = () => {
     return (
       <Card className="overflow-hidden hover:shadow-md transition-all h-full flex flex-col">
@@ -107,64 +101,45 @@ const EventsList: React.FC<EventsListProps> = ({
     );
   };
 
-  const EmptyState = () => (
-    <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-      <CalendarIcon className="mx-auto h-12 w-12 text-gray-300 mb-4" />
-      <h3 className="text-xl font-medium mb-2">
-        {/* TODO implement locale */}
-        ไม่พบกิจกรรม
-      </h3>
-      <p className="text-gray-500 mb-4">
-        {/* TODO implement locale */}
-        ยังไม่มีกิจกรรมในหมวดหมู่นี้
-      </p>
-      {searchTerm && (
-        <Button variant="outline" onClick={() => setSearchTerm('')}>
-          {/* TODO implement locale */}
-          ล้างการค้นหา
-        </Button>
-      )}
-    </div>
-  );
-
   const RenderContent = () => {
     if (isLoading) {
       const randomCount = Math.floor(Math.random() * 6) + 1;
       return (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: randomCount }, (_, index) => (
             <EventCardSkeleton key={index} />
           ))}
-        </>
+        </div>
       );
     }
 
     if (error) {
-      // TODO resolve error style
-      return (
-        <>
-          <p>error</p>
-        </>
-      );
+      return <ErrorState />;
     }
 
     const items = data?.data;
 
     if (!items.length) {
-      return <EmptyState />;
+      return (
+        <EmptyState title={t('events.empty.title')} msg={t('events.empty.msgCategorySelect')} icon={<CalendarIcon />} />
+      );
     }
 
-    return items
-      .map((event) => {
-        return getTranslateWithFallback(event, language, ['slug']);
-      })
-      .map((event) => {
-        return (
-          <React.Fragment key={event.documentId}>
-            <EventCard event={event} />
-          </React.Fragment>
-        );
-      });
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items
+          .map((event) => {
+            return getTranslateWithFallback(event, language, ['slug']);
+          })
+          .map((event) => {
+            return (
+              <React.Fragment key={event.documentId}>
+                <EventCard event={event} />
+              </React.Fragment>
+            );
+          })}
+      </div>
+    );
   };
 
   return (
@@ -182,9 +157,7 @@ const EventsList: React.FC<EventsListProps> = ({
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <RenderContent />
-        </div>
+        <RenderContent />
       </div>
     </div>
   );
