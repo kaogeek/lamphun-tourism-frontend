@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useLanguage } from '@/context/LanguageContext';
+import { MapPin, Search } from 'lucide-react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { MapPin, Search } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLanguage } from '@/context/LanguageContext';
+import React, { useEffect, useRef, useState } from 'react';
+import Map, { MapRef, Marker, NavigationControl, Popup } from 'react-map-gl/maplibre';
 
 // Mock data
 const attractions = [
@@ -159,78 +160,54 @@ const categories = [
   { id: 'shopping', name: { th: 'ช้อปปิ้ง', en: 'Shopping', cn: '购物', jp: 'ショッピング' } },
 ];
 
-const Map: React.FC = () => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<maplibregl.Map | null>(null);
-  const markers = useRef<maplibregl.Marker[]>([]);
+const INITIAL_VIEW_STATE = {
+  longitude: 98.93273443954536,
+  latitude: 18.09850631134027,
+  zoom: 8,
+};
+
+const PlaceMap: React.FC = () => {
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
-  const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
+  const [popupInfo, setPopupInfo] = useState<any | null>(null);
+  const mapRef = useRef<MapRef>(null);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  useEffect(() => {}, []);
 
-    // สร้าง map instance
-    map.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: 'https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/arcgis_hybrid.json', // ใช้ฟรี Tile จาก CARTO
-      center: [99.0077, 18.5817], // ตำแหน่งกลางจังหวัดลำพูน
-      zoom: 13,
-    });
+  const resetFocus = () => {
+    const bounds = new maplibregl.LngLatBounds();
+    attractions.forEach((a) => bounds.extend([a.coordinates.lng, a.coordinates.lat]));
 
-    // เพิ่ม navigation controls
-    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
-
-    // เพิ่ม markers เมื่อ map โหลดเสร็จ
-    map.current.on('load', () => {
-      addMarkers();
-    });
-
-    return () => {
-      if (map.current) {
-        map.current.remove();
-      }
-    };
-  }, []);
-
-  // อัพเดท markers เมื่อมีการเปลี่ยนภาษา
-  useEffect(() => {
-    if (map.current) {
-      clearMarkers();
-      addMarkers();
-    }
-  }, [language]);
-
-  const addMarkers = () => {
-    if (!map.current) return;
-
-    attractions.forEach((attraction) => {
-      const el = document.createElement('div');
-      el.className = 'marker';
-      el.style.width = '30px';
-      el.style.height = '30px';
-      el.style.backgroundImage = 'url(/marker.png)';
-      el.style.backgroundSize = 'cover';
-      el.style.cursor = 'pointer';
-
-      const marker = new maplibregl.Marker(el)
-        .setLngLat(attraction.coordinates)
-        .setPopup(
-          new maplibregl.Popup({ offset: 25 }).setHTML(`
-              <h3 class="font-bold">${attraction.name[language]}</h3>
-              <p>${attraction.description[language]}</p>
-            `)
-        )
-        .addTo(map.current!);
-
-      markers.current.push(marker);
+    mapRef.current?.fitBounds(bounds, {
+      padding: 60,
+      duration: 1000,
     });
   };
 
-  const clearMarkers = () => {
-    markers.current.forEach((marker) => marker.remove());
-    markers.current = [];
+  const handleSelectCategory = (value: Category) => {
+    setSelectedCategory(value);
+    resetFocus();
+  };
+
+  const handleSelectPlace = (attraction: any) => {
+    setSelectedLocation(attraction);
+    handleSelectMarker(attraction);
+
+    const { lat, lng } = attraction?.coordinates;
+
+    mapRef.current?.flyTo({
+      center: { lat, lng },
+      zoom: 14,
+      duration: 1000,
+    });
+  };
+
+  const handleSelectMarker = (attraction: any) => {
+    setPopupInfo(attraction);
+    setSelectedLocation(attraction);
   };
 
   const filteredAttractions = attractions.filter((attraction) => {
@@ -243,19 +220,42 @@ const Map: React.FC = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const AttractionCard = ({ attraction }: { attraction: any }) => (
+    <Card
+      className={`cursor-pointer hover:bg-primary/5 transition-colors ${
+        selectedLocation?.id === attraction.id ? 'border-primary bg-primary/10' : ''
+      }`}
+      onClick={() => handleSelectPlace(attraction)}
+    >
+      <CardContent className="p-3">
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 shrink-0 overflow-hidden rounded-md">
+            <img
+              src={attraction.image}
+              alt={attraction.name[language as keyof typeof attraction.name]}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h4 className="font-medium text-sm line-clamp-1">
+              {attraction.name[language as keyof typeof attraction.name]}
+            </h4>
+            <p className="text-xs text-gray-500 flex items-center">
+              <MapPin className="h-3 w-3 mr-1" />
+              {attraction.location[language as keyof typeof attraction.location]}
+            </p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <>
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative pt-20 pb-2 bg-primary/5">
-        {/* <div className="container mt-12 text-center">
-          <h1 className="text-4xl font-bold mb-4">{t('map.title')}</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
-            Explore Lamphun's attractions with our interactive map.
-          </p>
-        </div> */}
-      </div>
+      <div className="relative pt-20 pb-2 bg-primary/5"></div>
 
       <section className="py-8">
         <div className="container">
@@ -280,7 +280,7 @@ const Map: React.FC = () => {
                     <h3 className="text-lg font-medium mb-3">Categories</h3>
                     <Tabs
                       value={selectedCategory}
-                      onValueChange={(value) => setSelectedCategory(value as Category)}
+                      onValueChange={(value) => handleSelectCategory(value as Category)}
                       className="w-full"
                     >
                       <TabsList className="flex flex-wrap h-auto bg-muted/50 p-1 mb-4">
@@ -302,34 +302,7 @@ const Map: React.FC = () => {
                     <h3 className="text-lg font-medium mb-3">Locations ({filteredAttractions.length})</h3>
                     <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                       {filteredAttractions.map((attraction) => (
-                        <Card
-                          key={attraction.id}
-                          className={`cursor-pointer hover:bg-primary/5 transition-colors ${
-                            selectedLocation === attraction.id ? 'border-primary bg-primary/10' : ''
-                          }`}
-                          onClick={() => setSelectedLocation(attraction.id)}
-                        >
-                          <CardContent className="p-3">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-12 h-12 shrink-0 overflow-hidden rounded-md">
-                                <img
-                                  src={attraction.image}
-                                  alt={attraction.name[language as keyof typeof attraction.name]}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div>
-                                <h4 className="font-medium text-sm line-clamp-1">
-                                  {attraction.name[language as keyof typeof attraction.name]}
-                                </h4>
-                                <p className="text-xs text-gray-500 flex items-center">
-                                  <MapPin className="h-3 w-3 mr-1" />
-                                  {attraction.location[language as keyof typeof attraction.location]}
-                                </p>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
+                        <AttractionCard attraction={attraction} key={attraction.id} />
                       ))}
 
                       {filteredAttractions.length === 0 && (
@@ -343,7 +316,65 @@ const Map: React.FC = () => {
 
             {/* Map */}
             <div className="lg:w-2/3 order-1 lg:order-2">
-              <div ref={mapContainer} className="w-full h-[600px] rounded-lg shadow-lg" />
+              <div className="w-full h-[600px] rounded-lg shadow-lg">
+                <Map
+                  ref={mapRef}
+                  {...viewState}
+                  onMove={(evt) => setViewState(evt.viewState)}
+                  style={{ width: '100%', height: '100%' }}
+                  mapStyle={{
+                    version: 8,
+                    sources: {
+                      osm: {
+                        type: 'raster',
+                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '© OpenStreetMap contributors',
+                      },
+                    },
+                    layers: [
+                      {
+                        id: 'osm-tiles',
+                        type: 'raster',
+                        source: 'osm',
+                        minzoom: 0,
+                        maxzoom: 19,
+                      },
+                    ],
+                  }}
+                >
+                  <NavigationControl position="top-right" />
+
+                  {attractions.map((attraction) => (
+                    <Marker
+                      key={attraction.id}
+                      longitude={attraction.coordinates.lng}
+                      latitude={attraction.coordinates.lat}
+                      anchor="bottom"
+                      className="cursor-pointer"
+                      onClick={(e) => {
+                        e.originalEvent.stopPropagation();
+                        handleSelectMarker(attraction);
+                      }}
+                    />
+                  ))}
+
+                  {popupInfo && (
+                    <Popup
+                      longitude={popupInfo.coordinates.lng}
+                      latitude={popupInfo.coordinates.lat}
+                      anchor="bottom"
+                      offset={60}
+                      onClose={() => setPopupInfo(null)}
+                    >
+                      <div className="p-2">
+                        <h3 className="font-bold">{popupInfo.name[language]}</h3>
+                        <p>{popupInfo.description[language]}</p>
+                      </div>
+                    </Popup>
+                  )}
+                </Map>
+              </div>
 
               <div className="mt-4 text-sm text-gray-500">
                 Note: This is a mockup. The actual implementation will use MapLibre for an interactive map experience.
@@ -358,4 +389,4 @@ const Map: React.FC = () => {
   );
 };
 
-export default Map;
+export default PlaceMap;
