@@ -16,13 +16,12 @@ import { INITIAL_VIEW_STATE } from '@/lib/map-config';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import { t } from 'i18next';
 import { ArrowLeft, Clock, MapPin } from 'lucide-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 const AttractionsDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { language } = useLanguage();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { data, isLoading, error } = useGetPlaces({
     filters: {

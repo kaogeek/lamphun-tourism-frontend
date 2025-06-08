@@ -1,13 +1,14 @@
-import React from 'react';
-import Hero from '@/components/Hero';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import AttractionsSection from '@/components/AttractionsSection';
 import EventsTimeline from '@/components/EventsTimeline';
-import { MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Footer from '@/components/Footer';
+import Hero from '@/components/Hero';
+import Navbar from '@/components/Navbar';
+import PopularAttractionsMap from '@/components/PopularAttractionMap';
 import { Button } from '@/components/ui/button';
+import { MapPin } from 'lucide-react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const Index: React.FC = () => {
   const { t } = useTranslation();
@@ -53,15 +54,7 @@ const Index: React.FC = () => {
               </Link>
             </div>
             <div className="lg:w-1/2 overflow-hidden rounded-lg shadow-lg h-96">
-              <Link to="/map">
-                <div className="relative h-full w-full">
-                  {/* Placeholder for map - will be replaced with interactive map */}
-                  <img src="/lovable-uploads/map.png" alt="Lamphun Map" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">Interactive Map</span>
-                  </div>
-                </div>
-              </Link>
+              <PopularAttractionsMap />
             </div>
           </div>
         </div>
