@@ -1,5 +1,5 @@
 import { axiosInstance } from '../axios-instance';
-import { GetEventsResponse } from '../types/event';
+import { GetEventsResponse } from '../types/events';
 import { FindParams } from '../types/find';
 
 export const getEvents = async (params?: FindParams): Promise<GetEventsResponse> => {

@@ -1,164 +1,52 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
+import EmptyState from '@/components/state/EmptyState';
+import ErrorState from '@/components/state/ErrorState';
+import LoadingState from '@/components/state/LoadingState';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLanguage } from '@/context/LanguageContext';
+import { placeCategoriesQueryConfig } from '@/hooks/api/useGetPlaceCategories';
+import { placesQueryConfig } from '@/hooks/api/useGetPlaces';
+import { FindParams } from '@/lib/api/types/find';
+import { PlaceCategory } from '@/lib/api/types/place-categories';
+import { Place } from '@/lib/api/types/places';
+import { resolveUrl } from '@/lib/file-upload';
+import { getTranslateWithFallback } from '@/lib/i18n';
+import { useQueries } from '@tanstack/react-query';
 import { MapPin, Search } from 'lucide-react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Map, { MapRef, Marker, NavigationControl, Popup } from 'react-map-gl/maplibre';
 
-// Mock data
-const attractions = [
-  {
-    id: 1,
-    name: {
-      th: 'วัดพระธาตุหริภุญชัย',
-      en: 'Wat Phra That Hariphunchai',
-      cn: '哈里奔猜佛寺',
-      jp: 'ワット・プラタート・ハリプンチャイ',
-    },
-    description: {
-      th: 'วัดสำคัญของจังหวัดลำพูน',
-      en: 'Important temple of Lamphun',
-      cn: '南奔重要的寺庙',
-      jp: 'ランプーンの重要な寺院',
-    },
-    image: '/lovable-uploads/cultural.jpg',
-    location: {
-      th: 'ตำบลในเมือง อำเภอเมือง จังหวัดลำพูน',
-      en: 'Nai Mueang, Mueang Lamphun District, Lamphun',
-      cn: '南奔府南奔县内城镇',
-      jp: 'ランプーン県ムアン区ナイムアン',
-    },
-    coordinates: {
-      lat: 18.5747,
-      lng: 99.0087,
-    },
-    category: 'temple',
-  },
-  {
-    id: 2,
-    name: {
-      th: 'อุทยานแห่งชาติดอยขุนตาล',
-      en: 'Doi Khun Tan National Park',
-      cn: '堆昆丹国家公园',
-      jp: 'ドイ・クンタン国立公園',
-    },
-    description: {
-      th: 'อุทยานแห่งชาติที่มีธรรมชาติสวยงาม',
-      en: 'National park with beautiful nature',
-      cn: '风景优美的国家公园',
-      jp: '美しい自然の国立公園',
-    },
-    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80',
-    location: {
-      th: 'อำเภอป่าซาง จังหวัดลำพูน',
-      en: 'Pa Sang District, Lamphun',
-      cn: '南奔府帕桑县',
-      jp: 'ランプーン県パーサーン区',
-    },
-    coordinates: {
-      lat: 18.3627,
-      lng: 99.2362,
-    },
-    category: 'nature',
-  },
-  {
-    id: 3,
-    name: {
-      th: 'พิพิธภัณฑ์เมืองลำพูน',
-      en: 'Lamphun Museum',
-      cn: '南奔博物馆',
-      jp: 'ランプーン博物館',
-    },
-    description: {
-      th: 'พิพิธภัณฑ์ที่แสดงประวัติศาสตร์เมืองลำพูน',
-      en: 'Museum showcasing history of Lamphun city',
-      cn: '展示南奔市历史的博物馆',
-      jp: 'ランプーン市の歴史を紹介する博物館',
-    },
-    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80',
-    location: {
-      th: 'ตำบลในเมือง อำเภอเมือง จังหวัดลำพูน',
-      en: 'Nai Mueang, Mueang Lamphun District, Lamphun',
-      cn: '南奔府南奔县内城镇',
-      jp: 'ランプーン県ムアン区ナイムアン',
-    },
-    coordinates: {
-      lat: 18.5696,
-      lng: 99.0114,
-    },
-    category: 'museum',
-  },
-  {
-    id: 4,
-    name: {
-      th: 'หมู่บ้านหัตถกรรมทอผ้า',
-      en: 'Weaving Village',
-      cn: '编织村',
-      jp: '織物村',
-    },
-    description: {
-      th: 'หมู่บ้านที่มีชื่อเสียงด้านการทอผ้า',
-      en: 'Village famous for textile weaving',
-      cn: '以纺织品闻名的村庄',
-      jp: '織物で有名な村',
-    },
-    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&q=80',
-    location: {
-      th: 'อำเภอป่าซาง จังหวัดลำพูน',
-      en: 'Pa Sang District, Lamphun',
-      cn: '南奔府帕桑县',
-      jp: 'ランプーン県パーサーン区',
-    },
-    coordinates: {
-      lat: 18.4302,
-      lng: 98.9238,
-    },
-    category: 'craft',
-  },
-  {
-    id: 5,
-    name: {
-      th: 'กาดกองต้า',
-      en: 'Kad Kong Ta Market',
-      cn: '康塔市场',
-      jp: 'カート・コンター市場',
-    },
-    description: {
-      th: 'ตลาดท้องถิ่นที่มีสินค้าและอาหารพื้นเมือง',
-      en: 'Local market with native products and food',
-      cn: '有当地产品和食品的本地市场',
-      jp: '地元の製品や食べ物がある地元の市場',
-    },
-    image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80',
-    location: {
-      th: 'อำเภอเมือง จังหวัดลำพูน',
-      en: 'Mueang District, Lamphun',
-      cn: '南奔府南奔县',
-      jp: 'ランプーン県ムアン区',
-    },
-    coordinates: {
-      lat: 18.5783,
-      lng: 99.0103,
-    },
-    category: 'shopping',
-  },
-];
+const useCategoryAndPlace = (placeCategoryParams?: FindParams, placeParams?: FindParams) => {
+  const {
+    i18n: { language },
+  } = useTranslation();
 
-type Category = 'all' | 'temple' | 'nature' | 'museum' | 'craft' | 'shopping';
+  const results = useQueries({
+    queries: [placeCategoriesQueryConfig(placeCategoryParams), placesQueryConfig(placeParams)],
+  });
 
-const categories = [
-  { id: 'all', name: { th: 'ทั้งหมด', en: 'All', cn: '全部', jp: 'すべて' } },
-  { id: 'temple', name: { th: 'วัด', en: 'Temples', cn: '寺庙', jp: '寺院' } },
-  { id: 'nature', name: { th: 'ธรรมชาติ', en: 'Nature', cn: '自然', jp: '自然' } },
-  { id: 'museum', name: { th: 'พิพิธภัณฑ์', en: 'Museums', cn: '博物馆', jp: '博物館' } },
-  { id: 'craft', name: { th: 'หัตถกรรม', en: 'Crafts', cn: '工艺', jp: '工芸' } },
-  { id: 'shopping', name: { th: 'ช้อปปิ้ง', en: 'Shopping', cn: '购物', jp: 'ショッピング' } },
-];
+  const [categoryQuery, placeQuery] = results;
+
+  const translatedCategories = useMemo(() => {
+    return (categoryQuery.data?.data ?? []).map((c) => getTranslateWithFallback(c, language));
+  }, [categoryQuery.data?.data, language]);
+
+  const translatedPlaces = useMemo(() => {
+    return (placeQuery.data?.data ?? []).map((p) => getTranslateWithFallback(p, language));
+  }, [placeQuery.data?.data, language]);
+
+  return {
+    categories: translatedCategories,
+    places: translatedPlaces,
+    isLoading: categoryQuery.isLoading || placeQuery.isLoading,
+    error: categoryQuery.error || placeQuery.error,
+  };
+};
 
 const INITIAL_VIEW_STATE = {
   longitude: 98.93273443954536,
@@ -166,37 +54,128 @@ const INITIAL_VIEW_STATE = {
   zoom: 8,
 };
 
-const PlaceMap: React.FC = () => {
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
-  const { t, language } = useLanguage();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<Category>('all');
-  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
-  const [popupInfo, setPopupInfo] = useState<any | null>(null);
-  const mapRef = useRef<MapRef>(null);
+const PlaceCard = ({
+  place,
+  selected,
+  onSelect,
+}: {
+  place: Place;
+  selected: Place | null;
+  onSelect: (place: Place) => void;
+}) => (
+  <Card
+    className={`cursor-pointer hover:bg-primary/5 transition-colors ${
+      selected?.documentId === place.documentId ? 'border-primary bg-primary/10' : ''
+    }`}
+    onClick={() => onSelect(place)}
+  >
+    <CardContent className="p-3">
+      <div className="flex items-center space-x-3">
+        <div className="w-12 h-12 shrink-0 overflow-hidden rounded-md">
+          <img src={resolveUrl(place.coverImage?.url)} alt={place.name} className="w-full h-full object-cover" />
+        </div>
+        <div>
+          <h4 className="font-medium text-sm line-clamp-1">{place.name}</h4>
+          <p className="text-xs text-gray-500 flex items-center">
+            <MapPin className="h-3 w-3 mr-1" />
+            {place.address}
+          </p>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
 
-  useEffect(() => {}, []);
+const PlaceMap: React.FC = () => {
+  const { categories, places, isLoading, error } = useCategoryAndPlace(
+    {
+      populate: {
+        localizations: true,
+      },
+    },
+    {
+      populate: {
+        coverImage: true,
+        placeCategory: true,
+        localizations: {
+          populate: {
+            coverImage: true,
+            placeCategory: true,
+          },
+        },
+      },
+    }
+  );
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  const { t } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<PlaceCategory | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Place | null>(null);
+  const [popupInfo, setPopupInfo] = useState<Place | null>(null);
+  const mapRef = useRef<MapRef>(null);
+  const filteredPlaces = useMemo(() => {
+    if (!places) return [];
+
+    return places
+      .filter((place) => {
+        if (selectedCategory) {
+          return place.placeCategory?.documentId === selectedCategory.documentId;
+        }
+        return true;
+      })
+      .filter((place) => {
+        if (searchTerm.trim() === '') return true;
+        const lowerSearch = searchTerm.toLowerCase();
+        return place.name.toLowerCase().includes(lowerSearch);
+      });
+  }, [places, selectedCategory, searchTerm]);
+
+  useEffect(() => {
+    resetFocus();
+  }, [filteredPlaces]);
 
   const resetFocus = () => {
-    const bounds = new maplibregl.LngLatBounds();
-    attractions.forEach((a) => bounds.extend([a.coordinates.lng, a.coordinates.lat]));
+    const current = mapRef.current;
 
-    mapRef.current?.fitBounds(bounds, {
+    if (!current || filteredPlaces.length === 0) {
+      return;
+    }
+
+    setPopupInfo(null);
+
+    const bounds = new maplibregl.LngLatBounds();
+
+    if (filteredPlaces.length === 1) {
+      const { lat, lng } = filteredPlaces[0];
+      mapRef.current?.flyTo({
+        center: { lat, lng },
+        zoom: 14,
+        duration: 1000,
+      });
+
+      return;
+    }
+
+    filteredPlaces.forEach((place) => {
+      bounds.extend({ lng: place.lng, lat: place.lat });
+    });
+
+    current.fitBounds(bounds, {
       padding: 60,
       duration: 1000,
     });
   };
 
-  const handleSelectCategory = (value: Category) => {
-    setSelectedCategory(value);
-    resetFocus();
+  const handleSelectCategory = (documentId: string) => {
+    const targetCategory = categories.find((category) => category.documentId === documentId);
+    setSelectedCategory(targetCategory);
   };
 
-  const handleSelectPlace = (attraction: any) => {
-    setSelectedLocation(attraction);
-    handleSelectMarker(attraction);
+  const handleSelectPlace = (place: Place) => {
+    setSelectedLocation(place);
+    handleSelectMarker(place);
 
-    const { lat, lng } = attraction?.coordinates;
+    const { lat, lng } = place;
 
     mapRef.current?.flyTo({
       center: { lat, lng },
@@ -205,50 +184,10 @@ const PlaceMap: React.FC = () => {
     });
   };
 
-  const handleSelectMarker = (attraction: any) => {
-    setPopupInfo(attraction);
-    setSelectedLocation(attraction);
+  const handleSelectMarker = (place: Place) => {
+    setPopupInfo(place);
+    setSelectedLocation(place);
   };
-
-  const filteredAttractions = attractions.filter((attraction) => {
-    const matchesSearch = attraction.name[language as keyof typeof attraction.name]
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-
-    const matchesCategory = selectedCategory === 'all' || attraction.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
-  });
-
-  const AttractionCard = ({ attraction }: { attraction: any }) => (
-    <Card
-      className={`cursor-pointer hover:bg-primary/5 transition-colors ${
-        selectedLocation?.id === attraction.id ? 'border-primary bg-primary/10' : ''
-      }`}
-      onClick={() => handleSelectPlace(attraction)}
-    >
-      <CardContent className="p-3">
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 shrink-0 overflow-hidden rounded-md">
-            <img
-              src={attraction.image}
-              alt={attraction.name[language as keyof typeof attraction.name]}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div>
-            <h4 className="font-medium text-sm line-clamp-1">
-              {attraction.name[language as keyof typeof attraction.name]}
-            </h4>
-            <p className="text-xs text-gray-500 flex items-center">
-              <MapPin className="h-3 w-3 mr-1" />
-              {attraction.location[language as keyof typeof attraction.location]}
-            </p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
 
   return (
     <>
@@ -257,133 +196,158 @@ const PlaceMap: React.FC = () => {
       {/* Hero Section */}
       <div className="relative pt-20 pb-2 bg-primary/5"></div>
 
-      <section className="py-8">
-        <div className="container">
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Sidebar */}
-            <div className="lg:w-1/3 order-2 lg:order-1">
-              <Card className="sticky top-24">
-                <CardContent className="p-6">
-                  {/* Search */}
-                  <div className="relative mb-6">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <Input
-                      placeholder="Search locations..."
-                      className="pl-10"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </div>
+      {isLoading ? (
+        <LoadingState />
+      ) : error ? (
+        <ErrorState />
+      ) : (
+        <section className="py-8">
+          <div className="container">
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Sidebar */}
+              <div className="lg:w-1/3 order-2 lg:order-1">
+                <Card className="sticky top-24">
+                  <CardContent className="p-6">
+                    {/* Search */}
+                    <div className="relative mb-6">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <Input
+                        placeholder={t('map.placeHolders.searchTerm')}
+                        className="pl-10"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
 
-                  {/* Categories */}
-                  <div className="mb-6">
-                    <h3 className="text-lg font-medium mb-3">Categories</h3>
-                    <Tabs
-                      value={selectedCategory}
-                      onValueChange={(value) => handleSelectCategory(value as Category)}
-                      className="w-full"
-                    >
-                      <TabsList className="flex flex-wrap h-auto bg-muted/50 p-1 mb-4">
-                        {categories.map((category) => (
+                    {/* Categories */}
+                    <div className="mb-6">
+                      <h3 className="text-lg font-medium mb-3">{t('map.label.categories')}</h3>
+                      <Tabs
+                        value={selectedCategory?.documentId ?? null}
+                        onValueChange={(value) => handleSelectCategory(value)}
+                        className="w-full"
+                      >
+                        <TabsList className="flex flex-wrap h-auto bg-muted/50 p-1 mb-4">
                           <TabsTrigger
-                            key={category.id}
-                            value={category.id}
+                            key={null}
+                            value={null}
                             className="flex-1 min-w-[80px] h-8 data-[state=active]:bg-white"
                           >
-                            {category.name[language as keyof typeof category.name]}
+                            {t('common.buttons.allCategory')}
                           </TabsTrigger>
-                        ))}
-                      </TabsList>
-                    </Tabs>
-                  </div>
-
-                  {/* Location List */}
-                  <div>
-                    <h3 className="text-lg font-medium mb-3">Locations ({filteredAttractions.length})</h3>
-                    <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-                      {filteredAttractions.map((attraction) => (
-                        <AttractionCard attraction={attraction} key={attraction.id} />
-                      ))}
-
-                      {filteredAttractions.length === 0 && (
-                        <div className="text-center py-8 text-gray-500">No locations found</div>
-                      )}
+                          {categories.map((category) => (
+                            <TabsTrigger
+                              key={category.documentId}
+                              value={category.documentId}
+                              className="flex-1 min-w-[80px] h-8 data-[state=active]:bg-white"
+                            >
+                              {category.name}
+                            </TabsTrigger>
+                          ))}
+                        </TabsList>
+                      </Tabs>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
-            {/* Map */}
-            <div className="lg:w-2/3 order-1 lg:order-2">
-              <div className="w-full h-[600px] rounded-lg shadow-lg">
-                <Map
-                  ref={mapRef}
-                  {...viewState}
-                  onMove={(evt) => setViewState(evt.viewState)}
-                  style={{ width: '100%', height: '100%' }}
-                  mapStyle={{
-                    version: 8,
-                    sources: {
-                      osm: {
-                        type: 'raster',
-                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-                        tileSize: 256,
-                        attribution: '© OpenStreetMap contributors',
-                      },
-                    },
-                    layers: [
-                      {
-                        id: 'osm-tiles',
-                        type: 'raster',
-                        source: 'osm',
-                        minzoom: 0,
-                        maxzoom: 19,
-                      },
-                    ],
-                  }}
-                >
-                  <NavigationControl position="top-right" />
+                    {/* Location List */}
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">
+                        {t('map.label.locations')} ({filteredPlaces.length})
+                      </h3>
+                      <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+                        {filteredPlaces.map((place) => (
+                          <PlaceCard
+                            place={place}
+                            key={place.id}
+                            selected={selectedLocation}
+                            onSelect={handleSelectPlace}
+                          />
+                        ))}
 
-                  {attractions.map((attraction) => (
-                    <Marker
-                      key={attraction.id}
-                      longitude={attraction.coordinates.lng}
-                      latitude={attraction.coordinates.lat}
-                      anchor="bottom"
-                      className="cursor-pointer"
-                      onClick={(e) => {
-                        e.originalEvent.stopPropagation();
-                        handleSelectMarker(attraction);
-                      }}
-                    />
-                  ))}
-
-                  {popupInfo && (
-                    <Popup
-                      longitude={popupInfo.coordinates.lng}
-                      latitude={popupInfo.coordinates.lat}
-                      anchor="bottom"
-                      offset={60}
-                      onClose={() => setPopupInfo(null)}
-                    >
-                      <div className="p-2">
-                        <h3 className="font-bold">{popupInfo.name[language]}</h3>
-                        <p>{popupInfo.description[language]}</p>
+                        {filteredPlaces.length === 0 && (
+                          <EmptyState
+                            title={t('map.empty.title')}
+                            msg={t('map.empty.msgCategorySelect')}
+                            size="sm"
+                            icon={<MapPin />}
+                          />
+                        )}
                       </div>
-                    </Popup>
-                  )}
-                </Map>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
 
-              <div className="mt-4 text-sm text-gray-500">
-                Note: This is a mockup. The actual implementation will use MapLibre for an interactive map experience.
+              {/* Map */}
+              <div className="lg:w-2/3 order-1 lg:order-2">
+                <div className="w-full h-[600px] rounded-lg shadow-lg">
+                  <Map
+                    ref={mapRef}
+                    {...viewState}
+                    onLoad={() => {
+                      if (filteredPlaces.length > 0) {
+                        resetFocus();
+                      }
+                    }}
+                    onMove={(evt) => setViewState(evt.viewState)}
+                    style={{ width: '100%', height: '100%' }}
+                    mapStyle={{
+                      version: 8,
+                      sources: {
+                        osm: {
+                          type: 'raster',
+                          tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                          tileSize: 256,
+                          attribution: '© OpenStreetMap contributors',
+                        },
+                      },
+                      layers: [
+                        {
+                          id: 'osm-tiles',
+                          type: 'raster',
+                          source: 'osm',
+                          minzoom: 0,
+                          maxzoom: 19,
+                        },
+                      ],
+                    }}
+                  >
+                    <NavigationControl position="top-right" />
+
+                    {filteredPlaces.map((attraction) => (
+                      <Marker
+                        key={attraction.id}
+                        longitude={attraction.lng}
+                        latitude={attraction.lat}
+                        anchor="bottom"
+                        className="cursor-pointer"
+                        onClick={(e) => {
+                          e.originalEvent.stopPropagation();
+                          handleSelectMarker(attraction);
+                        }}
+                      />
+                    ))}
+
+                    {popupInfo && (
+                      <Popup
+                        longitude={popupInfo.lng}
+                        latitude={popupInfo.lat}
+                        anchor="bottom"
+                        offset={60}
+                        onClose={() => setPopupInfo(null)}
+                      >
+                        <div className="p-2">
+                          <h3 className="font-bold">{popupInfo.name}</h3>
+                          <p>{popupInfo.shortDescription}</p>
+                        </div>
+                      </Popup>
+                    )}
+                  </Map>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      )}
       <Footer />
     </>
   );

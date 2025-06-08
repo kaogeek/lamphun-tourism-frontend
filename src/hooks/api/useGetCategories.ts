@@ -1,8 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { getPlaces } from '../../lib/api/services/places';
-import type { GetPlacesParams } from '../../lib/api/services/places';
-import { getEventCategories } from '@/lib/api/services/events-categories';
+import { getEventCategories } from '@/lib/api/services/event-categories';
 import { FindParams } from '@/lib/api/types/find';
+import { useQuery } from '@tanstack/react-query';
 
 export const EVENT_CATEGORIES_QUERY_KEY = ['getEventCategories'] as const;
 

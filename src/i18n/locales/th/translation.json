@@ -32,7 +32,19 @@
   },
   "map": {
     "title": "แผนที่ท่องเที่ยว",
-    "explore": "สำรวจทั้งหมด"
+    "explore": "สำรวจทั้งหมด",
+    "empty": {
+      "title": "ไม่พบสถานที่",
+      "msg": "ไม่พบสถานที่คุณกำลังมองหา",
+      "msgCategorySelect": "ยังไม่มีกิจกรรมในหมวดหมู่นี้"
+    },
+    "label": {
+      "categories": "ประเภทสถานที่",
+      "locations": "สถานที่"
+    },
+    "placeHolders": {
+      "searchTerm": "ค้นหาสถานที่..."
+    }
   },
   "footer": {
     "rights": "สงวนลิขสิทธิ์",
@@ -72,6 +84,7 @@
       "readMore": "อ่านเพิ่มเติม",
       "viewAll": "ดูทั้งหมด",
       "viewAllCategory": "ดูทุกหมวดหมู่",
+      "allCategory": "ทั้งหมด",
       "viewDetail": "ดูรายละเอียด",
       "book": "จองเลย",
       "close": "ปิด"

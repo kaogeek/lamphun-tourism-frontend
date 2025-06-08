@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { getEvents } from '@/lib/api/services/events';
 import { FindParams } from '@/lib/api/types/find';
-import { getEvents } from '@/lib/api/services/event';
+import { useQuery } from '@tanstack/react-query';
 
 export const EVENT_QUERY_KEY = ['getEvents'] as const;
 
