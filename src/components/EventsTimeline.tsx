@@ -1,11 +1,9 @@
+import { eventCategories } from '@/data/eventData';
+import { useIsMobile } from '@/hooks/use-mobile';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import VerticalTimeline from './events/VerticalTimeline';
 import YearlyTimeline from './events/YearlyTimeline';
-import { eventCategories } from '@/data/eventData';
-import { Button } from '@/components/ui/button';
-import { CalendarRange, ListOrdered } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTranslation } from 'react-i18next';
 
 const EventsTimeline: React.FC = () => {
   // Default to vertical timeline for better focus on upcoming events
@@ -16,9 +14,9 @@ const EventsTimeline: React.FC = () => {
   return (
     <div className="">
       {/* View toggle buttons */}
-      <div className="flex justify-end mb-4">
+      {/* <div className="flex justify-end mb-4">
         <div className="bg-gray-100 rounded-lg p-1 inline-flex">
-          {/* <Button 
+          <Button 
             variant={viewMode === 'yearly' ? "default" : "ghost"} 
             size="sm"
             onClick={() => setViewMode('yearly')}
@@ -26,7 +24,7 @@ const EventsTimeline: React.FC = () => {
           >
             <CalendarRange className="h-4 w-4" />
             <span className={isMobile ? "sr-only" : "inline"}>ปฏิทินรายปี</span>
-          </Button> */}
+          </Button>
           <Button
             variant={viewMode === 'vertical' ? 'default' : 'ghost'}
             size="sm"
@@ -34,10 +32,10 @@ const EventsTimeline: React.FC = () => {
             className="flex items-center gap-1"
           >
             <ListOrdered className="h-4 w-4" />
-            <span className={isMobile ? 'sr-only' : 'inline'}>รายการกิจกรรม</span>
+            <span className={isMobile ? 'sr-only' : 'inline'}>{t('events.label.eventList')}</span>
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Timeline content */}
       <div>{viewMode === 'vertical' ? <VerticalTimeline /> : <YearlyTimeline categories={eventCategories} />}</div>

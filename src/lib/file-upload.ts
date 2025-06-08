@@ -1,4 +1,8 @@
 export function resolveUrl(pathUrl: string): string {
+  if (!pathUrl) {
+    return '';
+  }
+
   const basePath = import.meta.env.VITE_API_BASE_ENDPOINT;
 
   if (!basePath) {
