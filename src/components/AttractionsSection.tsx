@@ -1,12 +1,12 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
 import { getPopularPlaces } from '@/lib/api/services/places';
-import { Skeleton } from './ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
+import { ArrowRight } from 'lucide-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Skeleton } from './ui/skeleton';
 
 const AttractionsSection: React.FC = () => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const AttractionsSection: React.FC = () => {
     <section className="py-16 bg-gray-50">
       <div className="container">
         <div className="flex justify-between items-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-800">{t('attractions.title')}</h2>
+          <h2 className="text-3xl font-bold text-gray-800">{t('attractions.titlePopular')}</h2>
           <Link to="/attractions">
             <Button variant="ghost" className="text-primary hover:text-primary/80 font-medium">
               {t('attractions.viewAll')}
