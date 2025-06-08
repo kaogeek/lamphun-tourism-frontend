@@ -17,6 +17,9 @@ const AttractionsSection: React.FC = () => {
   } = useTranslation();
 
   const { data, isLoading, error } = useGetPlaces({
+    pagination: {
+      pageSize: 3,
+    },
     filters: {
       popular: {
         $eq: true,

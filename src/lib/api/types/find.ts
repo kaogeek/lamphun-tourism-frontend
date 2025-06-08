@@ -3,10 +3,14 @@ export type PopulateObject = {
   [key: string]: PopulateValue;
 };
 
-export type FindParams = {
+export type PaginationParams = {
   page?: number;
-  limit?: number;
-  search?: string;
+  pageSize?: number;
+  withCount?: boolean;
+};
+
+export type FindParams = {
+  pagination?: PaginationParams;
   populate?: string[] | PopulateObject;
   fields?: string[];
   filters?: Record<string, any>;
