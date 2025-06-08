@@ -15,7 +15,7 @@ import { Event } from '@/lib/api/types/event';
 import { resolveUrl } from '@/lib/file-upload';
 import { getTranslateWithFallback } from '@/lib/i18n';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import { ArrowLeft, CalendarIcon, Clock, Share2 } from 'lucide-react';
+import { ArrowLeft, CalendarIcon, Clock, MapPinIcon, Share2 } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -37,8 +37,9 @@ const EventDetail: React.FC = () => {
     populate: {
       eventCategory: true,
       coverImage: true,
+      place: true,
       localizations: {
-        populate: ['eventCategory', 'coverImage'],
+        populate: ['eventCategory', 'coverImage', 'place'],
       },
     },
   });
@@ -171,15 +172,16 @@ const EventDetail: React.FC = () => {
                     </div>
                   )}
 
-                  {/* {event.location && (
+                  {/* TODO make to link to google map */}
+                  {event.place && (
                     <div className="flex items-start gap-3 mb-6">
                       <MapPinIcon className="h-5 w-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium">สถานที่</p>
-                        <p className="text-gray-600">{event.location[language as keyof typeof event.location]}</p>
+                        <p className="font-medium">{t('common.label.place')}</p>
+                        <p className="text-gray-600">{event.place.name}</p>
                       </div>
                     </div>
-                  )} */}
+                  )}
 
                   <Separator className="my-4" />
 
