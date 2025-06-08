@@ -17,12 +17,7 @@ const EventsCalendar: React.FC = () => {
 
       <CategoryGrid selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
 
-      <EventsList
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+      <EventsList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
 
       <Footer />
     </React.Fragment>
