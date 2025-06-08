@@ -3,6 +3,7 @@ import { MetaResponseBody } from './meta';
 export type Place = {
   id: string;
   documentId: string;
+  slug: string;
   name: string;
   shortDescription: string;
   address: string;

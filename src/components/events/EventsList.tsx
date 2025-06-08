@@ -117,7 +117,7 @@ const EventsList: React.FC<EventsListProps> = ({ selectedCategory, setSelectedCa
       return <ErrorState />;
     }
 
-    const items = data?.data;
+    const items = data?.data ?? [];
 
     if (!items.length) {
       return (

@@ -266,7 +266,7 @@ const PlaceMap: React.FC = () => {
                         {filteredPlaces.length === 0 && (
                           <EmptyState
                             title={t('map.empty.title')}
-                            msg={t('map.empty.msgCategorySelect')}
+                            msg={t('map.empty.msg')}
                             size="sm"
                             icon={<MapPin />}
                           />

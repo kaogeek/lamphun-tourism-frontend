@@ -91,7 +91,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ selectedCategory, setSelect
       return <ErrorState />;
     }
 
-    const items = data?.data;
+    const items = data?.data ?? [];
 
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
