@@ -3,7 +3,11 @@ type LocalizedEntity<T> = {
   localizations: T[];
 };
 
-export function getTranslateWithFallback<T extends LocalizedEntity<T>>(item: T, locale: string): T {
+export function getTranslateWithFallback<T extends LocalizedEntity<T>>(
+  item: T,
+  locale: string,
+  forceUseFields: (keyof T)[] = []
+): T {
   const localizations = item.localizations;
   const targetLocale = localizations.find((localization) => localization.locale === locale);
 
@@ -11,5 +15,14 @@ export function getTranslateWithFallback<T extends LocalizedEntity<T>>(item: T, 
     return item;
   }
 
-  return targetLocale;
+  const fallbackFields = forceUseFields.reduce((acc, key) => {
+    acc[key] = item[key];
+    return acc;
+  }, {} as Partial<T>);
+
+  return {
+    ...targetLocale,
+    ...fallbackFields,
+    localizations: localizations,
+  };
 }

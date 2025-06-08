@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { getTranslateWithFallback } from './i18n';
 
 type LocalizedItem = {
@@ -56,5 +56,16 @@ describe('getTranslateWithFallback', () => {
     const result = getTranslateWithFallback(emptyItem, 'fr');
     expect(result.locale).toBe('');
     expect(result.name).toBe('');
+  });
+
+  it('should force use the original field when specified', () => {
+    const result = getTranslateWithFallback(item, 'fr', ['name']);
+    expect(result.locale).toBe('fr');
+    expect(result.name).toBe('English Item'); // forced from original
+  });
+
+  it('should not override if forceUseFields is empty', () => {
+    const result = getTranslateWithFallback(item, 'es', []);
+    expect(result.name).toBe('Spanish Item'); // no override
   });
 });

@@ -1,18 +1,18 @@
-import React from 'react';
 import { useGetEventCategories } from '@/hooks/api/useGetCategories';
-import { resolveUrl } from '@/lib/file-upload';
 import { EventCategory } from '@/lib/api/types/event-categories';
-import { useTranslation } from 'react-i18next';
+import { resolveUrl } from '@/lib/file-upload';
 import { getTranslateWithFallback } from '@/lib/i18n';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import ErrorState from '../state/ErrorState';
 import { Skeleton } from '../ui/skeleton';
 
 interface CategoryGridProps {
-  categories: EventCategory[];
   selectedCategory: string | null;
   setSelectedCategory: (categoryId: string | null) => void;
 }
 
-const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategory, setSelectedCategory }) => {
+const CategoryGrid: React.FC<CategoryGridProps> = ({ selectedCategory, setSelectedCategory }) => {
   const {
     i18n: { language },
   } = useTranslation();
@@ -79,39 +79,39 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, selectedCategor
     if (isLoading) {
       const randomCount = Math.floor(Math.random() * 6) + 1;
       return (
-        <>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {Array.from({ length: randomCount }, (_, index) => (
             <CategoryCardSkeleton key={index} />
           ))}
-        </>
+        </div>
       );
     }
 
     if (error) {
-      // TODO resolve error style
-      return (
-        <>
-          <p>error</p>
-        </>
-      );
+      return <ErrorState />;
     }
-    return data?.data
-      .map((category) => getTranslateWithFallback(category, language))
-      .map((category) => {
-        return (
-          <React.Fragment key={category.documentId}>
-            <CategoryCard category={category}></CategoryCard>
-          </React.Fragment>
-        );
-      });
+
+    const items = data?.data;
+
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        {items
+          .map((category) => getTranslateWithFallback(category, language))
+          .map((category) => {
+            return (
+              <React.Fragment key={category.documentId}>
+                <CategoryCard category={category}></CategoryCard>
+              </React.Fragment>
+            );
+          })}
+      </div>
+    );
   };
 
   return (
     <div className="py-12 bg-white">
       <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          <RenderContent />
-        </div>
+        <RenderContent />
       </div>
     </div>
   );
