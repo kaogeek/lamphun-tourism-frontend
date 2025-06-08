@@ -92,7 +92,7 @@ const EventDetail: React.FC = () => {
             <Link to="/events">
               <Button>
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('events.empty.backBtn')}
+                {t('events.buttons.back')}
               </Button>
             </Link>
           }
@@ -131,17 +131,13 @@ const EventDetail: React.FC = () => {
               <Link to="/events">
                 <Button variant="outline" className="mb-6">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  {/* TODO localized */}
-                  กลับไปยังรายการกิจกรรม
+                  {t('events.buttons.back')}
                 </Button>
               </Link>
 
               <Card>
                 <CardContent className="p-6">
-                  <h2 className="text-2xl font-bold mb-6">
-                    {/* TODO localized */}
-                    รายละเอียดงาน
-                  </h2>
+                  <h2 className="text-2xl font-bold mb-6">{t('events.description')}</h2>
 
                   <div className="prose max-w-none">
                     <BlocksRenderer content={event.description} />
@@ -153,18 +149,12 @@ const EventDetail: React.FC = () => {
             <div>
               <Card className="mb-6 sticky top-24">
                 <CardContent className="p-6">
-                  <h3 className="font-medium text-lg mb-4">
-                    {/* TODO localized */}
-                    ข้อมูลสำคัญ
-                  </h3>
+                  <h3 className="font-medium text-lg mb-4">{t('common.label.importantInfo')}</h3>
 
                   <div className="flex items-start gap-3 mb-4">
                     <CalendarIcon className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">
-                        {/* TODO localized */}
-                        วันที่
-                      </p>
+                      <p className="font-medium">{t('common.label.day')}</p>
                       <p className="text-gray-600">
                         <DateRangeDisplay startDate={event.startDate} endDate={event.endDate} />
                       </p>
@@ -175,10 +165,7 @@ const EventDetail: React.FC = () => {
                     <div className="flex items-start gap-3 mb-4">
                       <Clock className="h-5 w-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium">
-                          {/* TODO localized */}
-                          เวลา
-                        </p>
+                        <p className="font-medium">{t('common.label.time')}</p>
                         <TimeRangeDisplay startTime={event.startTime} endTime={event.endTime} />
                       </div>
                     </div>
@@ -198,8 +185,7 @@ const EventDetail: React.FC = () => {
 
                   <Button className="w-full mt-2" onClick={() => handleShare(event)}>
                     <Share2 className="mr-2 h-4 w-4" />
-                    {/* TODO localized */}
-                    แชร์กิจกรรมนี้
+                    {t('events.buttons.share')}
                   </Button>
                 </CardContent>
               </Card>
