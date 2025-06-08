@@ -87,7 +87,7 @@ const EventDetail: React.FC = () => {
       return (
         <EmptyState
           title={t('events.empty.title')}
-          msg={'events.empty.msg'}
+          msg={t('events.empty.msg')}
           action={
             <Link to="/events">
               <Button>
