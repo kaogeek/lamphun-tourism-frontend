@@ -8,7 +8,7 @@ export function getTranslateWithFallback<T extends LocalizedEntity<T>>(
   locale: string,
   forceUseFields: (keyof T)[] = []
 ): T {
-  const localizations = item.localizations;
+  const localizations = item.localizations ?? [];
   const targetLocale = localizations.find((localization) => localization.locale === locale);
 
   if (!targetLocale) {

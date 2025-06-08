@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useGetEvents } from '@/hooks/api/useGetEvents';
 import { useToast } from '@/hooks/use-toast';
-import { Event } from '@/lib/api/types/event';
+import { Event } from '@/lib/api/types/events';
 import { resolveUrl } from '@/lib/file-upload';
 import { getTranslateWithFallback } from '@/lib/i18n';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';

@@ -8,19 +8,21 @@ export type Place = {
   address: string;
   lat: number;
   lng: number;
-  locale: string;
   images?: string[];
   coverImage?: {
     url: string;
   };
   placeCategory?: {
     id: string;
+    documentId: string;
     name: string;
   };
   openingHours: Record<string, PlaceOpeningHours>;
   popular: true;
   createdAt: string;
   updatedAt: string;
+  locale: string;
+  localizations: Place[];
 };
 
 export type PlaceOpeningHours = {

@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useGetEvents } from '@/hooks/api/useGetEvents';
-import { Event } from '@/lib/api/types/event';
+import { Event } from '@/lib/api/types/events';
 import { getTranslateWithFallback } from '@/lib/i18n';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, ChevronRight } from 'lucide-react';

@@ -9,9 +9,10 @@ interface ErrorStateProps {
   icon?: ReactElement;
   showIcon?: boolean;
   action?: ReactElement;
+  size?: 'sm' | 'md' | 'lg';
 }
 
-const ErrorState = ({ title, msg, icon, showIcon = true, action }: ErrorStateProps) => {
+const ErrorState = ({ title, msg, icon, showIcon = true, action, size = 'md' }: ErrorStateProps) => {
   return (
     <EmptyState
       title={title || t('common.error.defaultTitle')}
@@ -19,6 +20,7 @@ const ErrorState = ({ title, msg, icon, showIcon = true, action }: ErrorStatePro
       icon={!icon ? <CircleX /> : icon}
       showIcon={showIcon}
       action={action}
+      size={size}
     ></EmptyState>
   );
 };
