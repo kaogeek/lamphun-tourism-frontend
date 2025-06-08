@@ -1,3 +1,4 @@
+import { BlocksContent } from '@strapi/blocks-react-renderer';
 import { MetaResponseBody } from './meta';
 
 export type Place = {
@@ -5,11 +6,14 @@ export type Place = {
   documentId: string;
   slug: string;
   name: string;
+  description: BlocksContent;
   shortDescription: string;
   address: string;
   lat: number;
   lng: number;
-  images?: string[];
+  placeImages: {
+    url: string;
+  }[];
   coverImage?: {
     url: string;
   };

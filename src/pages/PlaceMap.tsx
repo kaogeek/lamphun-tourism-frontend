@@ -13,6 +13,7 @@ import { PlaceCategory } from '@/lib/api/types/place-categories';
 import { Place } from '@/lib/api/types/places';
 import { resolveUrl } from '@/lib/file-upload';
 import { getTranslateWithFallback } from '@/lib/i18n';
+import { INITIAL_VIEW_STATE } from '@/lib/map-config';
 import { useQueries } from '@tanstack/react-query';
 import { MapPin, Search } from 'lucide-react';
 import maplibregl from 'maplibre-gl';
@@ -46,12 +47,6 @@ const useCategoryAndPlace = (placeCategoryParams?: FindParams, placeParams?: Fin
     isLoading: categoryQuery.isLoading || placeQuery.isLoading,
     error: categoryQuery.error || placeQuery.error,
   };
-};
-
-const INITIAL_VIEW_STATE = {
-  longitude: 98.93273443954536,
-  latitude: 18.09850631134027,
-  zoom: 8,
 };
 
 const PlaceCard = ({
@@ -212,7 +207,7 @@ const PlaceMap: React.FC = () => {
                     <div className="relative mb-6">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <Input
-                        placeholder={t('map.placeHolders.searchTerm')}
+                        placeholder={t('events.placeHolders.searchTerm')}
                         className="pl-10"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
