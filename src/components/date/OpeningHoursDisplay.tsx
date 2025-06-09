@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 type OpeningHour = {
   open: string;
   close: string;
@@ -5,12 +7,14 @@ type OpeningHour = {
 };
 
 type OpeningHoursDisplayProps = {
-  openingHours?: Record<string, OpeningHour>;
+  openingHours?: Record<string, OpeningHour>; // e.g., { monday: { open, close, enabled } }
 };
 
 const OpeningHoursDisplay = ({ openingHours }: OpeningHoursDisplayProps) => {
+  const { t } = useTranslation();
+
   if (!openingHours) {
-    return <p className="text-gray-600">No opening hours available</p>;
+    return <p className="text-gray-600">{t('openingHours.empty')}</p>;
   }
 
   return (
@@ -18,7 +22,7 @@ const OpeningHoursDisplay = ({ openingHours }: OpeningHoursDisplayProps) => {
       {Object.entries(openingHours).map(([day, hours]) => (
         <div key={day}>
           <p>
-            {day}: {hours.enabled ? `${hours.open} - ${hours.close}` : 'Closed'}
+            {t(`common.days.${day}`)}: {hours.enabled ? `${hours.open} - ${hours.close}` : t('openingHours.closed')}
           </p>
         </div>
       ))}

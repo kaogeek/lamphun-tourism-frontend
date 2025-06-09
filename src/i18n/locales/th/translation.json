@@ -69,10 +69,23 @@
     "privacyPolicy": "นโยบายความเป็นส่วนตัว",
     "termsOfService": "เงื่อนไขการให้บริการ"
   },
+  "openingHours": {
+    "closed": "ปิดทำการ",
+    "empty": "ไม่มีระบุเวลาทำการ"
+  },
   "common": {
     "welcome": "ยินดีต้อนรับสู่การท่องเที่ยวลำพูน",
     "language": "ภาษา",
     "loading": "กำลังโหลด...",
+    "days": {
+      "monday": "วันจันทร์",
+      "tuesday": "วันอังคาร",
+      "wednesday": "วันพุธ",
+      "thursday": "วันพฤหัสบดี",
+      "friday": "วันศุกร์",
+      "saturday": "วันเสาร์",
+      "sunday": "วันอาทิตย์"
+    },
     "label": {
       "importantInfo": "ข้อมูลสำคัญ",
       "day": "วัน",

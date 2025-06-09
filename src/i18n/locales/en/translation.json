@@ -37,10 +37,23 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
   },
+  "openingHours": {
+    "closed": "Closed",
+    "empty": "No opening hours available"
+  },
   "common": {
     "welcome": "Welcome to Lamphun Tourism",
     "language": "Language",
     "loading": "Loading...",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
     "menu": {
       "home": "Home",
       "attractions": "Attractions",
