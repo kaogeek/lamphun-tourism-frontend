@@ -8,7 +8,6 @@ import ErrorState from '@/components/state/ErrorState';
 import LoadingState from '@/components/state/LoadingState';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLanguage } from '@/context/LanguageContext';
 import { useGetPlaces } from '@/hooks/api/useGetPlaces';
 import { resolveUrl } from '@/lib/file-upload';
 import { getTranslateWithFallback } from '@/lib/i18n';
@@ -17,11 +16,14 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import { t } from 'i18next';
 import { ArrowLeft, Clock, MapPin } from 'lucide-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
 const AttractionsDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { language } = useLanguage();
+  const {
+    i18n: { language },
+  } = useTranslation();
 
   const { data, isLoading, error } = useGetPlaces({
     filters: {
