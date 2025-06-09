@@ -1,3 +1,4 @@
+import { FileUpload } from './entity';
 import { MetaResponseBody } from './meta';
 
 export type EventCategory = {
@@ -5,9 +6,7 @@ export type EventCategory = {
   documentId: string;
   name: string;
   color: string;
-  coverImage?: {
-    url: string;
-  };
+  coverImage?: FileUpload;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

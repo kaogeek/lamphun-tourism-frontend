@@ -1,5 +1,7 @@
 import { BlocksContent } from '@strapi/blocks-react-renderer';
+import { FileUpload } from './entity';
 import { MetaResponseBody } from './meta';
+import { PlaceCategory } from './place-categories';
 
 export type Place = {
   id: string;
@@ -11,17 +13,9 @@ export type Place = {
   address: string;
   lat: number;
   lng: number;
-  placeImages: {
-    url: string;
-  }[];
-  coverImage?: {
-    url: string;
-  };
-  placeCategory?: {
-    id: string;
-    documentId: string;
-    name: string;
-  };
+  placeImages: FileUpload[];
+  coverImage?: FileUpload;
+  placeCategory?: PlaceCategory;
   openingHours: Record<string, PlaceOpeningHours>;
   popular: true;
   createdAt: string;

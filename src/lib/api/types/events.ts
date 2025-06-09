@@ -1,4 +1,5 @@
 import { type BlocksContent } from '@strapi/blocks-react-renderer';
+import { FileUpload } from './entity';
 import { EventCategory } from './event-categories';
 import { MetaResponseBody } from './meta';
 import { Place } from './places';
@@ -20,9 +21,7 @@ export type Event = {
   startTime: string;
   endTime: string;
   eventCategory?: EventCategory;
-  coverImage?: {
-    url: string;
-  };
+  coverImage?: FileUpload;
   place?: Place;
   locale: string;
   localizations: Event[];
