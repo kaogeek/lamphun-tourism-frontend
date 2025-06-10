@@ -19,9 +19,7 @@ const AttractionGrid = ({ search, selectedCategory }: AttractionCardProps) => {
   } = useTranslation();
   const { data, isLoading, error } = useGetPlaces({
     filters: {
-      name: {
-        $contains: search,
-      },
+      $or: [{ name: { $containsi: search } }, { localizations: { name: { $containsi: search } } }],
       placeCategory: {
         documentId: {
           $eq: selectedCategory || null,
